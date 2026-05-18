@@ -6,6 +6,17 @@ import { FeatureSection } from "./landing/FeatureSection";
 import { TokenTicker, CodeBlock, ChainDiagram } from "./landing/FeatureVisuals";
 import { LandingFooter } from "./landing/LandingFooter";
 import { signupEmail } from "@/lib/waitlist-client";
+import { GoogleSignInButton } from "./GoogleSignInButton";
+
+const EMBEDDED_BROWSER_PATTERNS =
+  /WebView|wv\)|Instagram|FBAN|FBAV|Line\/|Twitter|Slack|Discord|Electron|InApp/i;
+
+function isEmbeddedBrowser(): boolean {
+  if (typeof navigator === "undefined") return false;
+  const ua = navigator.userAgent;
+  const inIframe = typeof window !== "undefined" && window.self !== window.top;
+  return inIframe || EMBEDDED_BROWSER_PATTERNS.test(ua);
+}
 
 export function LandingPage() {
   const [showWaitlistModal, setShowWaitlistModal] = useState(false);
@@ -13,10 +24,12 @@ export function LandingPage() {
   const [firstName, setFirstName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [isEmbedded, setIsEmbedded] = useState(false);
 
   // Force light mode on landing
   useEffect(() => {
     document.documentElement.classList.remove("dark");
+    setIsEmbedded(isEmbeddedBrowser());
   }, []);
 
   const handleJoinWaitlist = () => {
@@ -185,6 +198,16 @@ export function LandingPage() {
             <p className="mb-6 text-sm text-[var(--muted)]">
               Get early access to trade synthetic pre-IPO tokens.
             </p>
+            {!isEmbedded && (
+              <div className="mb-4 flex flex-col gap-3">
+                <GoogleSignInButton />
+                <div className="flex items-center gap-3">
+                  <div className="h-px flex-1 bg-[var(--border)]" />
+                  <span className="text-xs uppercase tracking-wide text-[var(--muted)]">or</span>
+                  <div className="h-px flex-1 bg-[var(--border)]" />
+                </div>
+              </div>
+            )}
             <form onSubmit={handleEmailSignup} className="flex flex-col gap-3">
               <input
                 type="text"
