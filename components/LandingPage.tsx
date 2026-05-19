@@ -215,11 +215,6 @@ export function LandingPage() {
                 </div>
               </div>
             )}
-            {isEmbedded && (
-              <p className="mb-4 text-xs text-[var(--muted)]">
-                Tip: open this page in Safari or Chrome to sign up with Google.
-              </p>
-            )}
             <form onSubmit={handleEmailSignup} className="flex flex-col gap-3">
               <input
                 type="text"
