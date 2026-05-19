@@ -50,7 +50,7 @@ const GROUPS: DropdownGroup[] = [
       {
         label: "GitHub",
         href: SOCIAL_URLS.github,
-        description: "github.com/vaultoai",
+        description: "Source code & SDKs",
         external: true,
       },
     ],
@@ -59,24 +59,20 @@ const GROUPS: DropdownGroup[] = [
     heading: "SEC compliance",
     items: [
       {
-        label: "Knowledge base",
+        label: "Overview",
         href: "/compliance",
         description: "Index of all docs",
       },
       {
-        label: "Builders quickstart",
-        href: "/compliance/00-quickstart-builders",
-      },
-      {
-        label: "Project Crypto overview",
+        label: "Project Crypto",
         href: "/compliance/01-project-crypto-overview",
       },
       {
-        label: "Howey & Reves foundations",
+        label: "Howey & Reves",
         href: "/compliance/10-foundations-howey-reves",
       },
       {
-        label: "Key enforcement cases",
+        label: "Enforcement",
         href: "/compliance/11-key-enforcement-cases",
       },
     ],
