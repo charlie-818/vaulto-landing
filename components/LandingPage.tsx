@@ -26,6 +26,13 @@ export function LandingPage() {
   const [submitting, setSubmitting] = useState(false);
   const [isEmbedded, setIsEmbedded] = useState(false);
 
+  const handleInputFocus = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
+    const target = e.currentTarget;
+    setTimeout(() => {
+      target.scrollIntoView({ block: "center", behavior: "smooth" });
+    }, 300);
+  }, []);
+
   // Force light mode on landing
   useEffect(() => {
     document.documentElement.classList.remove("dark");
@@ -183,8 +190,8 @@ export function LandingPage() {
       <LandingFooter />
 
       {showWaitlistModal && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-4 backdrop-blur-sm">
-          <div className="relative w-full sm:max-w-md rounded-t-2xl sm:rounded-xl border border-[var(--border)] bg-[var(--background)] p-5 sm:p-6 max-h-[85vh] overflow-y-auto shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-black/50 p-4 pt-8 sm:p-4 backdrop-blur-sm overflow-y-auto">
+          <div className="relative w-full sm:max-w-md rounded-2xl sm:rounded-xl border border-[var(--border)] bg-[var(--background)] p-5 sm:p-6 max-h-[calc(100dvh-4rem)] overflow-y-auto shadow-2xl">
             <button
               onClick={closeWaitlistModal}
               className="absolute right-4 top-4 text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
@@ -208,12 +215,18 @@ export function LandingPage() {
                 </div>
               </div>
             )}
+            {isEmbedded && (
+              <p className="mb-4 text-xs text-[var(--muted)]">
+                Tip: open this page in Safari or Chrome to sign up with Google.
+              </p>
+            )}
             <form onSubmit={handleEmailSignup} className="flex flex-col gap-3">
               <input
                 type="text"
                 placeholder="First name"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
+                onFocus={handleInputFocus}
                 required
                 autoComplete="given-name"
                 className="rounded-lg border border-[var(--border)] bg-[var(--background)] px-4 py-3 sm:py-2.5 text-base sm:text-sm min-h-[48px] text-[var(--foreground)] placeholder:text-[var(--muted)] transition-colors focus:border-[var(--foreground)]/30 focus:outline-none"
@@ -223,6 +236,7 @@ export function LandingPage() {
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onFocus={handleInputFocus}
                 required
                 autoComplete="email"
                 className="rounded-lg border border-[var(--border)] bg-[var(--background)] px-4 py-3 sm:py-2.5 text-base sm:text-sm min-h-[48px] text-[var(--foreground)] placeholder:text-[var(--muted)] transition-colors focus:border-[var(--foreground)]/30 focus:outline-none"
