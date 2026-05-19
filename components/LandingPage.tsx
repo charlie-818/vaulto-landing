@@ -134,7 +134,7 @@ export function LandingPage() {
         theme="cyan"
         features={[
           {
-            title: "Solana + Polygon",
+            title: "BNB + Polygon",
             description:
               "Move your tokens seamlessly between chains in seconds with our Wormhole NTT integration",
             highlight: true,

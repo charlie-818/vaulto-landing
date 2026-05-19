@@ -15,6 +15,11 @@ export type ComplianceDoc = {
 
 const TITLE_OVERRIDES: Record<string, string> = {
   README: "Knowledge Base Index",
+  "02-bucket-digital-commodities": "Commodities",
+  "03-bucket-digital-collectibles": "Collectibles",
+  "04-bucket-digital-tools": "Tools",
+  "05-bucket-tokenized-securities": "Securities",
+  "06-bucket-stablecoins": "Stablecoins",
 };
 
 function deriveTitle(slug: string, body: string): string {
@@ -45,6 +50,38 @@ function rewriteInternalLinks(md: string): string {
   );
 }
 
+let _citationMap: Map<string, string> | null = null;
+
+function getCitationMap(): Map<string, string> {
+  if (_citationMap) return _citationMap;
+  const map = new Map<string, string>();
+  const sourcesPath = path.join(CONTENT_DIR, "99-sources.md");
+  if (fs.existsSync(sourcesPath)) {
+    const text = fs.readFileSync(sourcesPath, "utf8");
+    for (const line of text.split(/\r?\n/)) {
+      const keyMatch = line.match(/^\|\s*\[(S\d+)\]\s*\|/);
+      if (!keyMatch) continue;
+      const urlMatch = line.match(/https?:\/\/[^\s|)]+/);
+      if (urlMatch) map.set(keyMatch[1], urlMatch[0]);
+    }
+  }
+  _citationMap = map;
+  return map;
+}
+
+/**
+ * Wrap bare `[S#]` citation tokens with markdown links to the source URL
+ * defined in 99-sources.md. Skips tokens already followed by `(`.
+ */
+function linkCitations(md: string, slug: string): string {
+  if (slug === "99-sources") return md;
+  const map = getCitationMap();
+  return md.replace(/\[(S\d+)\](?!\()/g, (_match, key) => {
+    const url = map.get(key) ?? `/compliance/99-sources`;
+    return `[[${key}]](${url})`;
+  });
+}
+
 export function getComplianceSlugs(): string[] {
   return fs
     .readdirSync(CONTENT_DIR)
@@ -68,7 +105,7 @@ export function getAllComplianceDocs(): ComplianceDoc[] {
       description:
         typeof data.description === "string" ? data.description : undefined,
       raw,
-      body: rewriteInternalLinks(content),
+      body: linkCitations(rewriteInternalLinks(content), slug),
     };
   });
   return docs.sort((a, b) => a.order - b.order);

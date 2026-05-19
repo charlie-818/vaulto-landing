@@ -196,7 +196,7 @@ const bridgeTokens = [
 
 export function ChainDiagram() {
   const [activeToken, setActiveToken] = useState(0);
-  // Animation phase: 0 = at Solana, 1 = moving to Polygon, 2 = at Polygon, 3 = moving to Solana
+  // Animation phase: 0 = at BNB, 1 = moving to Polygon, 2 = at Polygon, 3 = moving to BNB
   const [phase, setPhase] = useState(0);
 
   useEffect(() => {
@@ -214,13 +214,13 @@ export function ChainDiagram() {
     return () => clearInterval(interval);
   }, []);
 
-  // Calculate left position as percentage (0% = at Solana, 100% - token width = at Polygon)
+  // Calculate left position as percentage (0% = at BNB, 100% - token width = at Polygon)
   const getLeftPosition = () => {
     switch (phase) {
-      case 0: return 0; // At Solana
+      case 0: return 0; // At BNB
       case 1: return 100; // Moving to Polygon
       case 2: return 100; // At Polygon
-      case 3: return 0; // Moving back to Solana
+      case 3: return 0; // Moving back to BNB
       default: return 0;
     }
   };
@@ -229,33 +229,20 @@ export function ChainDiagram() {
     <div className="flex flex-col items-center gap-4 sm:gap-6 md:gap-8 py-2 sm:py-4">
       {/* Chain icons */}
       <div className="flex w-full items-center justify-between">
-        {/* Solana */}
+        {/* BNB Chain */}
         <div className="flex flex-col items-center gap-1.5 sm:gap-2">
-          <div className={`flex h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 items-center justify-center rounded-2xl bg-black shadow-lg transition-all duration-500 ${phase === 0 || phase === 3 ? "ring-2 ring-cyan-500/50 scale-105" : ""}`}>
-            <svg viewBox="0 0 397.7 311.7" className="h-5 w-5 sm:h-7 sm:w-7 md:h-9 md:w-9" fill="none">
-              <linearGradient id="solana-grad-1" x1="360.879" y1="351.455" x2="141.213" y2="-69.294" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 -1 0 314)">
-                <stop offset="0" stopColor="#00FFA3"/>
-                <stop offset="1" stopColor="#DC1FFF"/>
-              </linearGradient>
-              <linearGradient id="solana-grad-2" x1="264.829" y1="401.601" x2="45.163" y2="-19.148" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 -1 0 314)">
-                <stop offset="0" stopColor="#00FFA3"/>
-                <stop offset="1" stopColor="#DC1FFF"/>
-              </linearGradient>
-              <linearGradient id="solana-grad-3" x1="312.548" y1="376.688" x2="92.882" y2="-44.061" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 -1 0 314)">
-                <stop offset="0" stopColor="#00FFA3"/>
-                <stop offset="1" stopColor="#DC1FFF"/>
-              </linearGradient>
-              <path fill="url(#solana-grad-1)" d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7z"/>
-              <path fill="url(#solana-grad-2)" d="M64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1L64.6 3.8z"/>
-              <path fill="url(#solana-grad-3)" d="M333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1l-62.7-62.7z"/>
+          <div className={`flex h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 items-center justify-center rounded-2xl bg-[#F0B90B] shadow-lg transition-all duration-500 ${phase === 0 || phase === 3 ? "ring-2 ring-cyan-500/50 scale-105" : ""}`}>
+            <svg viewBox="0 0 2496 2496" className="h-5 w-5 sm:h-7 sm:w-7 md:h-9 md:w-9">
+              <path fill="#FFFFFF" d="M764.48,1050.52,1248,567l483.75,483.75L2013,768.94,1248,3.93,482.47,769.5,764.48,1050.52ZM3.93,1248,285.94,966l281.99,281.99L286,1530ZM764.48,1445.49,1248,1929l483.75-483.75,282.04,281.81L1248,2492.07,482.47,1726.5l-.4-.4,282.41-281.62ZM1928.05,1248l282-281.99L2492,1248l-281.99,281.99L1928.05,1248Z"/>
+              <path fill="#FFFFFF" d="M1530.04,1247.94,1248,966,1039.51,1174.51l-23.97,23.96-49.34,49.34,282,281.93L1530.04,1248Z"/>
             </svg>
           </div>
-          <span className="text-xs sm:text-sm font-medium text-[var(--foreground)]">Solana</span>
+          <span className="text-xs sm:text-sm font-medium text-[var(--foreground)]">BNB Chain</span>
         </div>
 
         {/* Bridge arrow */}
         <div className="relative flex flex-1 items-center justify-center px-2 sm:px-4">
-          <div className="h-0.5 w-full bg-gradient-to-r from-[#9945FF] via-cyan-500 to-[#8247E5]" />
+          <div className="h-0.5 w-full bg-gradient-to-r from-[#F0B90B] via-cyan-500 to-[#8247E5]" />
 
           {/* Animated token with real logo - uses percentage-based left positioning */}
           <div

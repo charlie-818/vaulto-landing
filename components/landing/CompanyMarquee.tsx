@@ -1,7 +1,16 @@
 "use client";
 
-import React, { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { CompanyLogo } from "@/components/CompanyLogo";
+
+function shuffle<T>(arr: readonly T[]): T[] {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 const MARQUEE_COMPANIES = [
   "SpaceX",
@@ -41,6 +50,13 @@ const MarqueeItem = memo(function MarqueeItem({ company }: { company: string }) 
  * Wrapped in React.memo to prevent parent re-renders from affecting it
  */
 export const CompanyMarquee = memo(function CompanyMarquee() {
+  // Render canonical order on SSR / first paint to avoid hydration mismatch,
+  // then shuffle once on the client so each visit shows a new order.
+  const [companies, setCompanies] = useState<readonly string[]>(MARQUEE_COMPANIES);
+  useEffect(() => {
+    setCompanies(shuffle(MARQUEE_COMPANIES));
+  }, []);
+
   return (
     <div
       className="animate-fade-in-up animation-delay-600 absolute bottom-16 sm:bottom-20 lg:bottom-24 left-0 right-0 z-10 overflow-hidden"
@@ -51,15 +67,15 @@ export const CompanyMarquee = memo(function CompanyMarquee() {
           "linear-gradient(to right, transparent 0%, transparent 5%, black 25%, black 75%, transparent 95%, transparent 100%)",
       }}
     >
-      <div className="flex whitespace-nowrap">
-        {/* Two identical strips side by side - creates seamless infinite loop */}
-        <div className="flex animate-marquee">
-          {MARQUEE_COMPANIES.map((company, i) => (
-            <MarqueeItem key={`a-${company}-${i}`} company={company} />
-          ))}
-        </div>
-        <div className="flex animate-marquee" aria-hidden="true">
-          {MARQUEE_COMPANIES.map((company, i) => (
+      {/* Single track containing two identical copies. Keyframe translates
+          -50% = exactly one full list width, so copy B slides into copy A's
+          spot with no snap. */}
+      <div className="flex w-max animate-marquee whitespace-nowrap">
+        {companies.map((company, i) => (
+          <MarqueeItem key={`a-${company}-${i}`} company={company} />
+        ))}
+        <div aria-hidden="true" className="flex">
+          {companies.map((company, i) => (
             <MarqueeItem key={`b-${company}-${i}`} company={company} />
           ))}
         </div>

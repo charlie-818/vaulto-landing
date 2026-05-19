@@ -13,7 +13,7 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
   };
 
   return (
-    <section className="relative flex min-h-[112dvh] sm:min-h-[111.2vh] flex-col items-center justify-start pt-[20vh] sm:justify-center sm:pt-0 overflow-hidden px-6 pb-[8vh] sm:pb-[14vh] lg:pb-[17vh]">
+    <section className="relative flex min-h-[112dvh] sm:min-h-[111.2vh] lg:min-h-[calc(110vh-3.5rem)] flex-col items-center justify-start pt-[20vh] sm:justify-center sm:pt-0 overflow-hidden px-6 lg:pl-6 lg:pr-[10rem] pb-[8vh] sm:pb-[14vh] lg:pb-[17vh]">
       {/* Mobile radial gradient backdrop */}
       <div className="sm:hidden absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.15)_0%,transparent_70%)]" />
 
@@ -49,7 +49,7 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
       />
 
       {/* Content */}
-      <div className="animate-fade-in-up relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center max-w-7xl mx-auto w-full lg:-translate-x-[44px]">
+      <div className="animate-fade-in-up relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center max-w-7xl mx-auto w-full">
         {/* Left: Text content */}
         <div className="text-center lg:text-left sm:pt-4 lg:pt-0">
           {/* Badge - above logo */}
@@ -61,18 +61,6 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
               </span>
               Pre-IPO Access
             </span>
-          </div>
-
-          {/* Logo */}
-          <div className="animate-scale-in mb-6 sm:mb-8 flex justify-center lg:justify-start">
-            <Image
-              src="/vaulto-logo-light.png"
-              alt="Vaulto"
-              width={180}
-              height={48}
-              priority
-              className="h-10 sm:h-12 w-auto"
-            />
           </div>
 
           {/* Tagline */}
