@@ -166,7 +166,7 @@ export function SiteHeader() {
             </span>
           </Link>
           <div
-            className="invisible absolute left-0 top-full z-40 pt-2 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 hidden md:block"
+            className="invisible absolute left-0 top-full z-40 pt-2 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 hidden md:block"
             role="menu"
           >
             <div className="grid w-[min(90vw,720px)] grid-cols-1 gap-4 rounded-lg border border-[var(--border)] bg-[var(--background)] p-4 shadow-lg md:grid-cols-4">
