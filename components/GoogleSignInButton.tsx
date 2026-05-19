@@ -3,9 +3,7 @@
 import { PLATFORM_URL } from "@/lib/config";
 
 export function GoogleSignInButton() {
-  const href = `${PLATFORM_URL}/api/auth/signin/google?callbackUrl=${encodeURIComponent(
-    `${PLATFORM_URL}/`
-  )}`;
+  const href = `${PLATFORM_URL}/signin/google`;
 
   return (
     <a
