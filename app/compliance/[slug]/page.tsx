@@ -35,7 +35,7 @@ export default async function ComplianceDocPage({
   const doc = getComplianceDoc(slug);
   if (!doc) notFound();
 
-  const all = getAllComplianceDocs().filter((d) => d.slug !== "99-sources");
+  const all = getAllComplianceDocs().filter((d) => d.slug !== "sources");
   const idx = all.findIndex((d) => d.slug === slug);
   const prev = idx > 0 ? all[idx - 1] : null;
   const next = idx >= 0 && idx < all.length - 1 ? all[idx + 1] : null;

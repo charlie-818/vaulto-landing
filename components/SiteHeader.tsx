@@ -65,15 +65,15 @@ const GROUPS: DropdownGroup[] = [
       },
       {
         label: "Project Crypto",
-        href: "/compliance/01-project-crypto-overview",
+        href: "/compliance/project-crypto",
       },
       {
         label: "Howey & Reves",
-        href: "/compliance/10-foundations-howey-reves",
+        href: "/compliance/howey-reves",
       },
       {
         label: "Enforcement",
-        href: "/compliance/11-key-enforcement-cases",
+        href: "/compliance/enforcement",
       },
     ],
   },

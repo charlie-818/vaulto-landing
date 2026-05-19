@@ -22,6 +22,40 @@ const TITLE_OVERRIDES: Record<string, string> = {
   "06-bucket-stablecoins": "Stablecoins",
 };
 
+// File-slug (numbered, on disk) → URL slug (clean, public).
+// Keeps filesystem ordering while exposing conventional URLs.
+const FILE_TO_URL: Record<string, string> = {
+  "00-quickstart-builders": "quickstart",
+  "01-project-crypto-overview": "project-crypto",
+  "02-bucket-digital-commodities": "commodities",
+  "03-bucket-digital-collectibles": "collectibles",
+  "04-bucket-digital-tools": "tools",
+  "05-bucket-tokenized-securities": "securities",
+  "06-bucket-stablecoins": "stablecoins",
+  "10-foundations-howey-reves": "howey-reves",
+  "11-key-enforcement-cases": "enforcement",
+  "12-safe-harbors-exemptions": "safe-harbors",
+  "13-secondary-market-ats": "secondary-markets",
+  "14-fit21-and-legislation": "legislation",
+  "15-state-level": "state-level",
+  "16-international-contrast": "international",
+  "17-no-action-letters": "no-action-letters",
+  "20-glossary": "glossary",
+  "99-sources": "sources",
+};
+
+const URL_TO_FILE: Record<string, string> = Object.fromEntries(
+  Object.entries(FILE_TO_URL).map(([file, url]) => [url, file])
+);
+
+function fileSlugToUrlSlug(fileSlug: string): string {
+  return FILE_TO_URL[fileSlug] ?? fileSlug;
+}
+
+function urlSlugToFileSlug(urlSlug: string): string {
+  return URL_TO_FILE[urlSlug] ?? urlSlug;
+}
+
 function deriveTitle(slug: string, body: string): string {
   if (TITLE_OVERRIDES[slug]) return TITLE_OVERRIDES[slug];
   const h1 = body.match(/^#\s+(.+)$/m);
@@ -37,15 +71,15 @@ function deriveOrder(slug: string): number {
 }
 
 /**
- * Rewrite intra-doc markdown links so `[x](02-foo.md)` resolves to
- * `/compliance/02-foo` in the rendered output.
+ * Rewrite intra-doc markdown links `[x](02-foo.md)` → `/compliance/<urlSlug>`.
  */
 function rewriteInternalLinks(md: string): string {
   return md.replace(
     /\]\(([0-9A-Za-z-]+)\.md(#[^)]*)?\)/g,
-    (_match, slug, hash) => {
-      if (slug === "README") return `](/compliance${hash ?? ""})`;
-      return `](/compliance/${slug}${hash ?? ""})`;
+    (_match, fileSlug, hash) => {
+      if (fileSlug === "README") return `](/compliance${hash ?? ""})`;
+      const urlSlug = fileSlugToUrlSlug(fileSlug);
+      return `](/compliance/${urlSlug}${hash ?? ""})`;
     }
   );
 }
@@ -69,15 +103,11 @@ function getCitationMap(): Map<string, string> {
   return map;
 }
 
-/**
- * Wrap bare `[S#]` citation tokens with markdown links to the source URL
- * defined in 99-sources.md. Skips tokens already followed by `(`.
- */
-function linkCitations(md: string, slug: string): string {
-  if (slug === "99-sources") return md;
+function linkCitations(md: string, fileSlug: string): string {
+  if (fileSlug === "99-sources") return md;
   const map = getCitationMap();
   return md.replace(/\[(S\d+)\](?!\()/g, (_match, key) => {
-    const url = map.get(key) ?? `/compliance/99-sources`;
+    const url = map.get(key) ?? `/compliance/${fileSlugToUrlSlug("99-sources")}`;
     return `[[${key}]](${url})`;
   });
 }
@@ -87,41 +117,43 @@ export function getComplianceSlugs(): string[] {
     .readdirSync(CONTENT_DIR)
     .filter((f) => f.endsWith(".md"))
     .map((f) => f.replace(/\.md$/, ""))
-    .filter((slug) => slug !== "README");
+    .filter((slug) => slug !== "README")
+    .map(fileSlugToUrlSlug);
 }
 
 export function getAllComplianceDocs(): ComplianceDoc[] {
   const files = fs.readdirSync(CONTENT_DIR).filter((f) => f.endsWith(".md"));
   const docs: ComplianceDoc[] = files.map((f) => {
-    const slug = f.replace(/\.md$/, "");
+    const fileSlug = f.replace(/\.md$/, "");
     const raw = fs.readFileSync(path.join(CONTENT_DIR, f), "utf8");
     const { content, data } = matter(raw);
     return {
-      slug,
+      slug: fileSlugToUrlSlug(fileSlug),
       title:
         (typeof data.title === "string" && data.title) ||
-        deriveTitle(slug, content),
-      order: deriveOrder(slug),
+        deriveTitle(fileSlug, content),
+      order: deriveOrder(fileSlug),
       description:
         typeof data.description === "string" ? data.description : undefined,
       raw,
-      body: linkCitations(rewriteInternalLinks(content), slug),
+      body: linkCitations(rewriteInternalLinks(content), fileSlug),
     };
   });
   return docs.sort((a, b) => a.order - b.order);
 }
 
-export function getComplianceDoc(slug: string): ComplianceDoc | null {
-  const filename = path.join(CONTENT_DIR, `${slug}.md`);
+export function getComplianceDoc(urlSlug: string): ComplianceDoc | null {
+  const fileSlug = urlSlugToFileSlug(urlSlug);
+  const filename = path.join(CONTENT_DIR, `${fileSlug}.md`);
   if (!fs.existsSync(filename)) return null;
   const raw = fs.readFileSync(filename, "utf8");
   const { content, data } = matter(raw);
   return {
-    slug,
+    slug: fileSlugToUrlSlug(fileSlug),
     title:
       (typeof data.title === "string" && data.title) ||
-      deriveTitle(slug, content),
-    order: deriveOrder(slug),
+      deriveTitle(fileSlug, content),
+    order: deriveOrder(fileSlug),
     description:
       typeof data.description === "string" ? data.description : undefined,
     raw,
