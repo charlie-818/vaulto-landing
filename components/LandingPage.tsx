@@ -166,6 +166,7 @@ export function LandingPage() {
         headline="One Token, Multiple Chains"
         subheadline="Seamless cross-chain transfers."
         theme="cyan"
+        reversed
         features={[
           {
             title: "BNB + Polygon",
