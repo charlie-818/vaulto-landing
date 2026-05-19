@@ -1,7 +1,7 @@
 export const LEGACY_SITES = {
-  search: "https://search.vaulto.fi",
-  swap: "https://swap.vaulto.fi",
-  ramp: "https://ramp.vaulto.fi",
+  search: "https://search.vaulto.ai",
+  swap: "https://swap.vaulto.ai",
+  ramp: "https://ramp.vaulto.ai",
 } as const;
 
 export const API_URL = "https://api.vaulto.ai";

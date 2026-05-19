@@ -13,7 +13,7 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
   };
 
   return (
-    <section className="relative flex min-h-[112dvh] sm:min-h-[111.2vh] lg:min-h-[calc(110vh-3.5rem)] flex-col items-center justify-start pt-[20vh] sm:justify-center sm:pt-0 overflow-hidden px-6 lg:pl-6 lg:pr-[10rem] pb-[8vh] sm:pb-[14vh] lg:pb-[17vh]">
+    <section className="relative flex min-h-[112dvh] sm:min-h-[111.2vh] lg:min-h-[calc(110vh-3.5rem)] flex-col items-center justify-start pt-[18vh] sm:justify-center sm:pt-0 overflow-hidden px-6 lg:pl-6 lg:pr-[10rem] pb-[8vh] sm:pb-[14vh] lg:pb-[17vh]">
       {/* Mobile radial gradient backdrop */}
       <div className="sm:hidden absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.15)_0%,transparent_70%)]" />
 
@@ -52,9 +52,19 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
       <div className="animate-fade-in-up relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center max-w-7xl mx-auto w-full">
         {/* Left: Text content */}
         <div className="text-center lg:text-left sm:pt-4 lg:pt-0">
-          {/* Badge - above logo */}
-          <div className="animate-fade-in-up animation-delay-100 mb-4 sm:mb-5 flex justify-center lg:justify-start">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-600">
+          {/* Badge - above stats and waitlist */}
+          <div className="animate-fade-in-up animation-delay-100 mb-3 sm:mb-5 flex justify-center lg:justify-start">
+            {/* Mobile badge: gradient-border shimmer */}
+            <span className="sm:hidden relative inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-blue-600 bg-blue-500/10 overflow-hidden">
+              <span className="pointer-events-none absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 [mask:linear-gradient(white,white)_content-box,linear-gradient(white,white)] [mask-composite:exclude] [-webkit-mask-composite:xor] opacity-70" />
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-500 opacity-75" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-blue-500" />
+              </span>
+              <span className="relative">Pre-IPO Access · Live</span>
+            </span>
+            {/* Desktop badge unchanged */}
+            <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-600">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-500 opacity-75" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-blue-500" />
@@ -62,6 +72,9 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
               Pre-IPO Access
             </span>
           </div>
+
+          {/* Mobile stat strip - below badge, above waitlist */}
+          <MobileStatStrip />
 
           {/* Tagline */}
           <h1 className="animate-fade-in-up animation-delay-200 -mb-1 sm:-mb-2 text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-medium sm:font-light tracking-tight text-[var(--foreground)] whitespace-nowrap">
@@ -132,3 +145,23 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
     </section>
   );
 }
+
+function MobileStatStrip() {
+  return (
+    <div className="sm:hidden animate-fade-in-up animation-delay-100 mb-4 flex items-stretch justify-center divide-x divide-[var(--border)] rounded-xl border border-[var(--border)] bg-blue-500/[0.04] mx-auto max-w-[320px]">
+      <div className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2">
+        <span className="relative flex h-1.5 w-1.5">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+        </span>
+        <span className="text-[0.7rem] font-medium text-[var(--foreground)]">300 waitlisted</span>
+      </div>
+      <div className="flex-1 flex items-center justify-center px-3 py-2">
+        <span className="text-[0.7rem] font-medium text-[var(--foreground)]">
+          $4T+ <span className="text-[var(--muted)]">private market</span>
+        </span>
+      </div>
+    </div>
+  );
+}
+
