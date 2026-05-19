@@ -31,6 +31,12 @@ const COMPANY_DOMAIN_MAP: Record<string, string> = {
   kalshi: "kalshi.com",
   polymarket: "polymarket.com",
   waymo: "waymo.com",
+  nvidia: "nvidia.com",
+  palantir: "palantir.com",
+  tesla: "tesla.com",
+  apple: "apple.com",
+  microsoft: "microsoft.com",
+  meta: "meta.com",
 };
 
 function normalize(name: string): string {

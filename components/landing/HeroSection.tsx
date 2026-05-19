@@ -52,35 +52,28 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
       <div className="animate-fade-in-up relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center max-w-7xl mx-auto w-full">
         {/* Left: Text content */}
         <div className="text-center lg:text-left sm:pt-4 lg:pt-0">
-          {/* Badge - above stats and waitlist */}
-          <div className="animate-fade-in-up animation-delay-100 mb-3 sm:mb-5 flex justify-center lg:justify-start">
-            {/* Mobile badge: gradient-border shimmer */}
-            <span className="sm:hidden relative inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-blue-600 bg-blue-500/10 overflow-hidden">
-              <span className="pointer-events-none absolute inset-0 rounded-full p-[1px] bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 [mask:linear-gradient(white,white)_content-box,linear-gradient(white,white)] [mask-composite:exclude] [-webkit-mask-composite:xor] opacity-70" />
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-500 opacity-75" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-blue-500" />
-              </span>
-              <span className="relative">Pre-IPO Access · Live</span>
+          {/* Backed By */}
+          <div className="animate-fade-in-up animation-delay-100 mb-4 sm:-mb-1 flex items-center justify-center lg:justify-start gap-4 sm:gap-5">
+            <span className="text-sm sm:text-base lg:text-lg font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
+              Backed By
             </span>
-            {/* Desktop badge unchanged */}
-            <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-600">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-500 opacity-75" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-blue-500" />
-              </span>
-              Pre-IPO Access
-            </span>
+            <Image
+              src="/partners/ucla-venture-accelerator.png"
+              alt="UCLA Anderson Venture Accelerator"
+              width={486}
+              height={208}
+              className="h-16 sm:h-20 lg:h-24 w-auto"
+            />
           </div>
 
           {/* Mobile stat strip - below badge, above waitlist */}
           <MobileStatStrip />
 
           {/* Tagline */}
-          <h1 className="animate-fade-in-up animation-delay-200 -mb-1 sm:-mb-2 text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-medium sm:font-light tracking-tight text-[var(--foreground)] whitespace-nowrap">
+          <h1 className="animate-fade-in-up animation-delay-200 -mb-1 sm:-mb-2 text-[2.25rem] sm:text-4xl md:text-5xl lg:text-6xl font-medium sm:font-light tracking-tight text-[var(--foreground)] whitespace-normal sm:whitespace-nowrap">
             Trade Private Companies
           </h1>
-          <h1 className="animate-fade-in-up animation-delay-300 mb-6 bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-500 bg-clip-text text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-bold sm:font-semibold tracking-tight text-transparent pb-1 whitespace-nowrap">
+          <h1 className="animate-fade-in-up animation-delay-300 mb-6 bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-500 bg-clip-text text-[2.25rem] sm:text-4xl md:text-5xl lg:text-6xl font-bold sm:font-semibold tracking-tight text-transparent pb-1 whitespace-normal sm:whitespace-nowrap">
             Before They Go Public
           </h1>
 
@@ -113,13 +106,6 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
             </button>
           </div>
 
-          {/* Trust indicator - mobile */}
-          <div className="sm:hidden animate-fade-in-up animation-delay-600 mt-6 flex items-center justify-center gap-2 text-xs text-[var(--muted)]">
-            <svg className="h-4 w-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-            </svg>
-            <span>No credit card required</span>
-          </div>
         </div>
 
         {/* Right: Demo image - Desktop only */}

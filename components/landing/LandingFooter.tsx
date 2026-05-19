@@ -83,12 +83,53 @@ export function LandingFooter() {
           </div>
         </div>
 
-        <div className="mt-6 sm:mt-12 border-t border-[var(--border)] pt-6 sm:pt-8">
+        {/* Credibility band */}
+        <div className="mt-8 sm:mt-12 border-t border-[var(--border)] pt-8 flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between sm:gap-10">
+          <BadgeSegment label="Built On">
+            <a href="https://base.org" target="_blank" rel="noopener noreferrer" className="inline-flex" aria-label="Base">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/partners/base.svg" alt="Base" className="h-5 sm:h-6 w-auto opacity-80 transition-opacity hover:opacity-100" />
+            </a>
+            <a href="https://www.bnbchain.org" target="_blank" rel="noopener noreferrer" className="inline-flex" aria-label="BNB Chain">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/partners/bnb-chain.svg" alt="BNB Chain" className="h-7 sm:h-8 w-auto opacity-80 transition-opacity hover:opacity-100" />
+            </a>
+          </BadgeSegment>
+
+          <BadgeSegment label="Featured In">
+            <a href="https://www.every.io/blog-post/charlie-bicker-caarten-is-building-vaulto-to-expand-access-to-private-markets" target="_blank" rel="noopener noreferrer" className="inline-flex text-[var(--foreground)]/80 transition-colors hover:text-[var(--foreground)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/partners/every.svg" alt="Every.io" className="h-5 sm:h-6 w-auto" />
+            </a>
+          </BadgeSegment>
+
+          <BadgeSegment label="Backed By">
+            <a href="https://venture.anderson.ucla.edu" target="_blank" rel="noopener noreferrer" className="inline-flex" aria-label="UCLA">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/partners/ucla-blue.png" alt="UCLA" className="h-8 sm:h-9 w-auto opacity-80 transition-opacity hover:opacity-100" />
+            </a>
+          </BadgeSegment>
+        </div>
+
+        <div className="mt-8 border-t border-[var(--border)] pt-6 sm:pt-8">
           <p className="text-center text-sm text-[var(--muted)]">
             &copy; {currentYear} Vaulto Protocol. All rights reserved.
           </p>
         </div>
       </div>
     </footer>
+  );
+}
+
+function BadgeSegment({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="grid grid-rows-[auto_3rem] sm:grid-rows-[auto_3.25rem] justify-items-center sm:justify-items-start gap-3">
+      <span className="text-[0.65rem] sm:text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
+        {label}
+      </span>
+      <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 sm:gap-5 self-center">
+        {children}
+      </div>
+    </div>
   );
 }

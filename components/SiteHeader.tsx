@@ -151,7 +151,7 @@ export function SiteHeader() {
         <div className="group relative">
           <Link
             href="/"
-            className="flex items-center gap-2"
+            className="relative flex items-center"
             aria-haspopup="menu"
           >
             <span className="relative block h-7 w-[104px]">
@@ -163,6 +163,12 @@ export function SiteHeader() {
                 sizes="104px"
                 className="object-contain object-left"
               />
+            </span>
+            <span
+              aria-label="Trademark"
+              className="pointer-events-none absolute left-[92px] top-[4px] text-[0.6rem] font-medium leading-none text-[var(--muted)]"
+            >
+              TM
             </span>
           </Link>
           <div

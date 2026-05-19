@@ -91,6 +91,156 @@ export function TokenTicker() {
 }
 
 // =============================================================================
+// BASKET BUILDER - User-built ETF basket with weight bars
+// =============================================================================
+
+type BasketSlice = {
+  symbol: string;
+  companyName: string;
+  weight: number;
+  kind: "public" | "private";
+  color: string;
+};
+
+const basketSlices: BasketSlice[] = [
+  { symbol: "vNVDA", companyName: "Nvidia", weight: 22, kind: "public", color: "#76b900" },
+  { symbol: "vSPACEX", companyName: "SpaceX", weight: 20, kind: "private", color: "#06b6d4" },
+  { symbol: "vPLTR", companyName: "Palantir", weight: 15, kind: "public", color: "#0ea5e9" },
+  { symbol: "vANTHROPIC", companyName: "Anthropic", weight: 13, kind: "private", color: "#d97706" },
+  { symbol: "vTSLA", companyName: "Tesla", weight: 12, kind: "public", color: "#ef4444" },
+  { symbol: "vOPENAI", companyName: "OpenAI", weight: 10, kind: "private", color: "#10b981" },
+  { symbol: "vANDURIL", companyName: "Anduril", weight: 8, kind: "private", color: "#8b5cf6" },
+];
+
+export function BasketBuilder() {
+  const [weights, setWeights] = useState(basketSlices.map((t) => t.weight));
+  const [pulseIndex, setPulseIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const idx = Math.floor(Math.random() * weights.length);
+      const otherIdx = (idx + 1 + Math.floor(Math.random() * (weights.length - 1))) % weights.length;
+      const delta = Math.random() > 0.5 ? 1 : -1;
+
+      setWeights((prev) => {
+        const next = [...prev];
+        const a = next[idx] + delta;
+        const b = next[otherIdx] - delta;
+        if (a < 4 || a > 35 || b < 4 || b > 35) return prev;
+        next[idx] = a;
+        next[otherIdx] = b;
+        return next;
+      });
+      setPulseIndex(idx);
+      setTimeout(() => setPulseIndex(null), 600);
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, [weights.length]);
+
+  const total = weights.reduce((s, w) => s + w, 0);
+  const radius = 42;
+  const circumference = 2 * Math.PI * radius;
+
+  // Build donut arcs
+  let cumulative = 0;
+  const arcs = basketSlices.map((slice, i) => {
+    const portion = weights[i] / total;
+    const dashLength = portion * circumference;
+    const offset = -cumulative * circumference;
+    cumulative += portion;
+    return {
+      slice,
+      i,
+      dashArray: `${dashLength} ${circumference - dashLength}`,
+      dashOffset: offset,
+    };
+  });
+
+  return (
+    <div className="rounded-2xl border border-[var(--border)]/60 bg-gradient-to-br from-cyan-500/[0.04] via-transparent to-blue-500/[0.04] p-4 sm:p-5">
+      {/* Header */}
+      <div className="mb-4 flex items-center justify-between">
+        <div className="flex flex-col">
+          <span className="text-[10px] sm:text-xs uppercase tracking-wider text-[var(--muted)]">@charlie's basket</span>
+          <span className="text-base sm:text-lg font-semibold text-[var(--foreground)]">AI Mega Basket</span>
+        </div>
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/40 bg-cyan-500/10 px-2.5 py-1 text-[10px] sm:text-xs font-medium text-cyan-600">
+          <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+          </svg>
+          Share
+        </span>
+      </div>
+
+      {/* Donut + legend */}
+      <div className="flex items-center gap-4 sm:gap-5">
+        <div className="relative h-32 w-32 sm:h-40 sm:w-40 flex-shrink-0">
+          <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
+            <circle cx="50" cy="50" r={radius} fill="none" stroke="var(--border)" strokeWidth="14" opacity="0.3" />
+            {arcs.map(({ slice, i, dashArray, dashOffset }) => (
+              <circle
+                key={slice.symbol}
+                cx="50"
+                cy="50"
+                r={radius}
+                fill="none"
+                stroke={slice.color}
+                strokeWidth={pulseIndex === i ? 16 : 14}
+                strokeDasharray={dashArray}
+                strokeDashoffset={dashOffset}
+                style={{ transition: "stroke-dasharray 700ms ease-out, stroke-width 300ms" }}
+              />
+            ))}
+          </svg>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <span className="font-mono text-xl sm:text-2xl font-bold text-[var(--foreground)]">{total}%</span>
+            <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-[var(--muted)]">Allocated</span>
+          </div>
+        </div>
+
+        <div className="flex-1 grid grid-cols-1 gap-1.5 sm:gap-2 min-w-0">
+          {basketSlices.slice(0, 5).map((slice, i) => (
+            <div
+              key={slice.symbol}
+              className={`flex items-center gap-2 rounded-md px-1.5 py-1 transition-colors ${
+                pulseIndex === i ? "bg-cyan-500/10" : ""
+              }`}
+            >
+              <span className="h-2 w-2 flex-shrink-0 rounded-full" style={{ backgroundColor: slice.color }} />
+              <CompanyLogo name={slice.companyName} size={18} className="sm:w-5 sm:h-5 flex-shrink-0" />
+              <span className="truncate text-xs sm:text-sm font-medium text-[var(--foreground)]">{slice.symbol}</span>
+              <span className="ml-auto font-mono text-xs sm:text-sm font-semibold tabular-nums text-[var(--foreground)]">
+                {weights[i]}%
+              </span>
+            </div>
+          ))}
+          <div className="px-1.5 text-[10px] sm:text-xs text-[var(--muted)]">
+            +{basketSlices.length - 5} more
+          </div>
+        </div>
+      </div>
+
+      {/* Public/Private split footer */}
+      <div className="mt-4 grid grid-cols-2 gap-2 sm:gap-3">
+        <div className="rounded-lg border border-[var(--border)]/60 bg-[var(--foreground)]/[0.02] px-3 py-2">
+          <div className="text-[9px] sm:text-[10px] uppercase tracking-wider text-[var(--muted)]">Public</div>
+          <div className="font-mono text-sm sm:text-base font-semibold text-[var(--foreground)]">
+            {basketSlices.reduce((s, sl, i) => s + (sl.kind === "public" ? weights[i] : 0), 0)}%
+          </div>
+        </div>
+        <div className="rounded-lg border border-[var(--border)]/60 bg-[var(--foreground)]/[0.02] px-3 py-2">
+          <div className="text-[9px] sm:text-[10px] uppercase tracking-wider text-[var(--muted)]">Pre-IPO</div>
+          <div className="font-mono text-sm sm:text-base font-semibold text-[var(--foreground)]">
+            {basketSlices.reduce((s, sl, i) => s + (sl.kind === "private" ? weights[i] : 0), 0)}%
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// =============================================================================
 // CODE BLOCK - Shows AMM contract interface
 // =============================================================================
 

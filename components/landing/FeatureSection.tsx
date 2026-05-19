@@ -183,14 +183,16 @@ export function FeatureSection({
               </div>
             )}
 
-            {/* Link */}
+            {/* Buttons row */}
+            {(link || actionButton) && (
+              <div className="mt-8 flex flex-wrap items-stretch gap-3">
             {link &&
               (link.href.includes("github.com") ? (
                 <a
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`mt-8 inline-flex items-center gap-2 rounded-lg bg-[#24292f] px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-[#32383f] hover:shadow-lg duration-700 ${
+                  className={`inline-flex items-center justify-center gap-2 rounded-lg bg-[#24292f] px-5 h-12 text-sm font-medium text-white transition-all hover:bg-[#32383f] hover:shadow-lg duration-700 ${
                     isVisible
                       ? "translate-y-0 opacity-100"
                       : "translate-y-4 opacity-0"
@@ -217,7 +219,7 @@ export function FeatureSection({
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`mt-8 inline-flex items-center gap-2 rounded-lg bg-cyan-500 px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-cyan-600 hover:shadow-lg hover:shadow-cyan-500/25 duration-700 ${
+                  className={`inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-500 px-5 h-12 text-sm font-medium text-white transition-all hover:bg-cyan-600 hover:shadow-lg hover:shadow-cyan-500/25 duration-700 ${
                     isVisible
                       ? "translate-y-0 opacity-100"
                       : "translate-y-4 opacity-0"
@@ -246,7 +248,7 @@ export function FeatureSection({
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`mt-8 inline-flex items-center gap-2 text-sm font-medium transition-all hover:opacity-80 duration-700 ${
+                  className={`inline-flex items-center gap-2 h-12 text-sm font-medium transition-all hover:opacity-80 duration-700 ${
                     isVisible
                       ? "translate-y-0 opacity-100"
                       : "translate-y-4 opacity-0"
@@ -277,7 +279,7 @@ export function FeatureSection({
             {actionButton && (
               <button
                 onClick={actionButton.onClick}
-                className={`mt-8 inline-flex items-center gap-2 rounded-lg bg-blue-500 px-5 py-3 sm:py-2.5 min-h-[48px] text-sm font-medium text-white transition-all hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/25 duration-700 ${
+                className={`inline-flex items-center justify-center gap-2 rounded-lg bg-blue-500 px-5 h-12 text-sm font-medium text-white transition-all hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/25 duration-700 ${
                   isVisible
                     ? "translate-y-0 opacity-100"
                     : "translate-y-4 opacity-0"
@@ -288,6 +290,8 @@ export function FeatureSection({
               >
                 {actionButton.text}
               </button>
+            )}
+              </div>
             )}
           </div>
 

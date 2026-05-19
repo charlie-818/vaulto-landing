@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { HeroSection } from "./landing/HeroSection";
 import { FeatureSection } from "./landing/FeatureSection";
-import { TokenTicker, CodeBlock, ChainDiagram } from "./landing/FeatureVisuals";
+import { TokenTicker, BasketBuilder, CodeBlock, ChainDiagram } from "./landing/FeatureVisuals";
 import { LandingFooter } from "./landing/LandingFooter";
 import { signupEmail } from "@/lib/waitlist-client";
 import { GoogleSignInButton } from "./GoogleSignInButton";
@@ -131,6 +131,33 @@ export function LandingPage() {
         ]}
         visual={<CodeBlock />}
         link={{ text: "View on GitHub", href: "https://github.com/VaultoAI/price-oracle-amm" }}
+      />
+
+      <FeatureSection
+        id="social-etfs"
+        badge="Social ETFs"
+        headline="Build & Share Your Own ETF"
+        subheadline="Pick the tokens. Set the weights. Friends trade your basket."
+        theme="cyan"
+        features={[
+          {
+            title: "Mix Public & Private",
+            description:
+              "Blend tokenized public stocks (NVDA, Palantir, Tesla) with pre-IPO unicorns (SpaceX, Anthropic) in one basket",
+            highlight: true,
+          },
+          {
+            title: "Friends Trade Your Basket",
+            description:
+              "Share a link. Anyone can deposit USDC and own a slice of your strategy",
+            highlight: true,
+          },
+          { title: "Auto-rebalanced on Base via CoW" },
+          { title: "USDC zap deposit & redeem" },
+        ]}
+        visual={<BasketBuilder />}
+        link={{ text: "View on GitHub", href: "https://github.com/VaultoAI/VAULTO-API-ETF" }}
+        actionButton={{ text: "Join Waitlist", onClick: handleJoinWaitlist }}
       />
 
       <FeatureSection
