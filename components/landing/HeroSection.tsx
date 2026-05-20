@@ -66,9 +66,6 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
             />
           </div>
 
-          {/* Mobile stat strip - below badge, above waitlist */}
-          <MobileStatStrip />
-
           {/* Tagline */}
           <h1 className="animate-fade-in-up animation-delay-200 -mb-1 sm:-mb-2 text-[2.25rem] sm:text-4xl md:text-5xl lg:text-6xl font-medium sm:font-light tracking-tight text-[var(--foreground)] whitespace-normal sm:whitespace-nowrap">
             Trade Private Companies
@@ -131,23 +128,3 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
     </section>
   );
 }
-
-function MobileStatStrip() {
-  return (
-    <div className="sm:hidden animate-fade-in-up animation-delay-100 mb-4 flex items-stretch justify-center divide-x divide-[var(--border)] rounded-xl border border-[var(--border)] bg-blue-500/[0.04] mx-auto max-w-[320px]">
-      <div className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2">
-        <span className="relative flex h-1.5 w-1.5">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
-          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
-        </span>
-        <span className="text-[0.7rem] font-medium text-[var(--foreground)]">300 waitlisted</span>
-      </div>
-      <div className="flex-1 flex items-center justify-center px-3 py-2">
-        <span className="text-[0.7rem] font-medium text-[var(--foreground)]">
-          $4T+ <span className="text-[var(--muted)]">private market</span>
-        </span>
-      </div>
-    </div>
-  );
-}
-
