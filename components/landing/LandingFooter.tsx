@@ -1,5 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import { subscribeNewsletter } from "@/lib/newsletter-client";
 
 export function LandingFooter() {
   const currentYear = new Date().getFullYear();
@@ -10,6 +14,10 @@ export function LandingFooter() {
         {/* Mobile */}
         <div className="flex flex-col items-center text-center md:hidden">
           <Image src="/vaulto-logo-light.png" alt="Vaulto" width={120} height={32} className="mb-5 h-8 w-auto" />
+
+          <div className="w-full max-w-xs mb-6">
+            <NewsletterForm />
+          </div>
 
           <div className="flex items-center gap-5 mb-6">
             <a href="https://linkedin.com/company/vaulto" target="_blank" rel="noopener noreferrer" className="p-2 -m-2 text-[var(--muted)] transition-colors hover:text-[var(--foreground)]" aria-label="LinkedIn">
@@ -33,8 +41,8 @@ export function LandingFooter() {
         </div>
 
         {/* Desktop */}
-        <div className="hidden md:grid md:grid-cols-4 gap-8">
-          <div>
+        <div className="hidden md:grid md:grid-cols-12 gap-8">
+          <div className="md:col-span-4">
             <Image src="/vaulto-logo-light.png" alt="Vaulto" width={120} height={32} className="mb-4 h-8 w-auto" />
             <p className="text-sm text-[var(--muted)]">
               The future of private<br />company investing.
@@ -55,7 +63,7 @@ export function LandingFooter() {
             </div>
           </div>
 
-          <div>
+          <div className="md:col-span-2">
             <h4 className="mb-4 text-sm font-semibold text-[var(--foreground)]">Product</h4>
             <ul className="space-y-2">
               <li><a href="https://app.vaulto.fi" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">App</a></li>
@@ -64,7 +72,7 @@ export function LandingFooter() {
             </ul>
           </div>
 
-          <div>
+          <div className="md:col-span-2">
             <h4 className="mb-4 text-sm font-semibold text-[var(--foreground)]">Resources</h4>
             <ul className="space-y-2">
               <li><Link href="/compliance" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Compliance</Link></li>
@@ -73,14 +81,22 @@ export function LandingFooter() {
             </ul>
           </div>
 
-          <div>
-            <h4 className="mb-4 text-sm font-semibold text-[var(--foreground)]">Legal</h4>
-            <ul className="space-y-2">
-              <li><a href="https://legal.vaulto.ai/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Privacy Policy</a></li>
-              <li><a href="https://legal.vaulto.ai/terms-of-service" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Terms of Service</a></li>
-              <li><Link href="/compliance" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">SEC / Compliance</Link></li>
-            </ul>
+          <div className="md:col-span-4">
+            <h4 className="mb-4 text-sm font-semibold text-[var(--foreground)]">Newsletter</h4>
+            <p className="mb-3 text-sm text-[var(--muted)]">
+              Private market insights, monthly. No spam.
+            </p>
+            <NewsletterForm />
           </div>
+        </div>
+
+        {/* Legal row (desktop) */}
+        <div className="hidden md:flex mt-8 items-center gap-x-4 text-sm text-[var(--muted)]">
+          <a href="https://legal.vaulto.ai/privacy-policy" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[var(--foreground)]">Privacy Policy</a>
+          <span className="text-[var(--border)]">·</span>
+          <a href="https://legal.vaulto.ai/terms-of-service" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[var(--foreground)]">Terms of Service</a>
+          <span className="text-[var(--border)]">·</span>
+          <Link href="/compliance" className="transition-colors hover:text-[var(--foreground)]">SEC / Compliance</Link>
         </div>
 
         {/* Credibility band */}
@@ -118,6 +134,59 @@ export function LandingFooter() {
         </div>
       </div>
     </footer>
+  );
+}
+
+function NewsletterForm() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [error, setError] = useState<string | null>(null);
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (status === "submitting") return;
+    setStatus("submitting");
+    setError(null);
+    const res = await subscribeNewsletter(email);
+    if (res.ok) {
+      setStatus("success");
+      setEmail("");
+    } else {
+      setStatus("error");
+      setError(res.error ?? "Something went wrong.");
+    }
+  }
+
+  if (status === "success") {
+    return (
+      <p className="text-sm text-[var(--foreground)]">
+        Thanks — you&apos;re subscribed.
+      </p>
+    );
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="flex flex-col gap-2" noValidate>
+      <div className="flex gap-2">
+        <input
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@example.com"
+          aria-label="Email address"
+          className="flex-1 min-w-0 rounded-md border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[var(--foreground)]/20"
+        />
+        <button
+          type="submit"
+          disabled={status === "submitting"}
+          className="rounded-md bg-[var(--foreground)] px-4 py-2 text-sm font-medium text-[var(--background)] transition-opacity hover:opacity-90 disabled:opacity-50"
+        >
+          {status === "submitting" ? "…" : "Subscribe"}
+        </button>
+      </div>
+      {error && <p className="text-xs text-red-500">{error}</p>}
+    </form>
   );
 }
 
