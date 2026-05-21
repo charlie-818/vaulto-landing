@@ -143,38 +143,34 @@ function NewsletterForm() {
     const res = await subscribeNewsletter(email);
     if (res.ok) {
       setStatus("success");
-      setEmail("");
     } else {
       setStatus("error");
       setError(res.error ?? "Something went wrong.");
     }
   }
 
-  if (status === "success") {
-    return (
-      <p className="text-sm text-[var(--foreground)]">
-        Thanks — you&apos;re subscribed.
-      </p>
-    );
-  }
+  const isSuccess = status === "success";
+  const isSubmitting = status === "submitting";
+  const disabled = isSubmitting || isSuccess;
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-2 w-3/4" noValidate>
       <input
         type="email"
         required
+        disabled={disabled}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="you@example.com"
         aria-label="Email address"
-        className="w-full rounded-md border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[var(--foreground)]/20"
+        className="w-full rounded-md border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[var(--foreground)]/20 disabled:opacity-60 disabled:cursor-not-allowed"
       />
       <button
         type="submit"
-        disabled={status === "submitting"}
-        className="w-full rounded-md bg-[var(--foreground)] px-4 py-2 text-sm font-medium text-[var(--background)] transition-opacity hover:opacity-90 disabled:opacity-50"
+        disabled={disabled}
+        className="w-full rounded-md bg-[var(--foreground)] px-4 py-2 text-sm font-medium text-[var(--background)] transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {status === "submitting" ? "…" : "Subscribe"}
+        {isSuccess ? "Thanks, you're subscribed" : isSubmitting ? "…" : "Subscribe"}
       </button>
       {error && <p className="text-xs text-red-500">{error}</p>}
     </form>
