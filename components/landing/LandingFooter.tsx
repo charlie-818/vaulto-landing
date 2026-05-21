@@ -15,10 +15,6 @@ export function LandingFooter() {
         <div className="flex flex-col items-center text-center md:hidden">
           <Image src="/vaulto-logo-light.png" alt="Vaulto" width={120} height={32} className="mb-5 h-8 w-auto" />
 
-          <div className="w-full max-w-xs mb-6">
-            <NewsletterForm />
-          </div>
-
           <div className="flex items-center gap-5 mb-6">
             <a href="https://linkedin.com/company/vaulto" target="_blank" rel="noopener noreferrer" className="p-2 -m-2 text-[var(--muted)] transition-colors hover:text-[var(--foreground)]" aria-label="LinkedIn">
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
@@ -37,6 +33,10 @@ export function LandingFooter() {
             <a href="https://legal.vaulto.ai/privacy-policy" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[var(--foreground)]">Privacy</a>
             <span className="text-[var(--border)]">·</span>
             <a href="https://legal.vaulto.ai/terms-of-service" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[var(--foreground)]">Terms</a>
+          </div>
+
+          <div className="w-full max-w-xs mt-6 flex justify-center [&_form]:w-full">
+            <NewsletterForm />
           </div>
         </div>
 
@@ -93,29 +93,29 @@ export function LandingFooter() {
         </div>
 
         {/* Credibility band */}
-        <div className="mt-8 sm:mt-10 border-t border-[var(--border)] pt-6 sm:pt-8 flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between sm:gap-10">
+        <div className="mt-8 sm:mt-10 border-t border-[var(--border)] pt-6 sm:pt-8 flex flex-row items-stretch justify-around sm:justify-between gap-2 sm:gap-10">
           <BadgeSegment label="Built On">
             <a href="https://base.org" target="_blank" rel="noopener noreferrer" className="inline-flex" aria-label="Base">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/partners/base.svg" alt="Base" className="h-5 sm:h-6 w-auto opacity-80 transition-opacity hover:opacity-100" />
+              <img src="/partners/base.svg" alt="Base" className="h-4 sm:h-6 w-auto opacity-80 transition-opacity hover:opacity-100" />
             </a>
             <a href="https://www.bnbchain.org" target="_blank" rel="noopener noreferrer" className="inline-flex" aria-label="BNB Chain">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/partners/bnb-chain.svg" alt="BNB Chain" className="h-7 sm:h-8 w-auto opacity-80 transition-opacity hover:opacity-100" />
+              <img src="/partners/bnb-chain.svg" alt="BNB Chain" className="h-5 sm:h-8 w-auto opacity-80 transition-opacity hover:opacity-100" />
             </a>
           </BadgeSegment>
 
           <BadgeSegment label="Featured In">
             <a href="https://www.every.io/blog-post/charlie-bicker-caarten-is-building-vaulto-to-expand-access-to-private-markets" target="_blank" rel="noopener noreferrer" className="inline-flex text-[var(--foreground)]/80 transition-colors hover:text-[var(--foreground)]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/partners/every.svg" alt="Every.io" className="h-5 sm:h-6 w-auto" />
+              <img src="/partners/every.svg" alt="Every.io" className="h-4 sm:h-6 w-auto" />
             </a>
           </BadgeSegment>
 
           <BadgeSegment label="Backed By">
             <a href="https://venture.anderson.ucla.edu" target="_blank" rel="noopener noreferrer" className="inline-flex" aria-label="UCLA">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/partners/ucla-blue.png" alt="UCLA" className="h-8 sm:h-9 w-auto opacity-80 transition-opacity hover:opacity-100" />
+              <img src="/partners/ucla-blue.png" alt="UCLA" className="h-6 sm:h-9 w-auto opacity-80 transition-opacity hover:opacity-100" />
             </a>
           </BadgeSegment>
         </div>
@@ -179,11 +179,11 @@ function NewsletterForm() {
 
 function BadgeSegment({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="grid grid-rows-[auto_3rem] sm:grid-rows-[auto_3.25rem] justify-items-center sm:justify-items-start gap-3">
-      <span className="text-[0.65rem] sm:text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
+    <div className="grid grid-rows-[auto_2.25rem] sm:grid-rows-[auto_3.25rem] justify-items-center sm:justify-items-start gap-2 sm:gap-3">
+      <span className="text-[0.6rem] sm:text-xs font-semibold uppercase tracking-[0.15em] sm:tracking-[0.18em] text-[var(--muted)] whitespace-nowrap">
         {label}
       </span>
-      <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 sm:gap-5 self-center">
+      <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-5 self-center">
         {children}
       </div>
     </div>
