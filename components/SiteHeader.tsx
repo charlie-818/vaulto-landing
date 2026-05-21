@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { LEGACY_SITES, API_URL, SOCIAL_URLS } from "@/lib/external-urls";
+import { LEGACY_SITES, API_URL, SOCIAL_URLS, WHITEPAPERS } from "@/lib/external-urls";
 
 type DropdownItem = {
   label: string;
@@ -36,6 +36,12 @@ const GROUPS: DropdownGroup[] = [
         description: "On/off-ramp fiat to crypto",
         external: true,
       },
+      {
+        label: "Vaulto Stake",
+        href: LEGACY_SITES.stake,
+        description: "Staking platform for tokenized stocks",
+        external: true,
+      },
     ],
   },
   {
@@ -51,6 +57,12 @@ const GROUPS: DropdownGroup[] = [
         label: "GitHub",
         href: SOCIAL_URLS.github,
         description: "Source code & SDKs",
+        external: true,
+      },
+      {
+        label: "Prediction Market Whitepaper",
+        href: WHITEPAPERS.predictionMarket,
+        description: "Technical paper (PDF)",
         external: true,
       },
     ],

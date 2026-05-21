@@ -2,6 +2,11 @@ export const LEGACY_SITES = {
   search: "https://search.vaulto.ai",
   swap: "https://swap.vaulto.ai",
   ramp: "https://ramp.vaulto.ai",
+  stake: "https://stake.vaulto.ai",
+} as const;
+
+export const WHITEPAPERS = {
+  predictionMarket: "https://app.vaulto.fi/whitepaper.pdf",
 } as const;
 
 export const API_URL = "https://api.vaulto.ai";
