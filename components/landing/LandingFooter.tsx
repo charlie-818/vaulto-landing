@@ -10,7 +10,7 @@ export function LandingFooter() {
 
   return (
     <footer className="border-t border-[var(--border)] bg-[var(--background)]">
-      <div className="mx-auto max-w-6xl px-6 py-8 sm:py-12">
+      <div className="mx-auto max-w-6xl px-6 py-8 sm:py-10">
         {/* Mobile */}
         <div className="flex flex-col items-center text-center md:hidden">
           <Image src="/vaulto-logo-light.png" alt="Vaulto" width={120} height={32} className="mb-5 h-8 w-auto" />
@@ -64,43 +64,36 @@ export function LandingFooter() {
           </div>
 
           <div className="md:col-span-2">
-            <h4 className="mb-4 text-sm font-semibold text-[var(--foreground)]">Product</h4>
-            <ul className="space-y-2">
-              <li><a href="https://app.vaulto.fi" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">App</a></li>
-              <li><a href="https://search.vaulto.ai" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Search</a></li>
-              <li><a href="https://swap.vaulto.ai" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Swap</a></li>
+            <h4 className="mb-3 text-sm font-semibold text-[var(--foreground)]">Product</h4>
+            <ul className="space-y-1.5">
+              <li><a href="https://app.vaulto.fi" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Private Markets</a></li>
+              <li><a href="https://search.vaulto.ai" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Agentic Search</a></li>
+              <li><a href="https://swap.vaulto.ai" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Tokenize Swap</a></li>
+              <li><a href="https://ramp.vaulto.ai" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Venmo Ramp</a></li>
             </ul>
           </div>
 
           <div className="md:col-span-2">
-            <h4 className="mb-4 text-sm font-semibold text-[var(--foreground)]">Resources</h4>
-            <ul className="space-y-2">
-              <li><Link href="/compliance" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Compliance</Link></li>
-              <li><a href="https://github.com/vaultoai" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">GitHub</a></li>
+            <h4 className="mb-3 text-sm font-semibold text-[var(--foreground)]">Resources</h4>
+            <ul className="space-y-1.5">
               <li><a href="/whitepaper.pdf" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Whitepaper</a></li>
+              <li><Link href="/compliance" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Compliance</Link></li>
+              <li><a href="https://legal.vaulto.ai/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Privacy</a></li>
+              <li><a href="https://legal.vaulto.ai/terms-of-service" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Terms</a></li>
             </ul>
           </div>
 
           <div className="md:col-span-4">
-            <h4 className="mb-4 text-sm font-semibold text-[var(--foreground)]">Newsletter</h4>
+            <h4 className="mb-3 text-sm font-semibold text-[var(--foreground)]">Newsletter</h4>
             <p className="mb-3 text-sm text-[var(--muted)]">
-              Private market insights, monthly. No spam.
+              Private market insights
             </p>
             <NewsletterForm />
           </div>
         </div>
 
-        {/* Legal row (desktop) */}
-        <div className="hidden md:flex mt-8 items-center gap-x-4 text-sm text-[var(--muted)]">
-          <a href="https://legal.vaulto.ai/privacy-policy" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[var(--foreground)]">Privacy Policy</a>
-          <span className="text-[var(--border)]">·</span>
-          <a href="https://legal.vaulto.ai/terms-of-service" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[var(--foreground)]">Terms of Service</a>
-          <span className="text-[var(--border)]">·</span>
-          <Link href="/compliance" className="transition-colors hover:text-[var(--foreground)]">SEC / Compliance</Link>
-        </div>
-
         {/* Credibility band */}
-        <div className="mt-8 sm:mt-12 border-t border-[var(--border)] pt-8 flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between sm:gap-10">
+        <div className="mt-8 sm:mt-10 border-t border-[var(--border)] pt-6 sm:pt-8 flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between sm:gap-10">
           <BadgeSegment label="Built On">
             <a href="https://base.org" target="_blank" rel="noopener noreferrer" className="inline-flex" aria-label="Base">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -127,7 +120,7 @@ export function LandingFooter() {
           </BadgeSegment>
         </div>
 
-        <div className="mt-8 border-t border-[var(--border)] pt-6 sm:pt-8">
+        <div className="mt-6 sm:mt-8 border-t border-[var(--border)] pt-5 sm:pt-6">
           <p className="text-center text-sm text-[var(--muted)]">
             &copy; {currentYear} Vaulto Protocol. All rights reserved.
           </p>
@@ -166,25 +159,23 @@ function NewsletterForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-2" noValidate>
-      <div className="flex gap-2">
-        <input
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@example.com"
-          aria-label="Email address"
-          className="flex-1 min-w-0 rounded-md border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[var(--foreground)]/20"
-        />
-        <button
-          type="submit"
-          disabled={status === "submitting"}
-          className="rounded-md bg-[var(--foreground)] px-4 py-2 text-sm font-medium text-[var(--background)] transition-opacity hover:opacity-90 disabled:opacity-50"
-        >
-          {status === "submitting" ? "…" : "Subscribe"}
-        </button>
-      </div>
+    <form onSubmit={onSubmit} className="flex flex-col gap-2 w-3/4" noValidate>
+      <input
+        type="email"
+        required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="you@example.com"
+        aria-label="Email address"
+        className="w-full rounded-md border border-[var(--border)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[var(--foreground)]/20"
+      />
+      <button
+        type="submit"
+        disabled={status === "submitting"}
+        className="w-full rounded-md bg-[var(--foreground)] px-4 py-2 text-sm font-medium text-[var(--background)] transition-opacity hover:opacity-90 disabled:opacity-50"
+      >
+        {status === "submitting" ? "…" : "Subscribe"}
+      </button>
       {error && <p className="text-xs text-red-500">{error}</p>}
     </form>
   );
