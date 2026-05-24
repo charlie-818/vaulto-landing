@@ -59,7 +59,7 @@ export const CompanyMarquee = memo(function CompanyMarquee() {
 
   return (
     <div
-      className="animate-fade-in-up animation-delay-600 absolute bottom-[calc(3rem+env(safe-area-inset-bottom))] sm:bottom-20 lg:bottom-24 left-0 right-0 z-10 overflow-hidden"
+      className="animate-fade-in-up animation-delay-600 absolute bottom-[calc(32svh+env(safe-area-inset-bottom))] sm:bottom-20 lg:bottom-24 left-0 right-0 z-10 overflow-hidden"
       style={{
         maskImage:
           "linear-gradient(to right, transparent 0%, transparent 5%, black 25%, black 75%, transparent 95%, transparent 100%)",
