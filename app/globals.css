@@ -113,3 +113,13 @@ body {
 .compliance-prose th { background: var(--badge-bg); font-weight: 600; }
 .compliance-prose hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
 .compliance-prose input[type="checkbox"] { margin-right: 0.5rem; }
+
+/* Safari-only (desktop + mobile). -webkit-named-image is Safari-exclusive. */
+@supports (background: -webkit-named-image(i-system-yellow-color)) {
+  @media (min-width: 640px) {
+    .hero-marquee { bottom: 9rem !important; }
+  }
+  @media (min-width: 1024px) {
+    .hero-marquee { bottom: 11rem !important; }
+  }
+}
