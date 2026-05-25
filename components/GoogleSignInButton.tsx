@@ -3,7 +3,7 @@
 import { PLATFORM_URL } from "@/lib/config";
 
 export function GoogleSignInButton() {
-  const href = `${PLATFORM_URL}/signin/google`;
+  const href = `${PLATFORM_URL}/sign-in`;
 
   return (
     <a
