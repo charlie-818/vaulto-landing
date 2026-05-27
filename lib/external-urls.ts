@@ -11,8 +11,7 @@ export const WHITEPAPERS = {
 
 export const API_URL = "https://api.vaulto.ai";
 
-export const CAREERS_URL =
-  "https://hiring-platform-ddpb8itfj-vaulto.vercel.app";
+export const CAREERS_URL = "https://hiring-platform-one.vercel.app";
 
 export const SOCIAL_URLS = {
   github: "https://github.com/vaultoai",
