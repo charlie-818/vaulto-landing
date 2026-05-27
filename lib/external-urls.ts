@@ -11,10 +11,14 @@ export const WHITEPAPERS = {
 
 export const API_URL = "https://api.vaulto.ai";
 
+export const CAREERS_URL =
+  "https://hiring-platform-ddpb8itfj-vaulto.vercel.app";
+
 export const SOCIAL_URLS = {
   github: "https://github.com/vaultoai",
   x: "https://x.com/vaultoAI",
   linkedin: "https://linkedin.com/company/vaulto",
+  linkedinJobs: "https://linkedin.com/company/vaulto/jobs/",
   instagram: "https://instagram.com/vaulto.fi",
   youtube: "https://youtube.com/@vaultoAI",
 } as const;

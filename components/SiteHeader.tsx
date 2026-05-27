@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { LEGACY_SITES, API_URL, SOCIAL_URLS, WHITEPAPERS } from "@/lib/external-urls";
+import { LEGACY_SITES, API_URL, CAREERS_URL, SOCIAL_URLS, WHITEPAPERS } from "@/lib/external-urls";
+import { getSocialCounts, formatCount, type SocialCount } from "@/lib/social-stats";
 
 type DropdownItem = {
   label: string;
@@ -11,6 +12,7 @@ type DropdownItem = {
 
 type DropdownGroup = {
   heading: string;
+  badge?: string;
   items: DropdownItem[];
 };
 
@@ -90,6 +92,24 @@ const GROUPS: DropdownGroup[] = [
     ],
   },
   {
+    heading: "Careers",
+    badge: "New",
+    items: [
+      {
+        label: "Prompting",
+        href: CAREERS_URL,
+        description: "Take our prompting assessment",
+        external: true,
+      },
+      {
+        label: "Jobs",
+        href: SOCIAL_URLS.linkedinJobs,
+        description: "Open roles at Vaulto",
+        external: true,
+      },
+    ],
+  },
+  {
     heading: "Social",
     items: [
       {
@@ -110,22 +130,29 @@ const GROUPS: DropdownGroup[] = [
         description: "@vaulto.fi",
         external: true,
       },
-      {
-        label: "YouTube",
-        href: SOCIAL_URLS.youtube,
-        description: "@vaultoAI",
-        external: true,
-      },
     ],
   },
 ];
 
-function ItemLink({ item }: { item: DropdownItem }) {
+function ItemLink({ item, count }: { item: DropdownItem; count?: SocialCount | null }) {
   const className =
     "block rounded-md px-3 py-2 text-sm text-[var(--foreground)] transition-colors hover:bg-[var(--card-hover)]";
   const content = (
     <>
-      <span className="block font-medium">{item.label}</span>
+      <span
+        className={
+          count
+            ? "flex items-center gap-2 whitespace-nowrap font-medium"
+            : "flex flex-wrap items-center gap-x-2 gap-y-1 font-medium"
+        }
+      >
+        {item.label}
+        {count && (
+          <span className="whitespace-nowrap rounded-full bg-[var(--card-hover)] px-1.5 py-0.5 text-[0.65rem] font-semibold tabular-nums text-[var(--muted)]">
+            {formatCount(count.count)} {count.unit}
+          </span>
+        )}
+      </span>
       {item.description && (
         <span className="block text-xs text-[var(--muted)]">
           {item.description}
@@ -152,7 +179,8 @@ function ItemLink({ item }: { item: DropdownItem }) {
   );
 }
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  const counts = await getSocialCounts();
   return (
     <header className="sticky top-0 z-30 border-b border-[var(--border)] bg-[var(--background)]">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
@@ -183,16 +211,21 @@ export function SiteHeader() {
             className="invisible absolute left-0 top-full z-40 pt-2 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 hidden md:block"
             role="menu"
           >
-            <div className="grid w-[min(90vw,720px)] grid-cols-1 gap-4 rounded-lg border border-[var(--border)] bg-[var(--background)] p-4 shadow-lg md:grid-cols-4">
+            <div className="grid w-[min(94vw,980px)] grid-cols-1 gap-5 rounded-lg border border-[var(--border)] bg-[var(--background)] p-5 shadow-lg md:grid-cols-5">
               {GROUPS.map((group) => (
                 <div key={group.heading}>
-                  <div className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
+                  <div className="mb-2 flex items-center gap-2 px-3 text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
                     {group.heading}
+                    {group.badge && (
+                      <span className="bg-[var(--badge-bg)] px-1.5 py-0.5 text-[0.6rem] font-bold uppercase tracking-wide text-[var(--badge-text)]">
+                        {group.badge}
+                      </span>
+                    )}
                   </div>
                   <ul className="flex flex-col">
                     {group.items.map((item) => (
                       <li key={item.href}>
-                        <ItemLink item={item} />
+                        <ItemLink item={item} count={counts[item.href]} />
                       </li>
                     ))}
                   </ul>
