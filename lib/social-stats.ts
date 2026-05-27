@@ -1,24 +1,23 @@
 import { SOCIAL_URLS } from "@/lib/external-urls";
 
-// Live social counts. Server-only, cached 1h via fetch revalidate.
-// Only sources with a free, working endpoint are wired up. Others return
-// null and the UI simply hides the number (link stays).
+// Social follower counts shown in the header dropdown. Server-side, 1h cache.
 //
-// YouTube: mixerno.space public counter (no key). X / Instagram / LinkedIn
-// have no free count API as of 2026-05 -> null.
+// Instagram has a free unofficial endpoint that works from normal IPs but is
+// blocked from Vercel's egress IPs -> we try it live and fall back to a static
+// value when it returns nothing. X / LinkedIn have no free count API at all, so
+// they're static. Update the static numbers manually as they grow.
 
 const REVALIDATE_SECONDS = 3600;
 
-// Vaulto YouTube channel id (resolved from @vaultoAI). Override via env.
-const YOUTUBE_CHANNEL_ID =
-  process.env.YOUTUBE_CHANNEL_ID ?? "UCXJcOmkkNa0GTJBDPb9X7og";
-
-type MixernoStats = {
-  counts?: { value: string; count: number }[];
-};
-
 // Vaulto Instagram handle (from instagram.com/vaulto.fi). Override via env.
 const INSTAGRAM_HANDLE = process.env.INSTAGRAM_HANDLE ?? "vaulto.fi";
+
+// Manual fallbacks used when no live value is available.
+const STATIC_COUNTS = {
+  instagram: 10495,
+  x: 222,
+  linkedin: 400,
+} as const;
 
 type IgProfile = {
   data?: { user?: { edge_followed_by?: { count?: number } } };
@@ -54,40 +53,24 @@ async function fetchInstagramFollowers(): Promise<number | null> {
   }
 }
 
-async function fetchYouTubeSubscribers(): Promise<number | null> {
-  try {
-    const res = await fetch(
-      `https://mixerno.space/api/youtube-channel-counter/user/${YOUTUBE_CHANNEL_ID}`,
-      {
-        headers: { Accept: "application/json", "User-Agent": "Mozilla/5.0" },
-        next: { revalidate: REVALIDATE_SECONDS },
-      },
-    );
-    if (!res.ok) return null;
-    const data = (await res.json()) as MixernoStats | null;
-    const subs = data?.counts?.find((c) => c.value === "subscribers")?.count;
-    return typeof subs === "number" && Number.isFinite(subs) ? subs : null;
-  } catch {
-    return null;
-  }
-}
-
 export type SocialCount = { count: number; unit: string };
 
 /**
- * Returns a map of social link href -> live count + unit (or null when
- * unavailable). Keyed by href so callers can match items without extra plumbing.
+ * Returns a map of social link href -> count + unit. Instagram is live with a
+ * static fallback; X / LinkedIn are static. Keyed by href so callers match
+ * items without extra plumbing.
  */
 export async function getSocialCounts(): Promise<
-  Record<string, SocialCount | null>
+  Record<string, SocialCount>
 > {
-  const [instagram] = await Promise.all([fetchInstagramFollowers()]);
+  const [instagramLive] = await Promise.all([fetchInstagramFollowers()]);
   return {
-    [SOCIAL_URLS.instagram]:
-      instagram === null ? null : { count: instagram, unit: "followers" },
-    // No free count API for X / LinkedIn -> static, update manually.
-    [SOCIAL_URLS.x]: { count: 222, unit: "followers" },
-    [SOCIAL_URLS.linkedin]: { count: 400, unit: "followers" },
+    [SOCIAL_URLS.instagram]: {
+      count: instagramLive ?? STATIC_COUNTS.instagram,
+      unit: "followers",
+    },
+    [SOCIAL_URLS.x]: { count: STATIC_COUNTS.x, unit: "followers" },
+    [SOCIAL_URLS.linkedin]: { count: STATIC_COUNTS.linkedin, unit: "followers" },
   };
 }
 
