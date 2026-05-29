@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { CompanyLogo } from "@/components/CompanyLogo";
 
 // =============================================================================
@@ -422,6 +422,224 @@ export function ChainDiagram() {
         </div>
       </div>
 
+    </div>
+  );
+}
+
+// =============================================================================
+// EXPOSURE FLOW - How Vaulto derives on-chain exposure to private companies:
+// Nasdaq Private Market (data oracle) -> Polymarket (prediction markets) ->
+// Vaulto engine (implied valuation) -> ERC-20 token.
+// =============================================================================
+
+const NASDAQ_BLUE = "#0092CF";
+const POLYMARKET_BLUE = "#1652F0";
+const STRIPE_BLURPLE = "#533AFE";
+
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+    const onChange = () => setReduced(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+  return reduced;
+}
+
+// Stage 3 mini-visual — upward price chart (area fill + line) with the latest-price
+// marker at the right edge. The line stretches to fill width; the dot is overlaid as a
+// separate element so it stays perfectly round.
+function ProbabilityCurve() {
+  const line = "M2 40 L16 36 L30 38 L44 30 L58 32 L72 24 L86 20 L100 13 L118 6";
+  return (
+    <div className="relative h-12 w-full">
+      <svg viewBox="0 0 120 48" className="h-full w-full" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="vaultoCurve" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#3b82f6" />
+            <stop offset="100%" stopColor="#06b6d4" />
+          </linearGradient>
+          <linearGradient id="vaultoFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.22" />
+            <stop offset="100%" stopColor="#06b6d4" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <path d={`${line} L118 48 L2 48 Z`} fill="url(#vaultoFill)" stroke="none" />
+        <path d={line} fill="none" stroke="url(#vaultoCurve)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      {/* latest-price marker at the top-right end of the line */}
+      <span className="absolute" style={{ left: "98%", top: "12.5%", transform: "translate(-50%,-50%)" }}>
+        <span className="block h-2 w-2 rounded-full bg-cyan-500" />
+        <span className="absolute inset-0 rounded-full bg-cyan-500/40 animate-ping" />
+      </span>
+    </div>
+  );
+}
+
+type FlowStage = {
+  title: string;
+  caption: string;
+  tile: ReactNode;
+  tileClass: string;
+  tileStyle?: React.CSSProperties;
+  detail: ReactNode;
+};
+
+export function ExposureFlow() {
+  const reduced = usePrefersReducedMotion();
+  const [step, setStep] = useState(0);
+  const [implied, setImplied] = useState(348);
+  const impliedPct = (((implied - 340) / 340) * 100).toFixed(1);
+
+  const stages: FlowStage[] = [
+    {
+      title: "Nasdaq Private Market",
+      caption: "Real valuation & transaction data settles each market.",
+      tile: (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img src="/nasdaq-pm-logo-cropped.png" alt="Nasdaq Private Market" className="h-7 w-7 sm:h-8 sm:w-8 object-contain" />
+      ),
+      tileClass: "bg-white border border-[var(--border)]",
+      detail: (
+        <span
+          className="inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-[11px] sm:text-xs font-medium"
+          style={{ borderColor: `${NASDAQ_BLUE}33`, color: NASDAQ_BLUE, backgroundColor: `${NASDAQ_BLUE}0d` }}
+        >
+          Oracle data feed
+        </span>
+      ),
+    },
+    {
+      title: "Polymarket",
+      caption: "Prediction-market odds across binary valuation tiers.",
+      tile: <CompanyLogo name="Polymarket" size={28} className="sm:w-8 sm:h-8" />,
+      tileClass: "overflow-hidden",
+      tileStyle: { backgroundColor: POLYMARKET_BLUE },
+      detail: (
+        <div className="flex flex-col gap-1">
+          {[
+            { t: "≥ $400B", p: "0.38" },
+            { t: "≥ $300B", p: "0.62" },
+          ].map((row) => (
+            <div
+              key={row.t}
+              className="flex items-center justify-between gap-3 rounded-md border border-[var(--border)] bg-[var(--foreground)]/[0.02] px-2 py-1 text-[11px] sm:text-xs"
+            >
+              <span className="font-medium text-[var(--foreground)]">{row.t}</span>
+              <span className="font-mono tabular-nums" style={{ color: POLYMARKET_BLUE }}>
+                {row.p}
+              </span>
+            </div>
+          ))}
+        </div>
+      ),
+    },
+    {
+      title: "Vaulto Engine",
+      caption: "Probability-curve 50th percentile sets the implied valuation.",
+      tile: (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img src="/vaulto-bimi.svg" alt="Vaulto" className="h-8 w-8 sm:h-9 sm:w-9 rounded-md object-contain" />
+      ),
+      tileClass: "bg-white border border-[var(--border)] overflow-hidden",
+      detail: (
+        <div className="rounded-md border border-[var(--border)] bg-[var(--foreground)]/[0.02] px-2.5 pt-2 pb-1.5">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] uppercase tracking-wider text-[var(--muted)]">Implied valuation</span>
+            <span className="inline-flex items-center gap-0.5 rounded bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-medium text-emerald-600">
+              <svg className="h-2.5 w-2.5" viewBox="0 0 12 12" fill="none">
+                <path d="M6 2.5 6 9.5M6 2.5 3 5.5M6 2.5 9 5.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              {impliedPct}%
+            </span>
+          </div>
+          <div className="font-mono text-lg font-bold tabular-nums leading-tight text-[var(--foreground)]">
+            ${implied}B
+          </div>
+          <div className="mt-1">
+            <ProbabilityCurve />
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "vSTRIPE · ERC-20",
+      caption: "Tokenized exposure you can trade 24/7, on-chain.",
+      tile: <CompanyLogo name="Stripe" size={28} className="sm:w-8 sm:h-8" />,
+      tileClass: "overflow-hidden",
+      tileStyle: { backgroundColor: STRIPE_BLURPLE },
+      detail: (
+        <span className="inline-flex items-center gap-1.5 rounded-md border border-blue-500/25 bg-blue-500/[0.06] px-2 py-1 text-[11px] sm:text-xs font-medium text-blue-500">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+          Tradable on-chain
+        </span>
+      ),
+    },
+  ];
+
+  useEffect(() => {
+    if (reduced) {
+      setStep(stages.length - 1);
+      return;
+    }
+    const interval = setInterval(() => {
+      setStep((prev) => {
+        const next = (prev + 1) % stages.length;
+        if (next === 2) setImplied(340 + Math.floor(Math.random() * 18));
+        return next;
+      });
+    }, 1900);
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reduced]);
+
+  return (
+    <div className="rounded-2xl bg-gradient-to-br from-blue-500/[0.04] via-transparent to-cyan-500/[0.04] p-4 sm:p-6">
+      <div className="relative">
+        {/* Vertical connector aligned to icon-tile centers */}
+        <div
+          className="absolute left-[21px] sm:left-[23px] top-6 bottom-10 w-px bg-gradient-to-b from-blue-500/30 via-cyan-500/40 to-blue-500/30"
+          aria-hidden
+        />
+        {/* Descending data packet */}
+        {!reduced && (
+          <div
+            className="absolute left-[16px] sm:left-[18px] z-20 h-2.5 w-2.5 rounded-full bg-cyan-400 shadow-[0_0_10px_2px_rgba(6,182,212,0.6)]"
+            style={{
+              top: `${(step + 0.5) * (100 / stages.length)}%`,
+              transform: "translateY(-50%)",
+              transition: "top 0.9s cubic-bezier(0.4,0,0.2,1)",
+            }}
+            aria-hidden
+          />
+        )}
+
+        <div className="flex flex-col">
+          {stages.map((stage, i) => (
+            <div key={stage.title} className="relative flex items-start gap-3 sm:gap-4 pb-5 last:pb-0">
+              <div
+                className={`relative z-10 flex h-11 w-11 sm:h-12 sm:w-12 flex-shrink-0 items-center justify-center rounded-xl shadow-sm transition-all duration-500 ${stage.tileClass} ${
+                  step === i ? "ring-2 ring-cyan-500/60 scale-105 shadow-md" : ""
+                }`}
+                style={stage.tileStyle}
+              >
+                {stage.tile}
+              </div>
+              <div className="min-w-0 flex-1 pt-0.5">
+                <span className="text-sm sm:text-base font-semibold text-[var(--foreground)]">
+                  {stage.title}
+                </span>
+                <p className="mt-0.5 text-xs sm:text-sm text-[var(--muted)] leading-snug">
+                  {stage.caption}
+                </p>
+                <div className="mt-2">{stage.detail}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

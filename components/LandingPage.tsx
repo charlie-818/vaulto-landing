@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { HeroSection } from "./landing/HeroSection";
 import { FeatureSection } from "./landing/FeatureSection";
-import { TokenTicker, BasketBuilder, CodeBlock, ChainDiagram } from "./landing/FeatureVisuals";
+import { TokenTicker, BasketBuilder, CodeBlock, ChainDiagram, ExposureFlow } from "./landing/FeatureVisuals";
 import { LandingFooter } from "./landing/LandingFooter";
 import { signupEmail } from "@/lib/waitlist-client";
 import { GoogleSignInButton } from "./GoogleSignInButton";
@@ -108,12 +108,40 @@ export function LandingPage() {
       />
 
       <FeatureSection
+        id="how-it-works"
+        badge="Price Discovery"
+        headline="From Private Markets to On-Chain Exposure"
+        subheadline="Real Nasdaq data resolves Polymarket odds. Vaulto turns those odds into a live, tradable token."
+        theme="blue"
+        reversed
+        features={[
+          {
+            title: "Nasdaq-Resolved",
+            description: "Nasdaq Private Market data settles every market.",
+            highlight: true,
+          },
+          {
+            title: "Prediction-Market Odds",
+            description: "Polymarket prices each company's odds of hitting a valuation.",
+            highlight: true,
+          },
+          { title: "Implied valuation from the probability curve" },
+          { title: "Tokenized as a tradable ERC-20" },
+        ]}
+        visual={<ExposureFlow />}
+        actionButton={{
+          text: "Read Whitepaper",
+          onClick: () =>
+            window.open("https://app.vaulto.fi/whitepaper.pdf", "_blank", "noopener,noreferrer"),
+        }}
+      />
+
+      <FeatureSection
         id="amm"
         badge="Price Oracle AMM"
         headline="Institutional-Grade Liquidity"
         subheadline="Deep liquidity. Minimal slippage."
         theme="blue"
-        reversed
         features={[
           {
             title: "Concentrated Liquidity",
@@ -139,6 +167,7 @@ export function LandingPage() {
         headline="Build & Share Your Own ETF"
         subheadline="Pick the tokens. Set the weights. Friends trade your basket."
         theme="cyan"
+        reversed
         features={[
           {
             title: "Mix Public & Private",
@@ -166,7 +195,6 @@ export function LandingPage() {
         headline="One Token, Multiple Chains"
         subheadline="Seamless cross-chain transfers."
         theme="cyan"
-        reversed
         features={[
           {
             title: "BNB + Polygon",
