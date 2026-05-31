@@ -70,6 +70,16 @@ const GROUPS: DropdownGroup[] = [
     ],
   },
   {
+    heading: "Resources",
+    items: [
+      {
+        label: "FAQ",
+        href: "/faq",
+        description: "Common questions about Vaulto",
+      },
+    ],
+  },
+  {
     heading: "SEC compliance",
     items: [
       {
@@ -139,23 +149,15 @@ function ItemLink({ item, count }: { item: DropdownItem; count?: SocialCount | n
     "block rounded-md px-3 py-2 text-sm text-[var(--foreground)] transition-colors hover:bg-[var(--card-hover)]";
   const content = (
     <>
-      <span
-        className={
-          count
-            ? "flex items-center gap-2 whitespace-nowrap font-medium"
-            : "flex flex-wrap items-center gap-x-2 gap-y-1 font-medium"
-        }
-      >
-        {item.label}
-        {count && (
-          <span className="whitespace-nowrap rounded-full bg-[var(--card-hover)] px-1.5 py-0.5 text-[0.65rem] font-semibold tabular-nums text-[var(--muted)]">
-            {formatCount(count.count)} {count.unit}
-          </span>
-        )}
-      </span>
+      <span className="block font-medium">{item.label}</span>
       {item.description && (
         <span className="block text-xs text-[var(--muted)]">
           {item.description}
+        </span>
+      )}
+      {count && (
+        <span className="mt-1 inline-block whitespace-nowrap rounded-full bg-[var(--card-hover)] px-1.5 py-0.5 text-[0.65rem] font-semibold tabular-nums text-[var(--muted)]">
+          {formatCount(count.count)} {count.unit}
         </span>
       )}
     </>
@@ -211,7 +213,7 @@ export async function SiteHeader() {
             className="invisible absolute left-0 top-full z-40 pt-2 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 hidden md:block"
             role="menu"
           >
-            <div className="grid w-[min(94vw,980px)] grid-cols-1 gap-5 rounded-lg border border-[var(--border)] bg-[var(--background)] p-5 shadow-lg md:grid-cols-5">
+            <div className="grid w-[min(94vw,1080px)] grid-cols-1 gap-5 rounded-lg border border-[var(--border)] bg-[var(--background)] p-5 shadow-lg md:grid-cols-6">
               {GROUPS.map((group) => (
                 <div key={group.heading}>
                   <div className="mb-2 flex items-center gap-2 px-3 text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
@@ -236,6 +238,12 @@ export async function SiteHeader() {
         </div>
 
         <nav className="hidden items-center gap-6 text-sm md:flex">
+          <Link
+            href="/faq"
+            className="text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
+          >
+            FAQ
+          </Link>
           <Link
             href="/compliance"
             className="text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
