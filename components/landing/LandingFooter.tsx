@@ -108,11 +108,11 @@ export function LandingFooter() {
           <BadgeSegment label="Featured In">
             <a href="https://www.every.io/blog-post/charlie-bicker-caarten-is-building-vaulto-to-expand-access-to-private-markets" target="_blank" rel="noopener noreferrer" className="inline-flex text-[var(--foreground)]/80 transition-colors hover:text-[var(--foreground)]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/partners/every.svg" alt="Every.io" className="h-4 sm:h-6 w-auto" />
+              <img src="/partners/every.svg" alt="Every.io" className="h-3 sm:h-5 w-auto" />
             </a>
             <a href="https://my.pitchbook.com/profile/895353-13/company/profile" target="_blank" rel="noopener noreferrer" className="inline-flex" aria-label="PitchBook">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/partners/pitchbook.png" alt="PitchBook" className="h-4 sm:h-6 w-auto opacity-80 transition-opacity hover:opacity-100" />
+              <img src="/partners/pitchbook.png" alt="PitchBook" className="h-3 sm:h-5 w-auto opacity-80 transition-opacity hover:opacity-100" />
             </a>
           </BadgeSegment>
 
