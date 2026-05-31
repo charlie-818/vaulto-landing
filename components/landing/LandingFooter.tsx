@@ -95,9 +95,9 @@ export function LandingFooter() {
         {/* Credibility band */}
         <div className="mt-8 sm:mt-10 border-t border-[var(--border)] pt-6 sm:pt-8 flex flex-row items-stretch justify-around sm:justify-between gap-2 sm:gap-10">
           <BadgeSegment label="Built On">
-            <a href="https://base.org" target="_blank" rel="noopener noreferrer" className="inline-flex" aria-label="Base">
+            <a href="https://polygon.technology" target="_blank" rel="noopener noreferrer" className="inline-flex" aria-label="Polygon">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/partners/base.svg" alt="Base" className="h-4 sm:h-6 w-auto opacity-80 transition-opacity hover:opacity-100" />
+              <img src="/partners/polygon.svg" alt="Polygon" className="h-5 sm:h-8 w-auto opacity-80 transition-opacity hover:opacity-100" />
             </a>
             <a href="https://www.bnbchain.org" target="_blank" rel="noopener noreferrer" className="inline-flex" aria-label="BNB Chain">
               {/* eslint-disable-next-line @next/next/no-img-element */}

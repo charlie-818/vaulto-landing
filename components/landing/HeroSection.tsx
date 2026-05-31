@@ -13,7 +13,7 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
   };
 
   return (
-    <section className="relative flex min-h-[112svh] sm:min-h-[111.2vh] lg:min-h-[calc(110vh-3.5rem)] flex-col items-center justify-start pt-[16svh] sm:justify-center sm:pt-0 overflow-hidden px-6 lg:pl-6 lg:pr-[10rem] pb-[8svh] sm:pb-[14vh] lg:pb-[17vh]">
+    <section className="relative flex min-h-[100svh] sm:min-h-[111.2vh] lg:min-h-[calc(110vh-3.5rem)] flex-col items-center justify-start pt-[20svh] sm:justify-center sm:pt-0 overflow-hidden px-6 lg:pl-6 lg:pr-[10rem] pb-[6svh] sm:pb-[14vh] lg:pb-[17vh]">
       {/* Mobile radial gradient backdrop */}
       <div className="sm:hidden absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.15)_0%,transparent_70%)]" />
 
@@ -53,8 +53,8 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
         {/* Left: Text content */}
         <div className="text-center lg:text-left sm:pt-4 lg:pt-0">
           {/* Backed By */}
-          <div className="animate-fade-in-up animation-delay-100 mb-2 sm:-mb-1 flex items-center justify-center lg:justify-start gap-4 sm:gap-5">
-            <span className="text-sm sm:text-base lg:text-lg font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
+          <div className="animate-fade-in-up animation-delay-100 mb-5 sm:-mb-1 flex items-center justify-center lg:justify-start gap-4 sm:gap-5">
+            <span className="text-base sm:text-base lg:text-lg font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
               Backed By
             </span>
             <Image
@@ -62,20 +62,20 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
               alt="UCLA Anderson Venture Accelerator"
               width={486}
               height={208}
-              className="h-16 sm:h-20 lg:h-24 w-auto"
+              className="h-20 sm:h-20 lg:h-24 w-auto"
             />
           </div>
 
           {/* Tagline */}
-          <h1 className="animate-fade-in-up animation-delay-200 -mb-1 sm:-mb-2 text-[1.625rem] sm:text-4xl md:text-5xl lg:text-6xl font-medium sm:font-light tracking-tight text-[var(--foreground)] whitespace-nowrap">
+          <h1 className="animate-fade-in-up animation-delay-200 -mb-1 sm:-mb-2 text-[2.25rem] leading-[1.1] sm:leading-normal sm:text-4xl md:text-5xl lg:text-6xl font-medium sm:font-light tracking-tight text-[var(--foreground)] whitespace-normal sm:whitespace-nowrap">
             Trade Private Companies
           </h1>
-          <h1 className="animate-fade-in-up animation-delay-300 mb-2 sm:mb-6 bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-500 bg-clip-text text-[1.625rem] sm:text-4xl md:text-5xl lg:text-6xl font-bold sm:font-semibold tracking-tight text-transparent pb-1 whitespace-nowrap">
+          <h1 className="animate-fade-in-up animation-delay-300 mb-6 bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-500 bg-clip-text text-[2.25rem] leading-[1.1] sm:leading-normal sm:text-4xl md:text-5xl lg:text-6xl font-bold sm:font-semibold tracking-tight text-transparent pb-1 whitespace-normal sm:whitespace-nowrap">
             Before They Go Public
           </h1>
 
           {/* Subtitle */}
-          <p className="animate-fade-in-up animation-delay-400 mb-4 sm:mb-10 max-w-[280px] sm:max-w-md lg:max-w-xl text-sm sm:text-lg text-[var(--muted)] mx-auto lg:mx-0">
+          <p className="animate-fade-in-up animation-delay-400 mb-8 sm:mb-10 max-w-[340px] sm:max-w-md lg:max-w-xl text-base sm:text-lg text-[var(--muted)] mx-auto lg:mx-0">
             <span className="sm:hidden">
               Pre-IPO tokens for the world's top private companies, priced by prediction markets.
             </span>
