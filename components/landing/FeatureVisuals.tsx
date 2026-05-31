@@ -485,11 +485,13 @@ type FlowStage = {
   tileClass: string;
   tileStyle?: React.CSSProperties;
   detail: ReactNode;
+  accent: string;
 };
 
 export function ExposureFlow() {
   const reduced = usePrefersReducedMotion();
   const [step, setStep] = useState(0);
+  const [hovered, setHovered] = useState<number | null>(null);
   const [implied, setImplied] = useState(348);
   const impliedPct = (((implied - 340) / 340) * 100).toFixed(1);
 
@@ -497,6 +499,7 @@ export function ExposureFlow() {
     {
       title: "Nasdaq Private Market",
       caption: "Real valuation & transaction data settles each market.",
+      accent: NASDAQ_BLUE,
       tile: (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img src="/nasdaq-pm-logo-cropped.png" alt="Nasdaq Private Market" className="h-7 w-7 sm:h-8 sm:w-8 object-contain" />
@@ -514,6 +517,7 @@ export function ExposureFlow() {
     {
       title: "Polymarket",
       caption: "Prediction-market odds across binary valuation tiers.",
+      accent: POLYMARKET_BLUE,
       tile: <CompanyLogo name="Polymarket" size={28} className="sm:w-8 sm:h-8" />,
       tileClass: "overflow-hidden",
       tileStyle: { backgroundColor: POLYMARKET_BLUE },
@@ -539,6 +543,7 @@ export function ExposureFlow() {
     {
       title: "Vaulto Engine",
       caption: "Probability-curve 50th percentile sets the implied valuation.",
+      accent: "#06b6d4",
       tile: (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img src="/vaulto-bimi.svg" alt="Vaulto" className="h-8 w-8 sm:h-9 sm:w-9 rounded-md object-contain" />
@@ -567,6 +572,7 @@ export function ExposureFlow() {
     {
       title: "vSTRIPE · ERC-20",
       caption: "Tokenized exposure you can trade 24/7, on-chain.",
+      accent: STRIPE_BLURPLE,
       tile: <CompanyLogo name="Stripe" size={28} className="sm:w-8 sm:h-8" />,
       tileClass: "overflow-hidden",
       tileStyle: { backgroundColor: STRIPE_BLURPLE },
@@ -584,6 +590,8 @@ export function ExposureFlow() {
       setStep(stages.length - 1);
       return;
     }
+    // Pause auto-cycle while the user hovers a card.
+    if (hovered !== null) return;
     const interval = setInterval(() => {
       setStep((prev) => {
         const next = (prev + 1) % stages.length;
@@ -593,52 +601,63 @@ export function ExposureFlow() {
     }, 1900);
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reduced]);
+  }, [reduced, hovered]);
 
   return (
     <div className="rounded-2xl bg-gradient-to-br from-blue-500/[0.04] via-transparent to-cyan-500/[0.04] p-4 sm:p-6">
-      <div className="relative">
-        {/* Vertical connector aligned to icon-tile centers */}
-        <div
-          className="absolute left-[21px] sm:left-[23px] top-6 bottom-10 w-px bg-gradient-to-b from-blue-500/30 via-cyan-500/40 to-blue-500/30"
-          aria-hidden
-        />
-        {/* Descending data packet */}
-        {!reduced && (
-          <div
-            className="absolute left-[16px] sm:left-[18px] z-20 h-2.5 w-2.5 rounded-full bg-cyan-400 shadow-[0_0_10px_2px_rgba(6,182,212,0.6)]"
-            style={{
-              top: `${(step + 0.5) * (100 / stages.length)}%`,
-              transform: "translateY(-50%)",
-              transition: "top 0.9s cubic-bezier(0.4,0,0.2,1)",
-            }}
-            aria-hidden
-          />
-        )}
-
-        <div className="flex flex-col">
-          {stages.map((stage, i) => (
-            <div key={stage.title} className="relative flex items-start gap-3 sm:gap-4 pb-5 last:pb-0">
-              <div
-                className={`relative z-10 flex h-11 w-11 sm:h-12 sm:w-12 flex-shrink-0 items-center justify-center rounded-xl shadow-sm transition-all duration-500 ${stage.tileClass} ${
-                  step === i ? "ring-2 ring-cyan-500/60 scale-105 shadow-md" : ""
-                }`}
-                style={stage.tileStyle}
-              >
-                {stage.tile}
-              </div>
-              <div className="min-w-0 flex-1 pt-0.5">
-                <span className="text-sm sm:text-base font-semibold text-[var(--foreground)]">
-                  {stage.title}
-                </span>
-                <p className="mt-0.5 text-xs sm:text-sm text-[var(--muted)] leading-snug">
-                  {stage.caption}
-                </p>
-                <div className="mt-2">{stage.detail}</div>
+      {/* Stack of tabs — each stage is its own colored card. Collapsed shows logo +
+          title; the active/hovered card expands its caption + detail. */}
+      <div className="flex flex-col gap-2 sm:gap-2.5">
+        {stages.map((stage, i) => {
+          // Hover wins over auto-cycle: the hovered card is the active/open one.
+          const active = hovered !== null ? hovered === i : step === i;
+          return (
+            <div
+              key={stage.title}
+              onMouseEnter={() => setHovered(i)}
+              onMouseLeave={() => setHovered(null)}
+              className={`relative cursor-pointer rounded-2xl border p-4 sm:p-5 transition-all duration-500 ${
+                active ? "scale-[1.02] shadow-md" : "shadow-sm"
+              }`}
+              style={{
+                zIndex: active ? stages.length + 1 : i + 1,
+                backgroundColor: `${stage.accent}${active ? "14" : "0a"}`,
+                borderColor: active ? `${stage.accent}66` : "var(--border)",
+              }}
+            >
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div
+                  className={`flex h-11 w-11 sm:h-12 sm:w-12 flex-shrink-0 items-center justify-center rounded-xl shadow-sm transition-all duration-500 ${stage.tileClass} ${
+                    active ? "scale-105 shadow-md" : ""
+                  }`}
+                  style={{
+                    ...stage.tileStyle,
+                    ...(active ? { boxShadow: `0 0 0 2px ${stage.accent}66` } : {}),
+                  }}
+                >
+                  {stage.tile}
+                </div>
+                <div className="min-w-0 flex-1 pt-1 sm:pt-1.5">
+                  <span className="text-sm sm:text-base font-semibold text-[var(--foreground)]">
+                    {stage.title}
+                  </span>
+                  {/* Caption + detail collapse when inactive. grid 0fr->1fr animates height. */}
+                  <div
+                    className="grid transition-[grid-template-rows] duration-500 ease-in-out"
+                    style={{ gridTemplateRows: active ? "1fr" : "0fr" }}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="mt-0.5 text-xs sm:text-sm text-[var(--muted)] leading-snug">
+                        {stage.caption}
+                      </p>
+                      <div className="mt-2">{stage.detail}</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </div>
   );
