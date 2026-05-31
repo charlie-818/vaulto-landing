@@ -110,7 +110,7 @@ export function LandingFooter() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/partners/every.svg" alt="Every.io" className="h-4 sm:h-6 w-auto" />
             </a>
-            <a href="https://my.pitchbook.com/profile/895353-13/company/profile" target="_blank" rel="noopener noreferrer" className="inline-flex" aria-label="PitchBook">
+            <a href="https://pitchbook.com/profiles/company/895353-13" target="_blank" rel="noopener noreferrer" className="inline-flex" aria-label="PitchBook">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/partners/pitchbook.png" alt="PitchBook" className="h-4 sm:h-6 w-auto opacity-80 transition-opacity hover:opacity-100" />
             </a>
