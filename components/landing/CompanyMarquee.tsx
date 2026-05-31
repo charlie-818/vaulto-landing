@@ -33,10 +33,10 @@ const MARQUEE_COMPANIES = [
  */
 const MarqueeItem = memo(function MarqueeItem({ company }: { company: string }) {
   return (
-    <div className="flex flex-shrink-0 items-center gap-2 sm:gap-3 md:gap-4 mr-10 sm:mr-14 md:mr-20">
-      <CompanyLogo name={company} size={32} className="sm:w-10 sm:h-10 md:w-11 md:h-11" />
+    <div className="flex flex-shrink-0 items-center gap-2.5 sm:gap-3 md:gap-4 mr-12 sm:mr-14 md:mr-20">
+      <CompanyLogo name={company} size={36} className="sm:w-10 sm:h-10 md:w-11 md:h-11" />
       <span
-        className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold tracking-tight text-[var(--foreground)]"
+        className="text-base sm:text-base md:text-lg lg:text-xl font-semibold tracking-tight text-[var(--foreground)]"
         style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}
       >
         {company}
