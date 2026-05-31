@@ -5,8 +5,8 @@
 // answer the question.
 //
 // Grounded in the live Vaulto product (../vaulto-protocol): prediction-market
-// implied-valuation exposure on ~18 private companies via Polymarket (Polygon),
-// plus Prestock synthetic-share tokens on Solana. Not the tokenization wrapper.
+// implied-valuation exposure on ~18 private companies via Polymarket (Polygon).
+// Not the tokenization wrapper.
 
 export type FaqLink = {
   label: string;
@@ -50,7 +50,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
         id: "what-can-i-trade",
         question: "What can I trade on Vaulto today?",
         answer:
-          "You can take positions on roughly 18 private companies today, including SpaceX, OpenAI, Anthropic, Stripe, Databricks, Anduril, Perplexity, Kraken, Neuralink, Canva, Lambda, and Epic Games, plus markets such as Discord, Strava, Consensys, Ledger, Fannie Mae, and Freddie Mac. Each tracks the company's implied IPO valuation from Polymarket. Several companies also have Prestock synthetic-share tokens you can trade on Solana.",
+          "You can take positions on roughly 18 private companies today, including SpaceX, OpenAI, Anthropic, Stripe, Databricks, Anduril, Perplexity, Kraken, Neuralink, Canva, Lambda, and Epic Games, plus markets such as Discord, Strava, Consensys, Ledger, Fannie Mae, and Freddie Mac. Each tracks the company's implied IPO valuation from Polymarket.",
       },
       {
         id: "long-vs-short",
@@ -62,7 +62,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
         id: "what-chain",
         question: "What blockchain does Vaulto run on?",
         answer:
-          "Prediction-market positions settle on Polygon using USDC as collateral, routed through the underlying Polymarket markets. Prestock synthetic-share tokens trade on Solana. You trade from a built-in wallet, so you do not need to set up a separate wallet or bridge funds yourself.",
+          "Prediction-market positions settle on Polygon using USDC as collateral, routed through the underlying Polymarket markets. You trade from a built-in wallet, so you do not need to set up a separate wallet or bridge funds yourself.",
       },
       {
         id: "how-price-set",
@@ -86,7 +86,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
         id: "fees",
         question: "What are Vaulto's fees?",
         answer:
-          "Private-company prediction markets carry a fee of about 4% (400 bps) on the traded amount, shown before you confirm an order. There are no recurring, holding, or management fees. Prestock token swaps on Solana incur the usual Jupiter and Solana network costs.",
+          "Private-company prediction markets carry a fee of about 4% (400 bps) on the traded amount, shown before you confirm an order. There are no recurring, holding, or management fees.",
       },
       {
         id: "need-wallet",
@@ -111,31 +111,31 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
         id: "custodial",
         question: "Is Vaulto custodial? Does it hold my funds?",
         answer:
-          "Vaulto is non-custodial. Trades execute on public venues — Polymarket on Polygon and Jupiter on Solana — and your collateral and positions sit in your own built-in wallet, not on a Vaulto balance sheet. You stay in control of your funds throughout.",
+          "Vaulto is non-custodial. Trades execute on a public venue — Polymarket on Polygon — and your collateral and positions sit in your own built-in wallet, not on a Vaulto balance sheet. You stay in control of your funds throughout.",
       },
       {
         id: "if-offline",
         question: "What happens if Vaulto goes offline?",
         answer:
-          "Your assets stay with you. Positions live on the underlying public markets and in your own wallet, not inside Vaulto, so an outage of the Vaulto app does not lock up or seize your funds. Your USDC and any open positions remain accessible on Polygon and Solana directly.",
+          "Your assets stay with you. Positions live on the underlying public markets and in your own wallet, not inside Vaulto, so an outage of the Vaulto app does not lock up or seize your funds. Your USDC and any open positions remain accessible on Polygon directly.",
       },
       {
         id: "audited",
         question: "Is Vaulto safe to use?",
         answer:
-          "Vaulto routes trades to established venues such as Polymarket and Jupiter rather than running its own custody contracts for these positions, which keeps the trust surface small. Even so, this is early software in an inherently high-risk category — only commit what you can afford to lose.",
+          "Vaulto routes trades to an established venue such as Polymarket rather than running its own custody contracts for these positions, which keeps the trust surface small. Even so, this is early software in an inherently high-risk category — only commit what you can afford to lose.",
       },
       {
         id: "where-execute",
         question: "Where do my trades actually execute?",
         answer:
-          "Prediction-market positions execute against the Polymarket order book on Polygon, settled in USDC. Prestock synthetic-share tokens trade on Jupiter on Solana. The Vaulto API supplies the implied-valuation data that drives pricing across the app.",
+          "Prediction-market positions execute against the Polymarket order book on Polygon, settled in USDC. The Vaulto API supplies the implied-valuation data that drives pricing across the app.",
       },
       {
         id: "risks",
         question: "What are the main risks?",
         answer:
-          "Trading private-company exposure is high-risk. A position's value tracks Polymarket's implied valuation and can move sharply or settle to zero when a market resolves. Vaulto depends on Polymarket (Polygon) and, for Prestock tokens, Solana liquidity, so it inherits their risks. Vaulto positions are not securities, deposits, or yield products — only commit what you can afford to lose.",
+          "Trading private-company exposure is high-risk. A position's value tracks Polymarket's implied valuation and can move sharply or settle to zero when a market resolves. Vaulto depends on Polymarket (Polygon), so it inherits its risks. Vaulto positions are not securities, deposits, or yield products — only commit what you can afford to lose.",
         links: [{ label: "Read the compliance docs", href: "/compliance" }],
       },
     ],
