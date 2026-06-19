@@ -13,6 +13,7 @@ import {
   UNISWAP,
   polygonscanAddress,
   polygonscanToken,
+  uniswapPool,
   type Asset,
   type AssetStatus,
 } from "@/lib/deployments-data";
@@ -217,7 +218,11 @@ export default function TransparencyPage() {
                   <td className="px-4 py-3 text-[var(--muted)]">{UNISWAP.config.fee}</td>
                   <td className="px-4 py-3">
                     {p.pool ? (
-                      <AddressPill address={p.pool} href={polygonscanAddress(p.pool)} />
+                      <AddressPill
+                        address={p.pool}
+                        href={uniswapPool(p.pool)}
+                        explorerName="Uniswap"
+                      />
                     ) : (
                       <SeedingSoon />
                     )}

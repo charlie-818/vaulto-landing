@@ -14,6 +14,7 @@ export const DEPLOYMENTS_UPDATED = "2026-06-18";
 
 export const polygonscanAddress = (a: string) => `${NETWORK.explorer}/address/${a}`;
 export const polygonscanToken = (a: string) => `${NETWORK.explorer}/token/${a}`;
+export const uniswapPool = (a: string) => `https://app.uniswap.org/explore/pools/polygon/${a}`;
 
 export type AssetStatus = "live" | "staged" | "coming-soon";
 

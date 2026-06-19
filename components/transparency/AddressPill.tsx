@@ -11,10 +11,11 @@ function truncate(addr: string) {
 type Props = {
   address: string;
   href: string;
+  explorerName?: string;
   className?: string;
 };
 
-export function AddressPill({ address, href, className = "" }: Props) {
+export function AddressPill({ address, href, explorerName = "Polygonscan", className = "" }: Props) {
   const [copied, setCopied] = useState(false);
 
   async function copy() {
@@ -35,7 +36,7 @@ export function AddressPill({ address, href, className = "" }: Props) {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        title={`${address} — view on Polygonscan`}
+        title={`${address} — view on ${explorerName}`}
         style={MONO}
         className="tabular-nums text-[var(--foreground)] transition-colors hover:text-blue-600"
       >
@@ -65,8 +66,8 @@ export function AddressPill({ address, href, className = "" }: Props) {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="View on Polygonscan"
-        title="View on Polygonscan"
+        aria-label={`View on ${explorerName}`}
+        title={`View on ${explorerName}`}
         className="grid h-4 w-4 place-items-center text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
       >
         <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
