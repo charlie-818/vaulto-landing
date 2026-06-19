@@ -10,7 +10,7 @@ export const NETWORK = {
   logo: "/partners/polygon.svg",
 } as const;
 
-export const DEPLOYMENTS_UPDATED = "2026-06-18";
+export const DEPLOYMENTS_UPDATED = "2026-06-19";
 
 export const polygonscanAddress = (a: string) => `${NETWORK.explorer}/address/${a}`;
 export const polygonscanToken = (a: string) => `${NETWORK.explorer}/token/${a}`;
@@ -85,7 +85,7 @@ export const ASSETS: Asset[] = [
     name: "OpenAI",
     symbolBase: "vOPENAI",
     category: "AI",
-    status: "staged",
+    status: "live",
     vault: "0x4A53B34223E7F95f300b84545d4950b4025935A9",
     longToken: "0x316EeaA3E80bb999BC26a114CcFCB9B335819703",
     shortToken: "0xFcE264eFE8e3068C90e8925a58a85a839782CF2F",
@@ -97,11 +97,12 @@ export const ASSETS: Asset[] = [
     name: "Anduril",
     symbolBase: "vANDURIL",
     category: "Defense",
-    status: "staged",
+    status: "live",
     vault: "0x10429886F2D854C4863715de51134474EDbdA3a4",
     longToken: "0xD25aE6b9d312b66E0709184507589172388EF418",
     shortToken: "0xE416e29f167e88Bb8f2900cbf9F9e18fb800B78B",
-    // pools not yet seeded
+    longPool: "0x194FC2Dfd77BA0bF26A0e84c9Bb83A5235437E50",
+    shortPool: "0xAf6dF6491801abB46f8eB48Eb065146de3F7205c",
   },
 ];
 
