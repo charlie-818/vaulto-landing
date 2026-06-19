@@ -28,6 +28,8 @@ export function LandingFooter() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm text-[var(--muted)]">
+            <Link href="/transparency" className="transition-colors hover:text-[var(--foreground)]">Transparency</Link>
+            <span className="text-[var(--border)]">·</span>
             <Link href="/compliance" className="transition-colors hover:text-[var(--foreground)]">Compliance</Link>
             <span className="text-[var(--border)]">·</span>
             <a href="https://legal.vaulto.ai/privacy-policy" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[var(--foreground)]">Privacy</a>
@@ -77,6 +79,7 @@ export function LandingFooter() {
             <h4 className="mb-3 text-sm font-semibold text-[var(--foreground)]">Resources</h4>
             <ul className="space-y-1.5">
               <li><a href="/whitepaper.pdf" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Whitepaper</a></li>
+              <li><Link href="/transparency" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Transparency</Link></li>
               <li><Link href="/compliance" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Compliance</Link></li>
               <li><a href="https://legal.vaulto.ai/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Privacy</a></li>
               <li><a href="https://legal.vaulto.ai/terms-of-service" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Terms</a></li>

@@ -77,6 +77,11 @@ const GROUPS: DropdownGroup[] = [
         href: "/faq",
         description: "Common questions about Vaulto",
       },
+      {
+        label: "Transparency",
+        href: "/transparency",
+        description: "On-chain contracts & pools",
+      },
     ],
   },
   {
@@ -243,6 +248,12 @@ export async function SiteHeader() {
             className="text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
           >
             FAQ
+          </Link>
+          <Link
+            href="/transparency"
+            className="text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
+          >
+            Transparency
           </Link>
           <Link
             href="/compliance"
