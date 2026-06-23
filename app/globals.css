@@ -65,7 +65,41 @@ body {
 .animate-float-3 { animation: float-3 12s ease-in-out infinite; will-change: transform; contain: layout style paint; }
 .animate-fade-in-up { animation: fade-in-up 0.8s ease-out forwards; will-change: transform, opacity; }
 .animate-scale-in { animation: scale-in 0.6s ease-out forwards; will-change: transform, opacity; }
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-slide-up { animation: slide-up 0.32s cubic-bezier(0.32, 0.72, 0, 1) forwards; will-change: transform, opacity; }
 .animate-marquee { animation: marquee 30s linear infinite; transform: translateZ(0); backface-visibility: hidden; will-change: transform; contain: layout style paint; }
+
+/* Hero logo arc (mobile) — logos ride a gentle ∩ arc via offset-path. One
+   keyframe drives offset-distance 0→100%; per-logo phase/delay set inline.
+   offset-path uses fixed px coords; the arc is mobile-only, so a single
+   phone-sized path (≈340px box) suffices. Pure CSS, no JS runtime. */
+@keyframes hero-arc-travel {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+.hero-arc-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 60px;
+  /* 360px box, gentle arc tuned for even, non-overlapping spacing (span 540 /
+     6 logos = 90px center-to-center → 30px gap on 60px chips). Symmetric about
+     box center x=180; lead-in/out off-mask at x=-90 / x=450. Control y=34 = a
+     subtle ∩ (logos rise ~22px at center) so spacing reads even, not skewed. */
+  offset-path: path("M -90 78 Q 180 34 450 78");
+  offset-rotate: 0deg;
+  animation-name: hero-arc-travel;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: offset-distance;
+  backface-visibility: hidden;
+}
 
 .animation-delay-100 { animation-delay: 0.1s; opacity: 0; }
 .animation-delay-200 { animation-delay: 0.2s; opacity: 0; }
@@ -81,10 +115,17 @@ body {
   .animate-float-3,
   .animate-fade-in-up,
   .animate-scale-in,
+  .animate-slide-up,
   .animate-marquee {
     animation: none;
     opacity: 1;
     transform: none;
+  }
+
+  /* Logos stop drifting but stay spread along the arc via their inline
+     offset-distance fallback (each set to its starting phase). */
+  .hero-arc-logo {
+    animation: none;
   }
 }
 

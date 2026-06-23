@@ -18,6 +18,7 @@ const STATIC_LOGO_MAP: Record<string, string> = {
 const COMPANY_DOMAIN_MAP: Record<string, string> = {
   spacex: "spacex.com",
   stripe: "stripe.com",
+  ramp: "ramp.com",
   openai: "openai.com",
   anthropic: "anthropic.com",
   databricks: "databricks.com",

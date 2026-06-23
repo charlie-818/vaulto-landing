@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { CompanyMarquee } from "@/components/landing/CompanyMarquee";
+import { CompanyLogoArc } from "@/components/landing/CompanyLogoArc";
 
 interface HeroSectionProps {
   onJoinWaitlist: () => void;
@@ -13,9 +14,9 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
   };
 
   return (
-    <section className="relative flex min-h-[calc(111.2vh-3.5rem)] sm:min-h-[111.2vh] lg:min-h-[calc(110vh-3.5rem)] flex-col items-center justify-start pt-[20svh] sm:justify-center sm:pt-0 overflow-hidden px-6 lg:pl-6 lg:pr-[10rem] pb-[6svh] sm:pb-[14vh] lg:pb-[17vh]">
+    <section className="relative flex min-h-[111svh] sm:min-h-[111.2vh] lg:min-h-[calc(110vh-3.5rem)] flex-col items-center justify-center -mt-[76px] sm:mt-0 pt-[76px] sm:pt-0 overflow-hidden px-6 lg:pl-6 lg:pr-[10rem] pb-[6svh] sm:pb-[14vh] lg:pb-[17vh]">
       {/* Mobile radial gradient backdrop */}
-      <div className="sm:hidden absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.15)_0%,transparent_70%)]" />
+      <div className="sm:hidden absolute inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_0%,rgba(59,130,246,0.22)_0%,transparent_65%)]" />
 
       {/* Animated gradient background */}
       <div className="absolute inset-0 overflow-hidden">
@@ -51,18 +52,18 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
       {/* Content */}
       <div className="animate-fade-in-up relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center max-w-7xl mx-auto w-full">
         {/* Left: Text content */}
-        <div className="text-center lg:text-left sm:pt-4 lg:pt-0">
+        <div className="flex flex-col sm:block text-center lg:text-left sm:pt-4 lg:pt-0">
           {/* Backed By */}
-          <div className="animate-fade-in-up animation-delay-100 mb-5 sm:-mb-1 flex items-center justify-center lg:justify-start gap-4 sm:gap-5">
+          <div className="animate-fade-in-up animation-delay-100 mb-5 sm:-mb-1 lg:-mt-8 lg:mb-8 flex items-center justify-center lg:justify-start gap-4 sm:gap-5">
             <span className="text-base sm:text-base lg:text-lg font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
               Backed By
             </span>
             <Image
-              src="/partners/ucla-venture-accelerator.png"
-              alt="UCLA Anderson Venture Accelerator"
-              width={486}
-              height={208}
-              className="h-20 sm:h-20 lg:h-24 w-auto"
+              src="/partners/ucla-blue.png"
+              alt="UCLA"
+              width={600}
+              height={282}
+              className="h-10 sm:h-10 lg:h-11 w-auto"
             />
           </div>
 
@@ -87,13 +88,13 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
           </p>
 
           {/* CTA Buttons */}
-          <div className="animate-fade-in-up animation-delay-500 flex flex-col gap-4 sm:flex-row items-center lg:items-start justify-center lg:justify-start">
+          <div className="animate-fade-in-up animation-delay-500 order-2 max-sm:mt-8 flex flex-col gap-4 sm:flex-row items-center lg:items-start justify-center lg:justify-start">
             <button
               onClick={onJoinWaitlist}
-              className="group relative w-fit rounded-lg bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-500 px-8 py-3.5 sm:py-3 min-h-[48px] text-sm font-medium text-white shadow-lg shadow-blue-500/20 sm:shadow-none transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25"
+              className="group relative w-full sm:w-fit rounded-lg bg-[#2774AE] sm:bg-gradient-to-r sm:from-blue-500 sm:via-blue-400 sm:to-cyan-500 px-8 py-3.5 sm:py-3 min-h-[48px] text-sm font-medium text-white shadow-lg shadow-blue-500/20 sm:shadow-none transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25"
             >
               Join Waitlist
-              <div className="absolute inset-0 -z-10 rounded-lg bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-500 opacity-30 sm:opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-50" />
+              <div className="absolute inset-0 -z-10 rounded-lg bg-[#2774AE] sm:bg-gradient-to-r sm:from-blue-500 sm:via-blue-400 sm:to-cyan-500 opacity-30 sm:opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-50" />
             </button>
             <button
               onClick={scrollToFeatures}
@@ -101,6 +102,14 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
             >
               Learn More
             </button>
+          </div>
+
+          {/* Mobile-only trust microline + curved logo social proof under the CTA */}
+          <p className="sm:hidden order-3 animate-fade-in-up animation-delay-500 mt-3 text-xs text-[var(--muted)]">
+            Free early access — no commitment.
+          </p>
+          <div className="sm:hidden order-1 animate-fade-in-up animation-delay-600 mt-4">
+            <CompanyLogoArc />
           </div>
 
         </div>

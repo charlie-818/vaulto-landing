@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { HeroSection } from "./landing/HeroSection";
 import { FeatureSection } from "./landing/FeatureSection";
 import { TokenTicker, BasketBuilder, CodeBlock, ChainDiagram, ExposureFlow } from "./landing/FeatureVisuals";
@@ -245,9 +246,10 @@ export function LandingPage() {
 
       <LandingFooter />
 
-      {showWaitlistModal && (
-        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-black/50 p-4 pt-8 sm:p-4 backdrop-blur-sm overflow-y-auto">
-          <div className="relative w-full sm:max-w-md rounded-2xl sm:rounded-xl border border-[var(--border)] bg-[var(--background)] p-5 sm:p-6 max-h-[calc(100dvh-4rem)] overflow-y-auto shadow-2xl">
+      {showWaitlistModal && createPortal(
+        <div onClick={closeWaitlistModal} className="fixed inset-0 z-50 flex flex-col justify-end items-stretch sm:flex-row sm:items-center sm:justify-center bg-black/50 p-0 sm:p-4 backdrop-blur-sm overflow-hidden">
+          <div onClick={(e) => e.stopPropagation()} className="relative w-full sm:max-w-md rounded-t-2xl sm:rounded-t-xl sm:rounded-b-xl border border-[var(--border)] bg-[var(--background)] p-5 sm:p-6 pb-[calc(1.25rem+env(safe-area-inset-bottom))] sm:pb-6 max-h-[90dvh] sm:max-h-[calc(100dvh-4rem)] overflow-y-auto shadow-2xl animate-slide-up sm:animate-scale-in">
+            <div aria-hidden className="sm:hidden mx-auto -mt-1 mb-4 h-1.5 w-10 rounded-full bg-[var(--border)]" />
             <button
               onClick={closeWaitlistModal}
               className="absolute right-4 top-4 text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
@@ -306,7 +308,8 @@ export function LandingPage() {
               </button>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

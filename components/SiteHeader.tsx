@@ -189,8 +189,8 @@ function ItemLink({ item, count }: { item: DropdownItem; count?: SocialCount | n
 export async function SiteHeader() {
   const counts = await getSocialCounts();
   return (
-    <header className="sticky top-0 z-30 border-b border-[var(--border)] bg-[var(--background)]">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+    <header className="sticky top-0 z-30 px-6 py-2.5 sm:p-0 bg-transparent sm:bg-[var(--background)] border-b-0 sm:border-b border-[var(--border)]">
+      <div className="mx-auto flex max-w-6xl items-center justify-start sm:justify-between min-h-[48px] sm:min-h-0 rounded-lg sm:rounded-none border sm:border-0 border-[var(--border)] bg-[var(--background)] sm:bg-transparent shadow-sm sm:shadow-none px-5 py-0 sm:px-6 sm:py-3">
         <div className="group relative">
           <Link
             href="/"
