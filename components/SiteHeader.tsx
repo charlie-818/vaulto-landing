@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { LEGACY_SITES, API_URL, CAREERS_URL, SOCIAL_URLS, WHITEPAPERS } from "@/lib/external-urls";
+import { PLATFORM_URL } from "@/lib/config";
 import { getSocialCounts, formatCount, type SocialCount } from "@/lib/social-stats";
 
 type DropdownItem = {
@@ -189,8 +190,8 @@ function ItemLink({ item, count }: { item: DropdownItem; count?: SocialCount | n
 export async function SiteHeader() {
   const counts = await getSocialCounts();
   return (
-    <header className="sticky top-0 z-30 px-6 py-2.5 sm:p-0 bg-transparent sm:bg-[var(--background)] border-b-0 sm:border-b border-[var(--border)]">
-      <div className="mx-auto flex max-w-6xl items-center justify-start sm:justify-between min-h-[48px] sm:min-h-0 rounded-lg sm:rounded-none border sm:border-0 border-[var(--border)] bg-[var(--background)] sm:bg-transparent shadow-sm sm:shadow-none px-5 py-0 sm:px-6 sm:py-3">
+    <header className="sticky top-0 z-30 px-6 pt-6 pb-2.5 sm:p-0 bg-transparent sm:bg-[var(--background)] border-b-0 sm:border-b border-[var(--border)]">
+      <div className="mx-auto flex max-w-6xl items-center justify-between min-h-[48px] sm:min-h-0 rounded-lg sm:rounded-none border sm:border-0 border-[var(--border)] bg-[var(--background)] sm:bg-transparent shadow-sm sm:shadow-none px-2 py-0 sm:px-6 sm:py-3">
         <div className="group relative">
           <Link
             href="/"
@@ -242,7 +243,8 @@ export async function SiteHeader() {
           </div>
         </div>
 
-        <nav className="hidden items-center gap-6 text-sm md:flex">
+        <div className="flex items-center gap-3 sm:gap-5">
+          <nav className="hidden items-center gap-6 text-sm md:flex">
           <Link
             href="/faq"
             className="text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
@@ -269,7 +271,14 @@ export async function SiteHeader() {
           >
             API
           </a>
-        </nav>
+          </nav>
+          <a
+            href={`${PLATFORM_URL}/sign-in`}
+            className="rounded-md bg-[#2774AE] sm:bg-gradient-to-r sm:from-blue-500 sm:via-blue-400 sm:to-cyan-500 px-4 py-1.5 text-sm font-medium text-white shadow-sm transition-all duration-300 hover:shadow-md hover:shadow-blue-500/25"
+          >
+            Launch
+          </a>
+        </div>
       </div>
     </header>
   );
