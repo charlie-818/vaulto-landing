@@ -93,7 +93,7 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
               onClick={onJoinWaitlist}
               className="group relative w-full sm:w-fit rounded-md bg-[#2774AE] sm:bg-gradient-to-r sm:from-blue-500 sm:via-blue-400 sm:to-cyan-500 px-8 py-3.5 sm:py-3 min-h-[48px] text-base sm:text-sm font-bold sm:font-medium text-white shadow-lg shadow-blue-500/20 sm:shadow-none transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25"
             >
-              Join Waitlist
+              Launch Platform
               <div className="absolute inset-0 -z-10 rounded-md bg-[#2774AE] sm:bg-gradient-to-r sm:from-blue-500 sm:via-blue-400 sm:to-cyan-500 opacity-30 sm:opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-50" />
             </button>
             <button

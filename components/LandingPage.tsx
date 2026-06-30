@@ -105,7 +105,7 @@ export function LandingPage() {
           { title: "No accreditation required" },
         ]}
         visual={<TokenTicker />}
-        actionButton={{ text: "Join Waitlist", onClick: handleJoinWaitlist }}
+        actionButton={{ text: "Launch Platform", onClick: handleJoinWaitlist }}
       />
 
       <FeatureSection
@@ -187,7 +187,7 @@ export function LandingPage() {
         ]}
         visual={<BasketBuilder />}
         link={{ text: "View on GitHub", href: "https://github.com/VaultoAI/VAULTO-API-ETF" }}
-        actionButton={{ text: "Join Waitlist", onClick: handleJoinWaitlist }}
+        actionButton={{ text: "Launch Platform", onClick: handleJoinWaitlist }}
       />
 
       <FeatureSection
@@ -238,7 +238,7 @@ export function LandingPage() {
             onClick={handleJoinWaitlist}
             className="group relative rounded-lg bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-500 px-8 py-3 text-sm font-medium text-white transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25"
           >
-            Join Waitlist
+            Launch Platform
             <div className="absolute inset-0 -z-10 rounded-lg bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-500 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-50" />
           </button>
         </div>
