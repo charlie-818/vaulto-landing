@@ -1,86 +1,21 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
-import { createPortal } from "react-dom";
+import { useEffect } from "react";
 import { HeroSection } from "./landing/HeroSection";
 import { FeatureSection } from "./landing/FeatureSection";
 import { TokenTicker, BasketBuilder, CodeBlock, ChainDiagram, ExposureFlow } from "./landing/FeatureVisuals";
 import { LandingFooter } from "./landing/LandingFooter";
-import { signupEmail } from "@/lib/waitlist-client";
-import { GoogleSignInButton } from "./GoogleSignInButton";
-
-const EMBEDDED_BROWSER_PATTERNS =
-  /WebView|wv\)|Instagram|FBAN|FBAV|Line\/|Twitter|Slack|Discord|Electron|InApp/i;
-
-function isEmbeddedBrowser(): boolean {
-  if (typeof navigator === "undefined") return false;
-  const ua = navigator.userAgent;
-  const inIframe = typeof window !== "undefined" && window.self !== window.top;
-  return inIframe || EMBEDDED_BROWSER_PATTERNS.test(ua);
-}
+import { PLATFORM_URL } from "@/lib/config";
 
 export function LandingPage() {
-  const [showWaitlistModal, setShowWaitlistModal] = useState(false);
-  const [email, setEmail] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [isEmbedded, setIsEmbedded] = useState(false);
-
-  const handleInputFocus = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
-    const target = e.currentTarget;
-    setTimeout(() => {
-      target.scrollIntoView({ block: "center", behavior: "smooth" });
-    }, 300);
-  }, []);
-
   // Force light mode on landing
   useEffect(() => {
     document.documentElement.classList.remove("dark");
-    setIsEmbedded(isEmbeddedBrowser());
   }, []);
-
-  const handleJoinWaitlist = () => {
-    setShowWaitlistModal(true);
-    setError(null);
-  };
-
-  const closeWaitlistModal = () => {
-    setShowWaitlistModal(false);
-    setEmail("");
-    setFirstName("");
-    setError(null);
-  };
-
-  const handleEmailSignup = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      setError(null);
-      const trimmedEmail = email.trim();
-      const trimmedFirstName = firstName.trim();
-      if (!trimmedEmail || !trimmedFirstName) {
-        setError("Please enter your email and first name.");
-        return;
-      }
-      setSubmitting(true);
-      const result = await signupEmail(trimmedEmail, trimmedFirstName);
-      setSubmitting(false);
-      if (!result.ok) {
-        setError(result.message || "Something went wrong. Please try again.");
-        return;
-      }
-      const nameParam = encodeURIComponent(trimmedFirstName);
-      const createdAtParam = result.createdAt
-        ? `&createdAt=${encodeURIComponent(result.createdAt)}`
-        : "";
-      window.location.href = `/waitlist-success?from=email&name=${nameParam}${createdAtParam}`;
-    },
-    [email, firstName]
-  );
 
   return (
     <div className="landing-page-light min-h-screen bg-[var(--background)]" style={{ zoom: 0.9 }}>
-      <HeroSection onJoinWaitlist={handleJoinWaitlist} />
+      <HeroSection />
 
       <FeatureSection
         id="features"
@@ -105,7 +40,7 @@ export function LandingPage() {
           { title: "No accreditation required" },
         ]}
         visual={<TokenTicker />}
-        actionButton={{ text: "Launch Platform", onClick: handleJoinWaitlist }}
+        actionButton={{ text: "Launch Platform", href: `${PLATFORM_URL}/sign-in` }}
       />
 
       <FeatureSection
@@ -187,7 +122,7 @@ export function LandingPage() {
         ]}
         visual={<BasketBuilder />}
         link={{ text: "View on GitHub", href: "https://github.com/VaultoAI/VAULTO-API-ETF" }}
-        actionButton={{ text: "Launch Platform", onClick: handleJoinWaitlist }}
+        actionButton={{ text: "Launch Platform", href: `${PLATFORM_URL}/sign-in` }}
       />
 
       <FeatureSection
@@ -230,87 +165,21 @@ export function LandingPage() {
             Ready to Get Started?
           </h2>
           <p className="mb-8 text-lg text-[var(--muted)]">
-            Join the waitlist to be among the first
+            Sign in to start trading
             <br />
-            to trade pre-IPO tokens.
+            pre-IPO tokens.
           </p>
-          <button
-            onClick={handleJoinWaitlist}
-            className="group relative rounded-lg bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-500 px-8 py-3 text-sm font-medium text-white transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25"
+          <a
+            href={`${PLATFORM_URL}/sign-in`}
+            className="group relative inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-500 px-8 py-3 text-sm font-medium text-white transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25"
           >
             Launch Platform
             <div className="absolute inset-0 -z-10 rounded-lg bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-500 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-50" />
-          </button>
+          </a>
         </div>
       </section>
 
       <LandingFooter />
-
-      {showWaitlistModal && createPortal(
-        <div onClick={closeWaitlistModal} className="fixed inset-0 z-50 flex flex-col justify-end items-stretch sm:flex-row sm:items-center sm:justify-center bg-black/50 p-0 sm:p-4 backdrop-blur-sm overflow-hidden">
-          <div onClick={(e) => e.stopPropagation()} className="relative w-full sm:max-w-md rounded-t-2xl sm:rounded-t-xl sm:rounded-b-xl border border-[var(--border)] bg-[var(--background)] p-5 sm:p-6 pb-[calc(1.25rem+env(safe-area-inset-bottom))] sm:pb-6 max-h-[90dvh] sm:max-h-[calc(100dvh-4rem)] overflow-y-auto shadow-2xl animate-slide-up sm:animate-scale-in">
-            <div aria-hidden className="sm:hidden mx-auto -mt-1 mb-4 h-1.5 w-10 rounded-full bg-[var(--border)]" />
-            <button
-              onClick={closeWaitlistModal}
-              className="absolute right-4 top-4 text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
-              aria-label="Close"
-            >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-            <h3 className="mb-2 text-xl font-semibold text-[var(--foreground)]">Join the Waitlist</h3>
-            <p className="mb-6 text-sm text-[var(--muted)]">
-              Get early access to trade synthetic pre-IPO tokens.
-            </p>
-            {!isEmbedded && (
-              <div className="mb-4 flex flex-col gap-3">
-                <GoogleSignInButton />
-                <div className="flex items-center gap-3">
-                  <div className="h-px flex-1 bg-[var(--border)]" />
-                  <span className="text-xs uppercase tracking-wide text-[var(--muted)]">or</span>
-                  <div className="h-px flex-1 bg-[var(--border)]" />
-                </div>
-              </div>
-            )}
-            <form onSubmit={handleEmailSignup} className="flex flex-col gap-3">
-              <input
-                type="text"
-                placeholder="First name"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                onFocus={handleInputFocus}
-                required
-                autoComplete="given-name"
-                className="rounded-lg border border-[var(--border)] bg-[var(--background)] px-4 py-3 sm:py-2.5 text-base sm:text-sm min-h-[48px] text-[var(--foreground)] placeholder:text-[var(--muted)] transition-colors focus:border-[var(--foreground)]/30 focus:outline-none"
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onFocus={handleInputFocus}
-                required
-                autoComplete="email"
-                className="rounded-lg border border-[var(--border)] bg-[var(--background)] px-4 py-3 sm:py-2.5 text-base sm:text-sm min-h-[48px] text-[var(--foreground)] placeholder:text-[var(--muted)] transition-colors focus:border-[var(--foreground)]/30 focus:outline-none"
-              />
-              {error && (
-                <p className="text-left text-sm text-red-500" role="alert">
-                  {error}
-                </p>
-              )}
-              <button
-                type="submit"
-                disabled={submitting}
-                className="group relative flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-500 px-5 py-3 sm:py-2.5 min-h-[48px] text-sm font-medium text-white transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 disabled:opacity-60"
-              >
-                {submitting ? "Signing up..." : "Sign up with email"}
-              </button>
-            </form>
-          </div>
-        </div>,
-        document.body
-      )}
     </div>
   );
 }

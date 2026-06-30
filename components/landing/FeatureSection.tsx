@@ -18,7 +18,7 @@ interface FeatureSectionProps {
   theme: "blue" | "cyan";
   reversed?: boolean;
   link?: { text: string; href: string };
-  actionButton?: { text: string; onClick: () => void };
+  actionButton?: { text: string; onClick?: () => void; href?: string };
 }
 
 const themeColors = {
@@ -276,21 +276,36 @@ export function FeatureSection({
               ))}
 
             {/* Action Button */}
-            {actionButton && (
-              <button
-                onClick={actionButton.onClick}
-                className={`inline-flex items-center justify-center gap-2 rounded-lg bg-blue-500 px-5 h-12 text-sm font-medium text-white transition-all hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/25 duration-700 ${
-                  isVisible
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-4 opacity-0"
-                }`}
-                style={{
-                  transitionDelay: `${300 + highlightedFeatures.length * 100 + 200}ms`,
-                }}
-              >
-                {actionButton.text}
-              </button>
-            )}
+            {actionButton &&
+              (actionButton.href ? (
+                <a
+                  href={actionButton.href}
+                  className={`inline-flex items-center justify-center gap-2 rounded-lg bg-blue-500 px-5 h-12 text-sm font-medium text-white transition-all hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/25 duration-700 ${
+                    isVisible
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-4 opacity-0"
+                  }`}
+                  style={{
+                    transitionDelay: `${300 + highlightedFeatures.length * 100 + 200}ms`,
+                  }}
+                >
+                  {actionButton.text}
+                </a>
+              ) : (
+                <button
+                  onClick={actionButton.onClick}
+                  className={`inline-flex items-center justify-center gap-2 rounded-lg bg-blue-500 px-5 h-12 text-sm font-medium text-white transition-all hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/25 duration-700 ${
+                    isVisible
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-4 opacity-0"
+                  }`}
+                  style={{
+                    transitionDelay: `${300 + highlightedFeatures.length * 100 + 200}ms`,
+                  }}
+                >
+                  {actionButton.text}
+                </button>
+              ))}
               </div>
             )}
           </div>

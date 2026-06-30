@@ -3,12 +3,9 @@
 import Image from "next/image";
 import { CompanyMarquee } from "@/components/landing/CompanyMarquee";
 import { CompanyLogoArc } from "@/components/landing/CompanyLogoArc";
+import { PLATFORM_URL } from "@/lib/config";
 
-interface HeroSectionProps {
-  onJoinWaitlist: () => void;
-}
-
-export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
+export function HeroSection() {
   const scrollToFeatures = () => {
     document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -89,13 +86,13 @@ export function HeroSection({ onJoinWaitlist }: HeroSectionProps) {
 
           {/* CTA Buttons */}
           <div className="animate-fade-in-up animation-delay-500 order-2 max-sm:mt-10 flex flex-col gap-4 sm:flex-row items-center lg:items-start justify-center lg:justify-start">
-            <button
-              onClick={onJoinWaitlist}
-              className="group relative w-full sm:w-fit rounded-md bg-[#2774AE] sm:bg-gradient-to-r sm:from-blue-500 sm:via-blue-400 sm:to-cyan-500 px-8 py-3.5 sm:py-3 min-h-[48px] text-base sm:text-sm font-bold sm:font-medium text-white shadow-lg shadow-blue-500/20 sm:shadow-none transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25"
+            <a
+              href={`${PLATFORM_URL}/sign-in`}
+              className="group relative inline-flex w-full items-center justify-center sm:w-fit rounded-md bg-[#2774AE] sm:bg-gradient-to-r sm:from-blue-500 sm:via-blue-400 sm:to-cyan-500 px-8 py-3.5 sm:py-3 min-h-[48px] text-base sm:text-sm font-bold sm:font-medium text-white shadow-lg shadow-blue-500/20 sm:shadow-none transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25"
             >
               Launch Platform
               <div className="absolute inset-0 -z-10 rounded-md bg-[#2774AE] sm:bg-gradient-to-r sm:from-blue-500 sm:via-blue-400 sm:to-cyan-500 opacity-30 sm:opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-50" />
-            </button>
+            </a>
             <button
               onClick={scrollToFeatures}
               className="hidden sm:block rounded-lg border border-[var(--border)] bg-[var(--background)] px-6 sm:px-8 py-3.5 sm:py-3 min-h-[48px] text-sm font-medium text-[var(--foreground)] transition-all duration-300 hover:border-[var(--foreground)]/20 hover:shadow-lg"
