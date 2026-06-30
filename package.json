@@ -14,6 +14,7 @@
     "@vercel/analytics": "^1.4.1",
     "@vercel/speed-insights": "^1.1.0",
     "ai": "^6.0.185",
+    "crisp-sdk-web": "^1.2.0",
     "gray-matter": "^4.0.3",
     "next": "^15.0.0",
     "react": "^19.0.0",
