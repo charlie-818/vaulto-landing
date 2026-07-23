@@ -8,12 +8,12 @@ import { CompanyLogo } from "@/components/CompanyLogo";
 // =============================================================================
 
 const mockTokens = [
-  { symbol: "vSPACEX", companyName: "SpaceX", price: 142.5, change: 3.2 },
-  { symbol: "vANTHROPIC", companyName: "Anthropic", price: 89.75, change: 5.8 },
-  { symbol: "vOPENAI", companyName: "OpenAI", price: 215.0, change: -2.8 },
-  { symbol: "vANDURIL", companyName: "Anduril", price: 67.25, change: 2.1 },
-  { symbol: "vPOLYMARKET", companyName: "Polymarket", price: 48.9, change: 8.5 },
-  { symbol: "vKALSHI", companyName: "Kalshi", price: 23.4, change: 1.2 },
+  { symbol: "vOPENAI", companyName: "OpenAI", price: 212.45, change: 2.4 },
+  { symbol: "vANTHROPIC", companyName: "Anthropic", price: 168.3, change: 5.1 },
+  { symbol: "vSTRIPE", companyName: "Stripe", price: 94.2, change: 1.2 },
+  { symbol: "vDATABRICKS", companyName: "Databricks", price: 88.75, change: -1.8 },
+  { symbol: "vANDURIL", companyName: "Anduril", price: 67.05, change: 2.3 },
+  { symbol: "vPERPLEXITY", companyName: "Perplexity", price: 22.6, change: 3.7 },
 ];
 
 export function TokenTicker() {
@@ -46,46 +46,51 @@ export function TokenTicker() {
   }, [prices.length]);
 
   return (
-    <div className="rounded-xl bg-gradient-to-br from-[var(--foreground)]/[0.02] to-transparent">
-      <div className="mb-2 flex items-center justify-between text-xs text-[var(--muted)] px-3 sm:px-4 pt-3 sm:pt-4">
-        <span>Token</span>
-        <div className="flex gap-4 sm:gap-6 md:gap-8">
-          <span>Price</span>
-          <span className="w-12 sm:w-16 text-right">24h</span>
-        </div>
+    <div className="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] p-4 sm:p-5 shadow-sm">
+      <div className="mb-3 flex items-center justify-between">
+        <span className="text-sm font-semibold text-[var(--foreground)]">Live markets</span>
+        <span className="inline-flex items-center gap-1.5 text-xs text-[var(--muted)]">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+          24h
+        </span>
       </div>
-      {prices.map((token, index) => (
-        <div
-          key={token.symbol}
-          className={`flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 transition-all duration-300 ${
-            index !== prices.length - 1 ? "border-b border-[var(--border)]/50" : "pb-4"
-          } ${pulseIndex === index ? "bg-blue-500/5" : ""}`}
-        >
-          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-            <CompanyLogo name={token.companyName} size={24} className="sm:w-8 sm:h-8 flex-shrink-0" />
-            <span className="font-medium text-[var(--foreground)] truncate text-sm sm:text-base">
-              {token.symbol}
-            </span>
+      <div className="flex flex-col gap-1">
+        {prices.map((token, index) => (
+          <div
+            key={token.symbol}
+            className={`flex items-center justify-between rounded-lg px-2 sm:px-3 py-2.5 transition-colors duration-300 ${
+              pulseIndex === index ? "bg-[var(--foreground)]/[0.04]" : ""
+            }`}
+          >
+            <div className="flex min-w-0 items-center gap-3">
+              <CompanyLogo name={token.companyName} size={32} className="flex-shrink-0" />
+              <div className="min-w-0">
+                <div className="truncate text-sm font-semibold text-[var(--foreground)]">
+                  {token.companyName}
+                </div>
+                <div className="font-mono text-xs text-[var(--muted)]">{token.symbol}</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <span
+                className={`font-mono text-sm font-semibold text-[var(--foreground)] transition-transform ${
+                  pulseIndex === index ? "scale-105" : ""
+                }`}
+              >
+                ${token.price.toFixed(2)}
+              </span>
+              <span
+                className={`w-14 text-right font-mono text-xs font-medium ${
+                  token.change >= 0 ? "text-emerald-500" : "text-[#ef4444]"
+                }`}
+              >
+                {token.change >= 0 ? "+" : ""}
+                {token.change.toFixed(1)}%
+              </span>
+            </div>
           </div>
-          <div className="flex items-center gap-3 sm:gap-6 md:gap-8">
-            <span
-              className={`font-mono font-semibold text-[var(--foreground)] transition-all text-sm sm:text-base ${
-                pulseIndex === index ? "scale-105" : ""
-              }`}
-            >
-              ${token.price.toFixed(2)}
-            </span>
-            <span
-              className={`w-12 sm:w-16 text-right font-mono font-medium text-xs sm:text-sm ${
-                token.change >= 0 ? "text-emerald-500" : "text-[#ef4444]"
-              }`}
-            >
-              {token.change >= 0 ? "+" : ""}
-              {token.change.toFixed(1)}%
-            </span>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

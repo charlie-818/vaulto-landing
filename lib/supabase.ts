@@ -9,6 +9,11 @@ if (!url || !anonKey) {
   console.warn("Supabase env vars missing: NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY");
 }
 
-export const supabase = createClient(url ?? "", anonKey ?? "", {
-  auth: { persistSession: false },
-});
+// Use a syntactically valid placeholder when env is absent so module load
+// (and static prerender) never throws "supabaseUrl is required". Real values
+// are used wherever the env vars are configured (e.g. production).
+export const supabase = createClient(
+  url || "https://placeholder.supabase.co",
+  anonKey || "placeholder-anon-key",
+  { auth: { persistSession: false } }
+);

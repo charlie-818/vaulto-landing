@@ -190,9 +190,9 @@ function ItemLink({ item, count }: { item: DropdownItem; count?: SocialCount | n
 export async function SiteHeader() {
   const counts = await getSocialCounts();
   return (
-    <header className="sticky top-0 z-30 px-6 pt-6 pb-2.5 sm:p-0 bg-transparent sm:bg-[var(--background)] border-b-0 sm:border-b border-[var(--border)]">
-      <div className="mx-auto flex max-w-6xl items-center justify-between min-h-[48px] sm:min-h-0 rounded-lg sm:rounded-none border sm:border-0 border-[var(--border)] bg-[var(--background)] sm:bg-transparent shadow-sm sm:shadow-none px-2 py-0 sm:px-6 sm:py-3">
-        <div className="group relative">
+    <header className="sticky top-0 z-30 px-4 sm:px-6 pt-4 sm:pt-5 pb-2 bg-transparent">
+      <div className="group relative mx-auto flex max-w-6xl items-center justify-between min-h-[48px] rounded-xl border border-[var(--border)] bg-[var(--background)] shadow-sm px-3 sm:px-5 py-2 sm:py-2.5 transition-[border-radius,box-shadow] duration-150 md:hover:rounded-b-none md:hover:shadow-none">
+        <div>
           <Link
             href="/"
             className="relative flex items-center"
@@ -216,10 +216,10 @@ export async function SiteHeader() {
             </span>
           </Link>
           <div
-            className="invisible absolute left-0 top-full z-40 pt-2 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 hidden md:block"
+            className="invisible absolute -inset-x-px top-full z-40 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 hidden md:block"
             role="menu"
           >
-            <div className="grid w-[min(94vw,1080px)] grid-cols-1 gap-5 rounded-lg border border-[var(--border)] bg-[var(--background)] p-5 shadow-lg md:grid-cols-6">
+            <div className="grid w-full grid-cols-1 gap-5 rounded-b-xl border border-t-0 border-[var(--border)] bg-[var(--background)] p-5 shadow-[0_16px_36px_-14px_rgba(0,0,0,0.14)] md:grid-cols-6">
               {GROUPS.map((group) => (
                 <div key={group.heading}>
                   <div className="mb-2 flex items-center gap-2 px-3 text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
@@ -274,7 +274,7 @@ export async function SiteHeader() {
           </nav>
           <a
             href={`${PLATFORM_URL}/sign-in`}
-            className="rounded-md bg-[#2774AE] sm:bg-gradient-to-r sm:from-blue-500 sm:via-blue-400 sm:to-cyan-500 px-4 py-1.5 text-sm font-medium text-white shadow-sm transition-all duration-300 hover:shadow-md hover:shadow-blue-500/25"
+            className="rounded-pill bg-[image:var(--accent-gradient)] px-4 py-1.5 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:shadow-md hover:shadow-blue-500/25"
           >
             Launch
           </a>

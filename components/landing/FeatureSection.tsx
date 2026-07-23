@@ -1,6 +1,8 @@
 "use client";
 
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode } from "react";
+import { useReveal } from "@/components/landing/useReveal";
+import { Button } from "@/components/landing/Button";
 
 interface FeatureItem {
   title: string;
@@ -10,8 +12,8 @@ interface FeatureItem {
 
 interface FeatureSectionProps {
   id: string;
-  badge: string;
-  headline: string;
+  badge?: string;
+  headline: ReactNode;
   subheadline: string;
   features: FeatureItem[];
   visual: ReactNode;
@@ -53,26 +55,7 @@ export function FeatureSection({
   actionButton,
 }: FeatureSectionProps) {
   const colors = themeColors[theme];
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.15 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const { ref: sectionRef, isVisible } = useReveal<HTMLElement>();
 
   // Split features into highlighted (cards) and regular (compact list)
   const highlightedFeatures = features.filter((f) => f.highlight);
@@ -82,7 +65,7 @@ export function FeatureSection({
     <section
       ref={sectionRef}
       id={id}
-      className="relative flex min-h-[auto] sm:min-h-[80vh] lg:min-h-[90vh] items-center overflow-hidden py-16 sm:py-20 lg:py-24"
+      className="relative flex items-center overflow-hidden py-20 sm:py-28"
     >
       {/* Background glow */}
       <div className="absolute inset-0 overflow-hidden">
@@ -91,26 +74,28 @@ export function FeatureSection({
         />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
         <div
           className={`grid items-center gap-8 sm:gap-10 lg:gap-12 lg:grid-cols-2 lg:gap-20 ${reversed ? "lg:grid-flow-dense" : ""}`}
         >
           {/* Text Content */}
           <div className={reversed ? "lg:col-start-2" : ""}>
             {/* Badge */}
-            <span
-              className={`inline-block rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-wider ${colors.badge} transition-all duration-700 ${
-                isVisible
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-4 opacity-0"
-              }`}
-            >
-              {badge}
-            </span>
+            {badge && (
+              <span
+                className={`inline-block rounded-full border border-[var(--border)] bg-[var(--card-bg)] px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[var(--muted)] transition-all duration-700 ${
+                  isVisible
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-4 opacity-0"
+                }`}
+              >
+                {badge}
+              </span>
+            )}
 
             {/* Headline */}
             <h2
-              className={`mt-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold leading-tight text-[var(--foreground)] transition-all duration-700 delay-100 ${
+              className={`mt-6 font-display font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight tracking-tight text-[var(--foreground)] transition-all duration-700 delay-100 ${
                 isVisible
                   ? "translate-y-0 opacity-100"
                   : "translate-y-4 opacity-0"
@@ -136,7 +121,7 @@ export function FeatureSection({
                 {highlightedFeatures.map((feature, index) => (
                   <div
                     key={index}
-                    className={`rounded-xl border p-4 sm:p-5 ${colors.cardBg} transition-all duration-700 ${
+                    className={`rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] p-5 transition-all duration-700 ${
                       isVisible
                         ? "translate-y-0 opacity-100"
                         : "translate-y-6 opacity-0"
@@ -161,7 +146,7 @@ export function FeatureSection({
             {/* Regular Features as Compact List */}
             {regularFeatures.length > 0 && (
               <div
-                className={`mt-8 flex flex-wrap gap-x-6 gap-y-3 transition-all duration-700 ${
+                className={`mt-8 hidden sm:flex flex-wrap gap-x-6 gap-y-3 transition-all duration-700 ${
                   isVisible
                     ? "translate-y-0 opacity-100"
                     : "translate-y-4 opacity-0"
@@ -185,7 +170,23 @@ export function FeatureSection({
 
             {/* Buttons row */}
             {(link || actionButton) && (
-              <div className="mt-8 flex flex-wrap items-stretch gap-3">
+              <div className="mt-8 hidden sm:flex flex-wrap items-stretch gap-3">
+            {/* Action Button */}
+            {actionButton && (
+              <div
+                className={`transition-all duration-700 ${
+                  isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                }`}
+                style={{
+                  transitionDelay: `${300 + highlightedFeatures.length * 100 + 200}ms`,
+                }}
+              >
+                <Button href={actionButton.href} onClick={actionButton.onClick}>
+                  {actionButton.text}
+                </Button>
+              </div>
+            )}
+
             {link &&
               (link.href.includes("github.com") ? (
                 <a
@@ -273,38 +274,6 @@ export function FeatureSection({
                     />
                   </svg>
                 </a>
-              ))}
-
-            {/* Action Button */}
-            {actionButton &&
-              (actionButton.href ? (
-                <a
-                  href={actionButton.href}
-                  className={`inline-flex items-center justify-center gap-2 rounded-lg bg-blue-500 px-5 h-12 text-sm font-medium text-white transition-all hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/25 duration-700 ${
-                    isVisible
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-4 opacity-0"
-                  }`}
-                  style={{
-                    transitionDelay: `${300 + highlightedFeatures.length * 100 + 200}ms`,
-                  }}
-                >
-                  {actionButton.text}
-                </a>
-              ) : (
-                <button
-                  onClick={actionButton.onClick}
-                  className={`inline-flex items-center justify-center gap-2 rounded-lg bg-blue-500 px-5 h-12 text-sm font-medium text-white transition-all hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/25 duration-700 ${
-                    isVisible
-                      ? "translate-y-0 opacity-100"
-                      : "translate-y-4 opacity-0"
-                  }`}
-                  style={{
-                    transitionDelay: `${300 + highlightedFeatures.length * 100 + 200}ms`,
-                  }}
-                >
-                  {actionButton.text}
-                </button>
               ))}
               </div>
             )}

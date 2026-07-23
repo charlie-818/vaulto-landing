@@ -12,6 +12,25 @@ const STATIC_LOGO_MAP: Record<string, string> = {
   fanniemae: "fanniemae.png",
   ssi: "ssi.jpg",
   safesuperintelligence: "ssi.jpg",
+  // Showcase companies — self-hosted so cards load fast (no external favicon fetch)
+  openai: "openai.png",
+  stripe: "stripe.png",
+  anduril: "anduril.png",
+  andurilindustries: "anduril.png",
+  perplexity: "perplexity.png",
+  kraken: "kraken.png",
+  neuralink: "neuralink.png",
+  canva: "canva.png",
+  lambda: "lambda.png",
+  epicgames: "epicgames.png",
+  discord: "discord.png",
+  // Visuals (basket builder, exposure flow, chain diagram, mobile arc)
+  ramp: "ramp.png",
+  nvidia: "nvidia.png",
+  palantir: "palantir.png",
+  tesla: "tesla.png",
+  kalshi: "kalshi.png",
+  polymarket: "polymarket.png",
 };
 
 // Domain map for Google favicon fallback
@@ -36,6 +55,10 @@ const COMPANY_DOMAIN_MAP: Record<string, string> = {
   epicgames: "epicgames.com",
   kalshi: "kalshi.com",
   polymarket: "polymarket.com",
+  strava: "strava.com",
+  consensys: "consensys.io",
+  ledger: "ledger.com",
+  freddiemac: "freddiemac.com",
   waymo: "waymo.com",
   nvidia: "nvidia.com",
   palantir: "palantir.com",

@@ -4,16 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { subscribeNewsletter } from "@/lib/newsletter-client";
+import { darkVars } from "./Section";
 
 export function LandingFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[var(--border)] bg-[var(--background)]">
+    <footer style={darkVars} className="border-t border-[var(--border)] bg-[var(--background)]">
       <div className="mx-auto max-w-6xl px-6 py-8 sm:py-10">
         {/* Mobile */}
         <div className="flex flex-col items-center text-center md:hidden">
-          <Image src="/vaulto-logo-light.png" alt="Vaulto" width={120} height={32} className="mb-5 h-8 w-auto" />
+          <Image src="/vaulto-logo-light.png" alt="Vaulto" width={120} height={32} className="mb-5 h-8 w-auto brightness-0 invert" />
 
           <div className="flex items-center gap-5 mb-6">
             <a href="https://linkedin.com/company/vaulto" target="_blank" rel="noopener noreferrer" className="p-2 -m-2 text-[var(--muted)] transition-colors hover:text-[var(--foreground)]" aria-label="LinkedIn">
@@ -45,9 +46,9 @@ export function LandingFooter() {
         {/* Desktop */}
         <div className="hidden md:grid md:grid-cols-12 gap-8">
           <div className="md:col-span-4">
-            <Image src="/vaulto-logo-light.png" alt="Vaulto" width={120} height={32} className="mb-4 h-8 w-auto" />
+            <Image src="/vaulto-logo-light.png" alt="Vaulto" width={120} height={32} className="mb-4 h-8 w-auto brightness-0 invert" />
             <p className="text-sm text-[var(--muted)]">
-              The future of private<br />company investing.
+              Trade the world&apos;s top private<br />companies. Priced by the market.
             </p>
             <div className="mt-4 flex items-center gap-4">
               <a href="https://linkedin.com/company/vaulto" target="_blank" rel="noopener noreferrer" className="text-[var(--muted)] transition-colors hover:text-[var(--foreground)]" aria-label="LinkedIn">
@@ -78,7 +79,6 @@ export function LandingFooter() {
           <div className="md:col-span-2">
             <h4 className="mb-3 text-sm font-semibold text-[var(--foreground)]">Resources</h4>
             <ul className="space-y-1.5">
-              <li><a href="/whitepaper.pdf" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Whitepaper</a></li>
               <li><Link href="/transparency" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Transparency</Link></li>
               <li><Link href="/compliance" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Compliance</Link></li>
               <li><a href="https://legal.vaulto.ai/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Privacy</a></li>
@@ -111,11 +111,11 @@ export function LandingFooter() {
           <BadgeSegment label="Featured In">
             <a href="https://www.every.io/blog-post/charlie-bicker-caarten-is-building-vaulto-to-expand-access-to-private-markets" target="_blank" rel="noopener noreferrer" className="inline-flex text-[var(--foreground)]/80 transition-colors hover:text-[var(--foreground)]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/partners/every.svg" alt="Every.io" className="h-3 sm:h-5 w-auto" />
+              <img src="/partners/every.svg" alt="Every.io" className="h-3 sm:h-5 w-auto brightness-0 invert" />
             </a>
             <a href="https://my.pitchbook.com/profile/895353-13/company/profile" target="_blank" rel="noopener noreferrer" className="inline-flex" aria-label="PitchBook">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/partners/pitchbook.png" alt="PitchBook" className="h-3 sm:h-5 w-auto opacity-80 transition-opacity hover:opacity-100" />
+              <img src="/partners/pitchbook.png" alt="PitchBook" className="h-3 sm:h-5 w-auto opacity-80 transition-opacity hover:opacity-100 brightness-0 invert" />
             </a>
           </BadgeSegment>
 

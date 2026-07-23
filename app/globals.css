@@ -1,10 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
+  /* Base surfaces — white canvas */
   --background: #ffffff;
   --foreground: #0a0a0a;
   --muted: #737373;
@@ -13,6 +12,22 @@
   --card-hover: #fafafa;
   --badge-bg: #f5f5f5;
   --badge-text: #000000;
+
+  /* Dark section surfaces (charcoal) — applied locally by <Section tone="dark"> */
+  --dark-bg: #2A2A2A;
+  --dark-foreground: #FFFFEB;
+  --dark-muted: rgba(255, 255, 235, 0.62);
+  --dark-border: rgba(255, 255, 235, 0.14);
+  --dark-card-bg: #3A3A3A;
+
+  /* Brand accent — tokenized blue→cyan gradient */
+  --accent-blue: #2563EB;
+  --accent-blue-mid: #3B82F6;
+  --accent-cyan: #06B6D4;
+  --accent-gradient: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-blue-mid) 50%, var(--accent-cyan) 100%);
+
+  /* Two-tone display headline muted split (neutral gray on white) */
+  --display-muted: #8a8a8a;
 }
 
 body {
@@ -108,6 +123,54 @@ body {
 .animation-delay-500 { animation-delay: 0.5s; opacity: 0; }
 .animation-delay-600 { animation-delay: 0.6s; opacity: 0; }
 
+/* ===========================================================================
+   Redesign additions (Wispr Flow language)
+   =========================================================================== */
+
+/* Scroll-reveal: element starts hidden, .is-visible (set by useReveal) plays it. */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal { opacity: 0; }
+.reveal.is-visible {
+  animation: reveal-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* Two-tone display headline: clips the brand gradient to the text. */
+.text-gradient-accent {
+  background-image: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Big serif metric numbers (Wispr's "45 wpm / 220 wpm" motif). */
+.metric-number {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-weight: 700;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+}
+
+/* Companies flow arc — wider desktop offset-path reusing hero-arc-travel. */
+.showcase-arc-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 56px;
+  height: 56px;
+  offset-path: path("M -120 96 Q 480 20 1080 96");
+  offset-rotate: 0deg;
+  animation-name: hero-arc-travel;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: offset-distance;
+  backface-visibility: hidden;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-gradient-shift,
   .animate-float-1,
@@ -116,7 +179,8 @@ body {
   .animate-fade-in-up,
   .animate-scale-in,
   .animate-slide-up,
-  .animate-marquee {
+  .animate-marquee,
+  .reveal.is-visible {
     animation: none;
     opacity: 1;
     transform: none;
@@ -124,7 +188,8 @@ body {
 
   /* Logos stop drifting but stay spread along the arc via their inline
      offset-distance fallback (each set to its starting phase). */
-  .hero-arc-logo {
+  .hero-arc-logo,
+  .showcase-arc-logo {
     animation: none;
   }
 }
@@ -145,7 +210,7 @@ body {
 .compliance-prose ol { list-style: decimal; }
 .compliance-prose a { color: rgb(59 130 246); text-decoration: underline; text-underline-offset: 2px; }
 .compliance-prose a:hover { color: rgb(37 99 235); }
-.compliance-prose code { background: var(--badge-bg); padding: 0.1em 0.35em; border-radius: 4px; font-family: 'Space Grotesk', ui-monospace, monospace; font-size: 0.9em; }
+.compliance-prose code { background: var(--badge-bg); padding: 0.1em 0.35em; border-radius: 4px; font-family: var(--font-mono), 'Space Grotesk', ui-monospace, monospace; font-size: 0.9em; }
 .compliance-prose pre { background: #0d1117; color: #e6e6e6; padding: 1rem; border-radius: 8px; overflow-x: auto; font-size: 0.85rem; margin: 1rem 0; }
 .compliance-prose pre code { background: transparent; padding: 0; color: inherit; }
 .compliance-prose blockquote { border-left: 3px solid rgb(59 130 246); padding: 0.5rem 1rem; margin: 1rem 0; background: rgba(59, 130, 246, 0.04); color: var(--muted); }

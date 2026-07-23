@@ -86,7 +86,7 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
         id: "fees",
         question: "What are Vaulto's fees?",
         answer:
-          "Private-company prediction markets carry a fee of about 4% (400 bps) on the traded amount, shown before you confirm an order. There are no recurring, holding, or management fees.",
+          "Private-company prediction markets carry a fee of 1% (100 bps) on the traded amount, shown before you confirm an order. There are no recurring, holding, or management fees.",
       },
       {
         id: "need-wallet",

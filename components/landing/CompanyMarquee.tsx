@@ -37,7 +37,7 @@ const MarqueeItem = memo(function MarqueeItem({ company }: { company: string }) 
       <CompanyLogo name={company} size={36} className="sm:w-10 sm:h-10 md:w-11 md:h-11" />
       <span
         className="text-base sm:text-base md:text-lg lg:text-xl font-semibold tracking-tight text-[var(--foreground)]"
-        style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif" }}
+        style={{ fontFamily: "var(--font-mono), 'Space Grotesk', system-ui, sans-serif" }}
       >
         {company}
       </span>
