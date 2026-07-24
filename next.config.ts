@@ -1,6 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // The public URL is /index, but "index" is a reserved segment name in the
+  // app router (it collides with the root page's internal name and breaks
+  // prerendering), so the page lives at /vaulto-index and is served at /index.
+  async rewrites() {
+    return [{ source: "/index", destination: "/vaulto-index" }];
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

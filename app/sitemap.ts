@@ -6,6 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const docSlugs = getComplianceSlugs();
   return [
     { url: `${base}/`, priority: 1.0 },
+    { url: `${base}/index`, priority: 0.8 },
     { url: `${base}/faq`, priority: 0.8 },
     { url: `${base}/transparency`, priority: 0.8 },
     { url: `${base}/compliance`, priority: 0.8 },
