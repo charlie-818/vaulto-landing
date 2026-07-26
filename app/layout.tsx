@@ -13,6 +13,9 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
   metadataBase: new URL("https://vaulto.fi"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Vaulto — Trade Faster & Smarter",
     description:
