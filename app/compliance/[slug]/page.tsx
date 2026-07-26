@@ -4,6 +4,7 @@ import {
   getComplianceDoc,
   getComplianceSlugs,
   getAllComplianceDocs,
+  buildComplianceJsonLd,
 } from "@/lib/compliance";
 import { MarkdownRenderer } from "@/components/compliance/MarkdownRenderer";
 import Link from "next/link";
@@ -40,8 +41,15 @@ export default async function ComplianceDocPage({
   const prev = idx > 0 ? all[idx - 1] : null;
   const next = idx >= 0 && idx < all.length - 1 ? all[idx + 1] : null;
 
+  const jsonLd = buildComplianceJsonLd(doc);
+
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <MarkdownRenderer>{doc.body}</MarkdownRenderer>
 
       <nav className="mt-12 grid gap-3 sm:grid-cols-2 border-t border-[var(--border)] pt-8">
