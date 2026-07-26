@@ -121,6 +121,17 @@ export function getComplianceSlugs(): string[] {
     .map(fileSlugToUrlSlug);
 }
 
+/**
+ * Last-modified time for a doc's source markdown file, from its filesystem
+ * mtime. Returns undefined when the URL slug has no backing file.
+ */
+export function getComplianceLastModified(urlSlug: string): Date | undefined {
+  const fileSlug = urlSlugToFileSlug(urlSlug);
+  const filename = path.join(CONTENT_DIR, `${fileSlug}.md`);
+  if (!fs.existsSync(filename)) return undefined;
+  return fs.statSync(filename).mtime;
+}
+
 export function getAllComplianceDocs(): ComplianceDoc[] {
   const files = fs.readdirSync(CONTENT_DIR).filter((f) => f.endsWith(".md"));
   const docs: ComplianceDoc[] = files.map((f) => {
