@@ -83,6 +83,11 @@ const GROUPS: DropdownGroup[] = [
         href: "/transparency",
         description: "On-chain contracts & pools",
       },
+      {
+        label: "Guides",
+        href: "/guides",
+        description: "How to buy pre-IPO stock",
+      },
     ],
   },
   {
@@ -256,6 +261,12 @@ export async function SiteHeader() {
             className="text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
           >
             Transparency
+          </Link>
+          <Link
+            href="/guides"
+            className="text-[var(--muted)] transition-colors hover:text-[var(--foreground)]"
+          >
+            Guides
           </Link>
           <Link
             href="/compliance"

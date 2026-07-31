@@ -79,6 +79,7 @@ export function LandingFooter() {
             <h4 className="mb-3 text-sm font-semibold text-[var(--foreground)]">Resources</h4>
             <ul className="space-y-1.5">
               <li><a href="/whitepaper.pdf" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Whitepaper</a></li>
+              <li><Link href="/guides" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Guides</Link></li>
               <li><Link href="/transparency" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Transparency</Link></li>
               <li><Link href="/compliance" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Compliance</Link></li>
               <li><a href="https://legal.vaulto.ai/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-sm text-[var(--muted)] transition-colors hover:text-[var(--foreground)]">Privacy</a></li>
