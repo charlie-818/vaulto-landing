@@ -1,11 +1,14 @@
 import { FAQ_CATEGORIES, SITE_URL } from "@/lib/faq-data";
 import { API_URL } from "@/lib/external-urls";
+import { getAllGuides } from "@/lib/guides";
 
 // Served at /llms.txt as text/plain. Built from the FAQ data so it stays in sync.
 // Gives AI agents a concise, linked map of canonical answers and key resources.
 export const dynamic = "force-static";
 
 export function GET() {
+  const guides = getAllGuides();
+
   const lines: string[] = [
     "# Vaulto",
     "",
@@ -15,6 +18,7 @@ export function GET() {
     `- [Home](${SITE_URL}/): Overview of Vaulto`,
     `- [FAQ](${SITE_URL}/faq): Common questions about products, mechanics, safety, and the API`,
     `- [Compliance](${SITE_URL}/compliance): Regulatory posture and analysis`,
+    `- [Guides](${SITE_URL}/guides): How-to guides for buying pre-IPO stock and investing in private companies`,
     `- [API](${API_URL}): Read-only REST API for private-company data`,
     "",
     "## FAQ",
@@ -24,6 +28,13 @@ export function GET() {
     lines.push("", `### ${category.heading}`);
     for (const item of category.items) {
       lines.push(`- [${item.question}](${SITE_URL}/faq#${item.id}): ${item.answer}`);
+    }
+  }
+
+  if (guides.length > 0) {
+    lines.push("", "## Guides");
+    for (const guide of guides) {
+      lines.push(`- [${guide.title}](${SITE_URL}/guides/${guide.slug}): ${guide.description}`);
     }
   }
 
