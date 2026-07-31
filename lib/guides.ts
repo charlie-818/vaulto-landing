@@ -27,8 +27,8 @@ export type Guide = {
  */
 export function slugFromFilename(filename: string): string {
   return filename
-    .replace(/\.mdx?$/i, "")
     .trim()
+    .replace(/\.mdx?$/i, "")
     .toLowerCase();
 }
 
