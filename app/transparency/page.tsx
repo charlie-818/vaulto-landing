@@ -11,6 +11,7 @@ import {
   POOL_ROWS,
   PROTOCOL_CONTRACTS,
   UNISWAP,
+  buildTransparencyJsonLd,
   polygonscanAddress,
   polygonscanToken,
   uniswapPool,
@@ -142,8 +143,17 @@ function SectionHead({ eyebrow, title, blurb }: { eyebrow: string; title: string
 }
 
 export default function TransparencyPage() {
+  const jsonLd = buildTransparencyJsonLd();
   return (
     <main className="mx-auto max-w-5xl px-6 py-12 lg:py-16">
+      {jsonLd.map((ld, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
+        />
+      ))}
+
       {/* Header */}
       <header>
         <p className="text-sm font-medium uppercase tracking-wider text-[var(--muted)]">
