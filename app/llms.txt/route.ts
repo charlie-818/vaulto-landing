@@ -1,4 +1,5 @@
 import { FAQ_CATEGORIES, SITE_URL } from "@/lib/faq-data";
+import { GLOSSARY_TERMS } from "@/lib/glossary-data";
 import { API_URL } from "@/lib/external-urls";
 
 // Served at /llms.txt as text/plain. Built from the FAQ data so it stays in sync.
@@ -14,6 +15,7 @@ export function GET() {
     "## Key pages",
     `- [Home](${SITE_URL}/): Overview of Vaulto`,
     `- [FAQ](${SITE_URL}/faq): Common questions about products, mechanics, safety, and the API`,
+    `- [Glossary](${SITE_URL}/glossary): Plain-language definitions of private-markets and pre-IPO terms`,
     `- [Compliance](${SITE_URL}/compliance): Regulatory posture and analysis`,
     `- [API](${API_URL}): Read-only REST API for private-company data`,
     "",
@@ -25,6 +27,11 @@ export function GET() {
     for (const item of category.items) {
       lines.push(`- [${item.question}](${SITE_URL}/faq#${item.id}): ${item.answer}`);
     }
+  }
+
+  lines.push("", "## Glossary");
+  for (const term of GLOSSARY_TERMS) {
+    lines.push(`- [${term.term}](${SITE_URL}/glossary#${term.id}): ${term.definition}`);
   }
 
   return new Response(lines.join("\n") + "\n", {
