@@ -28,11 +28,13 @@ export async function generateMetadata({
       type: "article",
       publishedTime: guide.date,
       modifiedTime: guide.updated,
+      images: ["/socialbanner.png"],
     },
     twitter: {
       card: "summary_large_image",
       title: guide.title,
       description: guide.description,
+      images: ["/socialbanner.png"],
     },
   };
 }
@@ -53,6 +55,7 @@ export default async function GuideDetailPage({
     "@type": "Article",
     headline: guide.title,
     description: guide.description,
+    image: `${SITE_URL}/socialbanner.png`,
     datePublished: guide.date,
     dateModified: guide.updated,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },

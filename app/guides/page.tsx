@@ -13,6 +13,7 @@ export const metadata: Metadata = {
       "How to buy pre-IPO stock in SpaceX, OpenAI, Anthropic, and other private companies before they go public.",
     url: `${SITE_URL}/guides`,
     type: "website",
+    images: ["/socialbanner.png"],
   },
 };
 
