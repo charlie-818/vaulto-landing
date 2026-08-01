@@ -48,22 +48,22 @@ const URL_TO_FILE: Record<string, string> = Object.fromEntries(
   Object.entries(FILE_TO_URL).map(([file, url]) => [url, file])
 );
 
-function fileSlugToUrlSlug(fileSlug: string): string {
+export function fileSlugToUrlSlug(fileSlug: string): string {
   return FILE_TO_URL[fileSlug] ?? fileSlug;
 }
 
-function urlSlugToFileSlug(urlSlug: string): string {
+export function urlSlugToFileSlug(urlSlug: string): string {
   return URL_TO_FILE[urlSlug] ?? urlSlug;
 }
 
-function deriveTitle(slug: string, body: string): string {
+export function deriveTitle(slug: string, body: string): string {
   if (TITLE_OVERRIDES[slug]) return TITLE_OVERRIDES[slug];
   const h1 = body.match(/^#\s+(.+)$/m);
   if (h1) return h1[1].replace(/\s+—.*$/, "").trim();
   return slug;
 }
 
-function deriveOrder(slug: string): number {
+export function deriveOrder(slug: string): number {
   const match = slug.match(/^(\d+)/);
   if (match) return parseInt(match[1], 10);
   if (slug === "README") return -1;
@@ -73,7 +73,7 @@ function deriveOrder(slug: string): number {
 /**
  * Rewrite intra-doc markdown links `[x](02-foo.md)` → `/compliance/<urlSlug>`.
  */
-function rewriteInternalLinks(md: string): string {
+export function rewriteInternalLinks(md: string): string {
   return md.replace(
     /\]\(([0-9A-Za-z-]+)\.md(#[^)]*)?\)/g,
     (_match, fileSlug, hash) => {
