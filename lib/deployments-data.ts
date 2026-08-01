@@ -172,3 +172,45 @@ export const POOL_ROWS: PoolRow[] = ASSETS.flatMap((a) => [
   { asset: a.name, slug: a.slug, symbol: `${a.symbolBase}_L`, leg: "Long" as const, pool: a.longPool },
   { asset: a.name, slug: a.slug, symbol: `${a.symbolBase}_S`, leg: "Short" as const, pool: a.shortPool },
 ]);
+
+const SITE_URL = "https://vaulto.fi";
+
+// Build BreadcrumbList (Home -> Transparency) + an ItemList of the on-chain
+// assets and core protocol contracts for the /transparency page. Each list
+// item links to its Polygonscan record so crawlers and answering engines can
+// follow the verifiable deployments. Mirrors buildFaqJsonLd in ./faq-data.ts.
+export function buildTransparencyJsonLd() {
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Transparency", item: `${SITE_URL}/transparency` },
+    ],
+  };
+
+  const contractItems = [
+    ...ASSETS.filter((a) => a.vault).map((a) => ({
+      name: `${a.name} vault`,
+      url: polygonscanAddress(a.vault!),
+    })),
+    ...PROTOCOL_CONTRACTS.map((c) => ({
+      name: c.name,
+      url: polygonscanAddress(c.address),
+    })),
+  ];
+
+  const itemList = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Vaulto on-chain contracts & deployments",
+    itemListElement: contractItems.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.name,
+      url: c.url,
+    })),
+  };
+
+  return [breadcrumb, itemList];
+}
