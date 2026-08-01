@@ -20,9 +20,17 @@ export async function generateMetadata({
   const { slug } = await params;
   const doc = getComplianceDoc(slug);
   if (!doc) return {};
+  const title = `${doc.title} — Vaulto Compliance`;
   return {
-    title: `${doc.title} — Vaulto Compliance`,
+    title,
     description: doc.description,
+    alternates: { canonical: `/compliance/${slug}` },
+    openGraph: {
+      title,
+      description: doc.description,
+      url: `/compliance/${slug}`,
+      type: "article",
+    },
   };
 }
 
