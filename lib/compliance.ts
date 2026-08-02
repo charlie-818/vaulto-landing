@@ -63,6 +63,68 @@ function deriveTitle(slug: string, body: string): string {
   return slug;
 }
 
+const MAX_DESCRIPTION = 155;
+
+/**
+ * Strip markdown syntax from a single paragraph into plain prose suitable for
+ * a `<meta name="description">` value.
+ */
+function stripMarkdown(text: string): string {
+  return text
+    .replace(/`([^`]+)`/g, "$1") // inline code
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, "") // images
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1") // links → link text
+    .replace(/\[(S\d+)\]/g, "") // bare citation markers
+    .replace(/\(\s*\)/g, "") // empty parens left by citation removal
+    .replace(/[*_~]{1,3}([^*_~]+)[*_~]{1,3}/g, "$1") // bold/italic/strike
+    .replace(/[*_~`#>]/g, "") // stray markers
+    .replace(/\s+([.,;:!?])/g, "$1") // tidy space before punctuation
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/**
+ * Derive a meta description from the first meaningful body paragraph when the
+ * frontmatter omits one. Skips headings and italic-only metadata lines
+ * (e.g. `*Last researched: …*`), then truncates to ~155 chars on a word
+ * boundary so the result stays under the 160-char meta-description limit.
+ */
+/**
+ * Resolve the meta description for a doc: a verbatim frontmatter `description`
+ * wins; otherwise fall back to one derived from the body.
+ */
+export function resolveDescription(
+  data: Record<string, unknown>,
+  content: string
+): string | undefined {
+  if (typeof data.description === "string" && data.description) {
+    return data.description;
+  }
+  return deriveDescription(content);
+}
+
+export function deriveDescription(content: string): string | undefined {
+  const paragraphs = content.split(/\n\s*\n/);
+  for (const para of paragraphs) {
+    const trimmed = para.trim();
+    if (!trimmed) continue;
+    if (trimmed.startsWith("#")) continue; // heading
+    // Skip metadata lines that are entirely wrapped in emphasis markers,
+    // e.g. `*Last researched: 2026-05-18*`.
+    if (/^[*_]{1,3}[^*_].*[*_]{1,3}$/.test(trimmed) && !/\n/.test(trimmed)) {
+      continue;
+    }
+    const plain = stripMarkdown(trimmed);
+    if (!plain) continue;
+    if (plain.length <= MAX_DESCRIPTION) return plain;
+    const truncated = plain.slice(0, MAX_DESCRIPTION);
+    const lastSpace = truncated.lastIndexOf(" ");
+    const cut = lastSpace > 0 ? truncated.slice(0, lastSpace) : truncated;
+    return `${cut.replace(/[.,;:!?—-]+$/, "").trim()}…`;
+  }
+  return undefined;
+}
+
 function deriveOrder(slug: string): number {
   const match = slug.match(/^(\d+)/);
   if (match) return parseInt(match[1], 10);
@@ -133,8 +195,7 @@ export function getAllComplianceDocs(): ComplianceDoc[] {
         (typeof data.title === "string" && data.title) ||
         deriveTitle(fileSlug, content),
       order: deriveOrder(fileSlug),
-      description:
-        typeof data.description === "string" ? data.description : undefined,
+      description: resolveDescription(data, content),
       raw,
       body: linkCitations(rewriteInternalLinks(content), fileSlug),
     };
