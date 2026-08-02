@@ -106,6 +106,12 @@ export const ASSETS: Asset[] = [
   },
 ];
 
+// Names of companies whose markets are live on-chain (status: "live").
+// Derived from ASSETS so consumers (e.g. /llms.txt) never hardcode a stale list.
+export const LIVE_MARKET_NAMES: string[] = ASSETS.filter((a) => a.status === "live").map(
+  (a) => a.name
+);
+
 // Registered, not yet deployed (config/companies.json).
 export const COMING_SOON: Asset[] = [
   { slug: "spacex", name: "SpaceX", symbolBase: "vSPACEX", category: "Aerospace", status: "coming-soon" },
