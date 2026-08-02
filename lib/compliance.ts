@@ -4,6 +4,8 @@ import matter from "gray-matter";
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "sec-research");
 
+export const SITE_URL = "https://vaulto.fi";
+
 export type ComplianceDoc = {
   slug: string;
   title: string;
@@ -140,6 +142,45 @@ export function getAllComplianceDocs(): ComplianceDoc[] {
     };
   });
   return docs.sort((a, b) => a.order - b.order);
+}
+
+// Build CollectionPage + BreadcrumbList JSON-LD for the /compliance hub page.
+// The CollectionPage enumerates every doc with an absolute URL and its title;
+// the BreadcrumbList traces Home -> Compliance. Mirrors the /guides and /faq hubs.
+export function buildComplianceIndexJsonLd() {
+  const docs = getAllComplianceDocs();
+
+  const collectionPage = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Compliance — Vaulto SEC Token Knowledge Base",
+    url: `${SITE_URL}/compliance`,
+    hasPart: {
+      "@type": "ItemList",
+      itemListElement: docs.map((doc, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `${SITE_URL}/compliance/${doc.slug}`,
+        name: doc.title,
+      })),
+    },
+  };
+
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Compliance",
+        item: `${SITE_URL}/compliance`,
+      },
+    ],
+  };
+
+  return [collectionPage, breadcrumb];
 }
 
 export function getComplianceDoc(urlSlug: string): ComplianceDoc | null {
