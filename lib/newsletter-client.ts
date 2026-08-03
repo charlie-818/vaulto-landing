@@ -1,12 +1,11 @@
 import { supabase } from "./supabase";
+import { isValidEmail } from "./email";
 
 export type NewsletterResponse = { ok: boolean; error?: string };
 
-const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-
 export async function subscribeNewsletter(email: string): Promise<NewsletterResponse> {
   const clean = email.trim().toLowerCase();
-  if (!EMAIL_RE.test(clean)) {
+  if (!isValidEmail(clean)) {
     return { ok: false, error: "Please enter a valid email." };
   }
   const { error } = await supabase
