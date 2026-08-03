@@ -105,3 +105,66 @@ export function getGuide(slug: string): Guide | null {
   }
   return null;
 }
+
+/**
+ * SEO keywords derived from a guide's company/sector frontmatter, aimed at
+ * "how to buy <company> pre-IPO" search intent. Returns an empty array when
+ * neither is present so callers can omit the `keywords` key cleanly.
+ */
+export function buildGuideKeywords(
+  guide: Pick<Guide, "company" | "sector">
+): string[] {
+  const keywords: string[] = [];
+  if (guide.company) {
+    keywords.push(
+      `how to buy ${guide.company} pre-IPO`,
+      `${guide.company} pre-IPO`,
+      `${guide.company} stock`
+    );
+  }
+  if (guide.sector) keywords.push(guide.sector);
+  return keywords;
+}
+
+/**
+ * Build the schema.org Article JSON-LD for a guide detail page. When the
+ * guide carries `company`/`sector` frontmatter, the object is enriched with
+ * `about`, `articleSection`, `inLanguage`, and `keywords` to strengthen
+ * entity association; guides without them omit those keys entirely.
+ */
+export function buildArticleLd(
+  guide: Guide,
+  url: string
+): Record<string, unknown> {
+  const articleLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: guide.title,
+    description: guide.description,
+    datePublished: guide.date,
+    dateModified: guide.updated,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    author: { "@type": "Organization", name: "Vaulto" },
+    publisher: {
+      "@type": "Organization",
+      name: "Vaulto",
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/favicon.png`,
+      },
+    },
+  };
+
+  if (guide.company) {
+    articleLd.about = { "@type": "Organization", name: guide.company };
+  }
+  if (guide.sector) {
+    articleLd.articleSection = guide.sector;
+  }
+  if (guide.company || guide.sector) {
+    articleLd.inLanguage = "en";
+    articleLd.keywords = buildGuideKeywords(guide);
+  }
+
+  return articleLd;
+}

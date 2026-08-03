@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getGuide, getGuideSlugs, SITE_URL } from "@/lib/guides";
+import { buildArticleLd, getGuide, getGuideSlugs, SITE_URL } from "@/lib/guides";
 import { MarkdownRenderer } from "@/components/compliance/MarkdownRenderer";
 
 export function generateStaticParams() {
@@ -48,24 +48,7 @@ export default async function GuideDetailPage({
 
   const url = `${SITE_URL}/guides/${guide.slug}`;
 
-  const articleLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: guide.title,
-    description: guide.description,
-    datePublished: guide.date,
-    dateModified: guide.updated,
-    mainEntityOfPage: { "@type": "WebPage", "@id": url },
-    author: { "@type": "Organization", name: "Vaulto" },
-    publisher: {
-      "@type": "Organization",
-      name: "Vaulto",
-      logo: {
-        "@type": "ImageObject",
-        url: `${SITE_URL}/favicon.png`,
-      },
-    },
-  };
+  const articleLd = buildArticleLd(guide, url);
 
   const breadcrumbLd = {
     "@context": "https://schema.org",

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseGuide, slugFromFilename } from "./guides";
+import { buildArticleLd, parseGuide, slugFromFilename } from "./guides";
 
 describe("slugFromFilename", () => {
   it("strips the .md extension", () => {
@@ -78,5 +78,59 @@ Text.
     const guide = parseGuide("y.md", `---\ndate: 2026-03-03\n---\n\nBody.\n`);
     expect(guide.updated).toBe("2026-03-03");
     expect(guide.order).toBe(9999);
+  });
+});
+
+describe("buildArticleLd", () => {
+  const withEntities = `---
+title: How to Buy SpaceX Stock Before the IPO
+description: A practical guide.
+company: SpaceX
+sector: Aerospace
+date: 2026-01-15
+updated: 2026-06-01
+---
+
+# How to Buy SpaceX Stock Before the IPO
+
+Body.
+`;
+
+  const withoutEntities = `---
+title: Understanding Pre-IPO Investing
+description: The basics.
+date: 2026-01-15
+---
+
+# Understanding Pre-IPO Investing
+
+Body.
+`;
+
+  const url = "https://vaulto.fi/guides/how-to-buy-spacex-stock-pre-ipo";
+
+  it("always includes the core Article fields", () => {
+    const ld = buildArticleLd(parseGuide("x.md", withEntities), url);
+    expect(ld["@context"]).toBe("https://schema.org");
+    expect(ld["@type"]).toBe("Article");
+    expect(ld.headline).toBe("How to Buy SpaceX Stock Before the IPO");
+    expect(ld.mainEntityOfPage).toEqual({ "@type": "WebPage", "@id": url });
+  });
+
+  it("enriches with about/articleSection when company+sector are present", () => {
+    const ld = buildArticleLd(parseGuide("x.md", withEntities), url);
+    expect(ld.about).toEqual({ "@type": "Organization", name: "SpaceX" });
+    expect(ld.articleSection).toBe("Aerospace");
+    expect(ld.inLanguage).toBe("en");
+    expect(ld.keywords).toContain("how to buy SpaceX pre-IPO");
+    expect(ld.keywords).toContain("Aerospace");
+  });
+
+  it("omits the enrichment keys cleanly when company/sector are absent", () => {
+    const ld = buildArticleLd(parseGuide("y.md", withoutEntities), url);
+    expect(ld).not.toHaveProperty("about");
+    expect(ld).not.toHaveProperty("articleSection");
+    expect(ld).not.toHaveProperty("inLanguage");
+    expect(ld).not.toHaveProperty("keywords");
   });
 });
