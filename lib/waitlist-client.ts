@@ -1,4 +1,5 @@
 import { PLATFORM_API_URL } from "./config";
+import { isValidEmail } from "./email";
 
 export type WaitlistSignupResponse = {
   ok: boolean;
@@ -11,6 +12,9 @@ export async function signupEmail(
   email: string,
   firstName: string
 ): Promise<WaitlistSignupResponse> {
+  if (!isValidEmail(email)) {
+    return { ok: false, message: "Please enter a valid email." };
+  }
   try {
     const res = await fetch(`${PLATFORM_API_URL}/api/waitlist/email-signup`, {
       method: "POST",
