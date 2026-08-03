@@ -95,6 +95,27 @@ export function getAllGuides(): Guide[] {
     .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));
 }
 
+/**
+ * Build the schema.org `ItemList` JSON-LD for the guides index. Pure — takes
+ * the guide list rather than reading from disk — so it can be unit tested and
+ * kept in sync with the rendered listing. Enriches each `ListItem` with a
+ * `description` alongside the position/url/name, and sets `numberOfItems`.
+ */
+export function buildGuideListJsonLd(guides: Guide[]): object {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    numberOfItems: guides.length,
+    itemListElement: guides.map((g, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `${SITE_URL}/guides/${g.slug}`,
+      name: g.title,
+      description: g.description,
+    })),
+  };
+}
+
 export function getGuide(slug: string): Guide | null {
   const normalized = slugFromFilename(slug);
   for (const ext of [".md", ".mdx"]) {
