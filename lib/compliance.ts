@@ -56,14 +56,16 @@ function urlSlugToFileSlug(urlSlug: string): string {
   return URL_TO_FILE[urlSlug] ?? urlSlug;
 }
 
-function deriveTitle(slug: string, body: string): string {
+// Exported for unit tests only; not part of the public API.
+export function deriveTitle(slug: string, body: string): string {
   if (TITLE_OVERRIDES[slug]) return TITLE_OVERRIDES[slug];
   const h1 = body.match(/^#\s+(.+)$/m);
   if (h1) return h1[1].replace(/\s+—.*$/, "").trim();
   return slug;
 }
 
-function deriveOrder(slug: string): number {
+// Exported for unit tests only; not part of the public API.
+export function deriveOrder(slug: string): number {
   const match = slug.match(/^(\d+)/);
   if (match) return parseInt(match[1], 10);
   if (slug === "README") return -1;
