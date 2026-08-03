@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllGuides, SITE_URL } from "@/lib/guides";
+import { buildGuideListJsonLd, getAllGuides, SITE_URL } from "@/lib/guides";
 
 export const metadata: Metadata = {
   title: "Pre-IPO Investing Guides — How to Buy Private Company Stock | Vaulto",
@@ -19,16 +19,7 @@ export const metadata: Metadata = {
 export default function GuidesIndexPage() {
   const guides = getAllGuides();
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    itemListElement: guides.map((g, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      url: `${SITE_URL}/guides/${g.slug}`,
-      name: g.title,
-    })),
-  };
+  const jsonLd = buildGuideListJsonLd(guides);
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12 lg:py-16">
