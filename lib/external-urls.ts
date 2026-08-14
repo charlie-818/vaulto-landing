@@ -21,3 +21,14 @@ export const SOCIAL_URLS = {
   instagram: "https://instagram.com/vaulto.fi",
   youtube: "https://youtube.com/@vaultoAI",
 } as const;
+
+/**
+ * Derives the @handle for X/Twitter from an x.com URL, defaulting to
+ * SOCIAL_URLS.x (e.g. "https://x.com/vaultoAI" -> "@vaultoAI"). Strips any
+ * trailing slash and query string so metadata attribution stays clean.
+ */
+export function xHandle(url: string = SOCIAL_URLS.x): string {
+  const { pathname } = new URL(url);
+  const handle = pathname.replace(/^\/+/, "").replace(/\/+$/, "");
+  return `@${handle}`;
+}
