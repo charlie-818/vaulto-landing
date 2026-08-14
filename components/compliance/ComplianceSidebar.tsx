@@ -2,24 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { sectionLabel } from "@/lib/compliance-sections";
 
 type SidebarDoc = {
   slug: string;
   title: string;
   order: number;
 };
-
-function sectionLabel(order: number): string | null {
-  if (order === 0) return "Start here";
-  if (order >= 1 && order <= 6) return "The five buckets";
-  if (order >= 10 && order <= 11) return "Foundations & case law";
-  if (order >= 12 && order <= 13) return "Compliance paths";
-  if (order >= 14 && order <= 16) return "Legislation & jurisdictions";
-  if (order === 17) return "Staff guidance";
-  if (order === 20) return "Glossary";
-  if (order >= 99) return "Sources";
-  return null;
-}
 
 export function ComplianceSidebar({ docs }: { docs: SidebarDoc[] }) {
   const pathname = usePathname();
