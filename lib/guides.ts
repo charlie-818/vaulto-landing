@@ -77,6 +77,26 @@ export function parseGuide(filename: string, raw: string): Guide {
   };
 }
 
+/**
+ * BreadcrumbList JSON-LD for the /guides index: Home > Guides. Pure so it can
+ * be unit tested; mirrors the Guides > title breadcrumb on guide detail pages.
+ */
+export function buildGuidesBreadcrumbJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Guides",
+        item: `${SITE_URL}/guides`,
+      },
+    ],
+  };
+}
+
 export function getGuideSlugs(): string[] {
   if (!fs.existsSync(CONTENT_DIR)) return [];
   return fs

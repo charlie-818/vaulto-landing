@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllGuides, SITE_URL } from "@/lib/guides";
+import { buildGuidesBreadcrumbJsonLd, getAllGuides, SITE_URL } from "@/lib/guides";
 
 export const metadata: Metadata = {
   title: "Pre-IPO Investing Guides — How to Buy Private Company Stock | Vaulto",
@@ -30,11 +30,17 @@ export default function GuidesIndexPage() {
     })),
   };
 
+  const breadcrumbLd = buildGuidesBreadcrumbJsonLd();
+
   return (
     <main className="mx-auto max-w-3xl px-6 py-12 lg:py-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
 
       <header>
