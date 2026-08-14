@@ -142,6 +142,32 @@ export function getAllComplianceDocs(): ComplianceDoc[] {
   return docs.sort((a, b) => a.order - b.order);
 }
 
+type ComplianceNavDoc = { slug: string; order: number; title: string };
+
+/**
+ * Compute the prev/next neighbors for a compliance doc's footer nav.
+ *
+ * Excludes both the README (the /compliance overview, which is not a
+ * standalone page in generateStaticParams or the sitemap) and the sources
+ * appendix, then orders the remaining docs by `order` before finding
+ * neighbors. Keeping this pure makes the ordering rules testable without the
+ * filesystem.
+ */
+export function getComplianceNavPair<T extends ComplianceNavDoc>(
+  slug: string,
+  docs: T[]
+): { prev: T | null; next: T | null } {
+  const nav = docs
+    .filter((d) => d.slug !== "README" && d.slug !== "sources")
+    .sort((a, b) => a.order - b.order);
+  const idx = nav.findIndex((d) => d.slug === slug);
+  if (idx === -1) return { prev: null, next: null };
+  return {
+    prev: idx > 0 ? nav[idx - 1] : null,
+    next: idx < nav.length - 1 ? nav[idx + 1] : null,
+  };
+}
+
 export function getComplianceDoc(urlSlug: string): ComplianceDoc | null {
   const fileSlug = urlSlugToFileSlug(urlSlug);
   const filename = path.join(CONTENT_DIR, `${fileSlug}.md`);
