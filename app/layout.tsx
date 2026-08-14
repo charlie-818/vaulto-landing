@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SiteHeader } from "@/components/SiteHeader";
+import { xHandle } from "@/lib/external-urls";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -31,6 +32,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: xHandle(),
+    creator: xHandle(),
     title: "Vaulto — Trade Faster & Smarter",
     description:
       "Join the waitlist for early access to tokenized private company stocks.",
