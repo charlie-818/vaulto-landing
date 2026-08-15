@@ -2,6 +2,10 @@
 
 import { ReactNode, useEffect, useState } from "react";
 import { CompanyLogo } from "@/components/CompanyLogo";
+import {
+  tokenizeSolidityLine,
+  type SolidityTokenKind,
+} from "@/lib/solidity-highlight";
 
 // =============================================================================
 // TOKEN TICKER - Shows animated token prices with actual company logos
@@ -297,38 +301,20 @@ export function CodeBlock() {
   );
 }
 
+const solidityTokenClass: Record<SolidityTokenKind, string> = {
+  keyword: "text-blue-400",
+  type: "text-cyan-400",
+  comment: "text-gray-500",
+  plain: "text-gray-300",
+};
+
 function highlightSolidity(line: string) {
-  // Simple syntax highlighting
-  return line
-    .split(/(\b(?:interface|function|external|view|returns|address|uint256|int24)\b|\/\/.*$)/g)
-    .map((part, i) => {
-      if (/^(interface|function|external|view|returns)$/.test(part)) {
-        return (
-          <span key={i} className="text-blue-400">
-            {part}
-          </span>
-        );
-      }
-      if (/^(address|uint256|int24)$/.test(part)) {
-        return (
-          <span key={i} className="text-cyan-400">
-            {part}
-          </span>
-        );
-      }
-      if (part.startsWith("//")) {
-        return (
-          <span key={i} className="text-gray-500">
-            {part}
-          </span>
-        );
-      }
-      return (
-        <span key={i} className="text-gray-300">
-          {part}
-        </span>
-      );
-    });
+  // Simple syntax highlighting; classification lives in lib/solidity-highlight.
+  return tokenizeSolidityLine(line).map((token, i) => (
+    <span key={i} className={solidityTokenClass[token.kind]}>
+      {token.text}
+    </span>
+  ));
 }
 
 // =============================================================================
