@@ -3,14 +3,14 @@ import { FaqAccordion } from "@/components/faq/FaqAccordion";
 import { FAQ_CATEGORIES, FAQ_UPDATED, buildFaqJsonLd } from "@/lib/faq-data";
 
 export const metadata: Metadata = {
-  title: "Vaulto FAQ — Tokenized Pre-IPO Outcomes Explained",
+  title: "Vaulto FAQ — Trading Pre-IPO Company Valuations Explained",
   description:
-    "Answers to common questions about Vaulto: trading pre-IPO outcomes as on-chain tokens, fees, how to mint and redeem, custody and safety, and the developer data API.",
+    "Answers to common questions about Vaulto: trading exposure to private-company valuations before IPO, how positions work, fees, custody and safety, and the developer data API.",
   alternates: { canonical: "/faq" },
   openGraph: {
     title: "Vaulto FAQ",
     description:
-      "How Vaulto works — trading pre-IPO outcomes as tokens, fees, safety, and the developer API.",
+      "How Vaulto works — trading pre-IPO company valuation exposure, how positions work, fees, safety, and the developer API.",
     url: "https://vaulto.fi/faq",
     type: "website",
   },

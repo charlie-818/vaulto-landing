@@ -14,9 +14,9 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL("https://vaulto.fi"),
   openGraph: {
-    title: "Vaulto — Trade Faster & Smarter",
+    title: "Vaulto — Trade Private Companies Before They Go Public",
     description:
-      "Join the waitlist for early access to tokenized private company stocks.",
+      "Access pre-IPO tokens of the world's most valuable private companies. Trade SpaceX, Anthropic, OpenAI, and more with real-time pricing powered by prediction markets.",
     url: "https://vaulto.fi",
     siteName: "Vaulto Protocol",
     images: [
@@ -24,16 +24,16 @@ export const metadata: Metadata = {
         url: "/socialbanner.png",
         width: 1200,
         height: 630,
-        alt: "Vaulto - Trade faster & smarter",
+        alt: "Vaulto — Trade private companies before they go public",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vaulto — Trade Faster & Smarter",
+    title: "Vaulto — Trade Private Companies Before They Go Public",
     description:
-      "Join the waitlist for early access to tokenized private company stocks.",
+      "Access pre-IPO tokens of the world's most valuable private companies. Trade SpaceX, Anthropic, OpenAI, and more with real-time pricing powered by prediction markets.",
     images: ["/socialbanner.png"],
   },
 };
