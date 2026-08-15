@@ -1,12 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { truncateAddress } from "@/lib/format-address";
 
 const MONO = { fontFamily: "'Space Grotesk', ui-monospace, monospace" };
-
-function truncate(addr: string) {
-  return `${addr.slice(0, 6)}…${addr.slice(-4)}`;
-}
 
 type Props = {
   address: string;
@@ -40,7 +37,7 @@ export function AddressPill({ address, href, explorerName = "Polygonscan", class
         style={MONO}
         className="tabular-nums text-[var(--foreground)] transition-colors hover:text-blue-600"
       >
-        {truncate(address)}
+        {truncateAddress(address)}
       </a>
 
       <button
