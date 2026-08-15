@@ -86,7 +86,8 @@ function rewriteInternalLinks(md: string): string {
 
 let _citationMap: Map<string, string> | null = null;
 
-function getCitationMap(): Map<string, string> {
+// Exported for unit tests; consumed internally by linkCitations.
+export function getCitationMap(): Map<string, string> {
   if (_citationMap) return _citationMap;
   const map = new Map<string, string>();
   const sourcesPath = path.join(CONTENT_DIR, "99-sources.md");
@@ -103,7 +104,8 @@ function getCitationMap(): Map<string, string> {
   return map;
 }
 
-function linkCitations(md: string, fileSlug: string): string {
+// Exported for unit tests; consumed internally by getAllComplianceDocs.
+export function linkCitations(md: string, fileSlug: string): string {
   if (fileSlug === "99-sources") return md;
   const map = getCitationMap();
   return md.replace(/\[(S\d+)\](?!\()/g, (_match, key) => {
