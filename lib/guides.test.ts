@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseGuide, slugFromFilename } from "./guides";
+import { getAllGuides, getGuideSlugs, parseGuide, slugFromFilename } from "./guides";
 
 describe("slugFromFilename", () => {
   it("strips the .md extension", () => {
@@ -78,5 +78,24 @@ Text.
     const guide = parseGuide("y.md", `---\ndate: 2026-03-03\n---\n\nBody.\n`);
     expect(guide.updated).toBe("2026-03-03");
     expect(guide.order).toBe(9999);
+  });
+});
+
+describe("guides corpus", () => {
+  it("includes the Stripe pre-IPO guide", () => {
+    expect(getGuideSlugs()).toContain("how-to-buy-stripe-stock-pre-ipo");
+  });
+
+  it("parses the Stripe guide's frontmatter with a unique order", () => {
+    const guides = getAllGuides();
+    const stripe = guides.find(
+      (g) => g.slug === "how-to-buy-stripe-stock-pre-ipo"
+    );
+    expect(stripe).toBeDefined();
+    expect(stripe?.company).toBe("Stripe");
+    expect(stripe?.title).toBe("How to Buy Stripe Stock Before the IPO");
+
+    const sameOrder = guides.filter((g) => g.order === stripe?.order);
+    expect(sameOrder).toHaveLength(1);
   });
 });
