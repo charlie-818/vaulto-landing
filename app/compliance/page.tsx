@@ -1,9 +1,21 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { getComplianceIndexDocs } from "@/lib/compliance";
 
-export const metadata = {
+const SITE_URL = "https://vaulto.fi";
+
+export const metadata: Metadata = {
   title: "Compliance — Vaulto SEC Token Knowledge Base",
   description:
     "Builder-focused reference on SEC token regulation. Project Crypto five-bucket framework, foundational case law, compliance paths, and jurisdictional contrast.",
+  alternates: { canonical: "/compliance" },
+  openGraph: {
+    title: "Compliance — Vaulto SEC Token Knowledge Base",
+    description:
+      "Builder-focused reference on SEC token regulation: the Project Crypto five-bucket framework, foundational case law, compliance paths, and jurisdictional contrast.",
+    url: `${SITE_URL}/compliance`,
+    type: "website",
+  },
 };
 
 const BUCKETS: Array<{
@@ -51,8 +63,31 @@ const BUCKETS: Array<{
 ];
 
 export default function ComplianceIndexPage() {
+  const indexDocs = getComplianceIndexDocs();
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Vaulto SEC Token Knowledge Base",
+    url: `${SITE_URL}/compliance`,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: indexDocs.map((d, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `${SITE_URL}/compliance/${d.slug}`,
+        name: d.title,
+      })),
+    },
+  };
+
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <header className="mb-10">
         <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-blue-500">
           SEC Token Regulation
@@ -77,6 +112,34 @@ export default function ComplianceIndexPage() {
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           {BUCKETS.map((b) => (
             <BucketCard key={b.slug} {...b} />
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-12">
+        <h2 className="text-xl font-semibold text-[var(--foreground)]">
+          All topics
+        </h2>
+        <p className="mt-1 text-sm text-[var(--muted)]">
+          Every doc in the knowledge base — foundations, enforcement, compliance
+          paths, jurisdictional contrast, and reference material.
+        </p>
+        <div className="mt-5 grid gap-2 sm:grid-cols-2">
+          {indexDocs.map((d) => (
+            <Link
+              key={d.slug}
+              href={`/compliance/${d.slug}`}
+              className="group rounded-lg border border-[var(--border)] bg-[var(--card-bg)] p-3 transition-all hover:border-blue-500/40 hover:shadow-sm"
+            >
+              <h3 className="text-sm font-semibold text-[var(--foreground)] group-hover:text-blue-500">
+                {d.title}
+              </h3>
+              {d.description ? (
+                <p className="mt-1 text-sm text-[var(--muted)]">
+                  {d.description}
+                </p>
+              ) : null}
+            </Link>
           ))}
         </div>
       </section>
