@@ -142,6 +142,15 @@ export function getAllComplianceDocs(): ComplianceDoc[] {
   return docs.sort((a, b) => a.order - b.order);
 }
 
+/**
+ * Docs suitable for the /compliance hub's "All topics" index: every doc
+ * except the raw sources appendix (`sources`), which is a citation table
+ * rather than a standalone topic. Pure over getAllComplianceDocs().
+ */
+export function getComplianceIndexDocs(): ComplianceDoc[] {
+  return getAllComplianceDocs().filter((doc) => doc.slug !== "sources");
+}
+
 export function getComplianceDoc(urlSlug: string): ComplianceDoc | null {
   const fileSlug = urlSlugToFileSlug(urlSlug);
   const filename = path.join(CONTENT_DIR, `${fileSlug}.md`);
