@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { ReactNode, useEffect, useState } from "react";
 import { CompanyLogo } from "@/components/CompanyLogo";
 
@@ -407,7 +408,7 @@ export function ChainDiagram() {
 
           {/* Bridge logo in center */}
           <div className={`absolute flex h-14 w-14 sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 items-center justify-center rounded-full border-2 border-cyan-500/30 bg-[var(--card-bg)] overflow-hidden transition-all duration-300 ${phase === 1 || phase === 3 ? "scale-110 border-cyan-500/60" : ""}`}>
-            <img src="/bridge-logo.png" alt="Bridge" className="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 lg:h-20 lg:w-20 object-contain" />
+            <Image src="/bridge-logo.png" alt="Bridge" width={80} height={80} className="h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 lg:h-20 lg:w-20 object-contain" />
           </div>
         </div>
 
@@ -501,8 +502,7 @@ export function ExposureFlow() {
       caption: "Real valuation & transaction data settles each market.",
       accent: NASDAQ_BLUE,
       tile: (
-        /* eslint-disable-next-line @next/next/no-img-element */
-        <img src="/nasdaq-pm-logo-cropped.png" alt="Nasdaq Private Market" className="h-7 w-7 sm:h-8 sm:w-8 object-contain" />
+        <Image src="/nasdaq-pm-logo-cropped.png" alt="Nasdaq Private Market" width={46} height={32} className="h-7 w-7 sm:h-8 sm:w-8 object-contain" />
       ),
       tileClass: "bg-white border border-[var(--border)]",
       detail: (
