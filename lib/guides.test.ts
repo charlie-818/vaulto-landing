@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseGuide, slugFromFilename } from "./guides";
+import { getAllGuides, getGuide, getGuideSlugs, parseGuide, slugFromFilename } from "./guides";
 
 describe("slugFromFilename", () => {
   it("strips the .md extension", () => {
@@ -78,5 +78,38 @@ Text.
     const guide = parseGuide("y.md", `---\ndate: 2026-03-03\n---\n\nBody.\n`);
     expect(guide.updated).toBe("2026-03-03");
     expect(guide.order).toBe(9999);
+  });
+});
+
+describe("guides corpus", () => {
+  const guides = getAllGuides();
+
+  it("has guides on disk", () => {
+    expect(guides.length).toBeGreaterThan(0);
+  });
+
+  it("gives every guide complete frontmatter", () => {
+    for (const guide of guides) {
+      expect(guide.title, guide.slug).not.toBe("");
+      expect(guide.description, guide.slug).not.toBe("");
+      expect(guide.date, guide.slug).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(guide.updated, guide.slug).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(guide.order, guide.slug).toBeLessThan(9999);
+      expect(guide.body, guide.slug).toMatch(/^# .+/);
+    }
+  });
+
+  it("keeps slugs unique and resolvable", () => {
+    const slugs = getGuideSlugs();
+    expect(new Set(slugs).size).toBe(slugs.length);
+    for (const slug of slugs) {
+      expect(getGuide(slug)?.slug, slug).toBe(slug);
+    }
+  });
+
+  it("includes the Databricks pre-IPO guide, so the sitemap picks it up", () => {
+    const slug = "how-to-buy-databricks-stock-pre-ipo";
+    expect(getGuideSlugs()).toContain(slug);
+    expect(getGuide(slug)?.company).toBe("Databricks");
   });
 });
