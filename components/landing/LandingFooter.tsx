@@ -114,15 +114,13 @@ export function LandingFooter() {
               <img src="/partners/every.svg" alt="Every.io" className="h-3 sm:h-5 w-auto" />
             </a>
             <a href="https://my.pitchbook.com/profile/895353-13/company/profile" target="_blank" rel="noopener noreferrer" className="inline-flex" aria-label="PitchBook">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/partners/pitchbook.png" alt="PitchBook" className="h-3 sm:h-5 w-auto opacity-80 transition-opacity hover:opacity-100" />
+              <Image src="/partners/pitchbook.png" alt="PitchBook" width={136} height={20} className="h-3 sm:h-5 w-auto opacity-80 transition-opacity hover:opacity-100" />
             </a>
           </BadgeSegment>
 
           <BadgeSegment label="Backed By">
             <a href="https://venture.anderson.ucla.edu" target="_blank" rel="noopener noreferrer" className="inline-flex" aria-label="UCLA">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/partners/ucla-blue.png" alt="UCLA" className="h-6 sm:h-9 w-auto opacity-80 transition-opacity hover:opacity-100" />
+              <Image src="/partners/ucla-blue.png" alt="UCLA" width={77} height={36} className="h-6 sm:h-9 w-auto opacity-80 transition-opacity hover:opacity-100" />
             </a>
           </BadgeSegment>
         </div>
