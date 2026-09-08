@@ -77,6 +77,37 @@ export function parseGuide(filename: string, raw: string): Guide {
   };
 }
 
+/**
+ * Sibling guides to link to from a guide's detail page. Pure — takes the
+ * corpus rather than reading from disk.
+ *
+ * Guides sharing the current guide's topic (`sector` frontmatter) come
+ * first, then the rest of the corpus in its existing display order. The
+ * current guide is never returned, so a one-guide corpus yields `[]`.
+ */
+export function relatedGuides(
+  currentSlug: string,
+  allGuides: Guide[],
+  { count = 3 }: { count?: number } = {}
+): Guide[] {
+  if (count <= 0) return [];
+
+  const normalized = slugFromFilename(currentSlug);
+  const topic = allGuides
+    .find((g) => g.slug === normalized)
+    ?.sector?.toLowerCase();
+
+  const candidates = allGuides.filter((g) => g.slug !== normalized);
+  const sharesTopic = (g: Guide) =>
+    Boolean(topic && g.sector?.toLowerCase() === topic);
+
+  // `filter` is stable, so display order is preserved within each group.
+  return [
+    ...candidates.filter(sharesTopic),
+    ...candidates.filter((g) => !sharesTopic(g)),
+  ].slice(0, count);
+}
+
 export function getGuideSlugs(): string[] {
   if (!fs.existsSync(CONTENT_DIR)) return [];
   return fs
