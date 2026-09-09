@@ -1,20 +1,16 @@
-"use client";
-
-import { useEffect } from "react";
 import { HeroSection } from "./landing/HeroSection";
 import { FeatureSection } from "./landing/FeatureSection";
 import { TokenTicker, BasketBuilder, CodeBlock, ChainDiagram, ExposureFlow } from "./landing/FeatureVisuals";
 import { LandingFooter } from "./landing/LandingFooter";
+import { ForceLightMode } from "./ForceLightMode";
 import { PLATFORM_URL } from "@/lib/config";
+import { WHITEPAPERS } from "@/lib/external-urls";
 
 export function LandingPage() {
-  // Force light mode on landing
-  useEffect(() => {
-    document.documentElement.classList.remove("dark");
-  }, []);
-
   return (
     <div className="landing-page-light min-h-screen bg-[var(--background)]" style={{ zoom: 0.9 }}>
+      {/* Force light mode on landing */}
+      <ForceLightMode />
       <HeroSection />
 
       <FeatureSection
@@ -65,11 +61,7 @@ export function LandingPage() {
           { title: "Tokenized as a tradable ERC-20" },
         ]}
         visual={<ExposureFlow />}
-        actionButton={{
-          text: "Read Whitepaper",
-          onClick: () =>
-            window.open("https://app.vaulto.fi/whitepaper.pdf", "_blank", "noopener,noreferrer"),
-        }}
+        actionButton={{ text: "Read Whitepaper", href: WHITEPAPERS.predictionMarket, external: true }}
       />
 
       <FeatureSection

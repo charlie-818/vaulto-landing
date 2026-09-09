@@ -18,7 +18,12 @@ interface FeatureSectionProps {
   theme: "blue" | "cyan";
   reversed?: boolean;
   link?: { text: string; href: string };
-  actionButton?: { text: string; onClick?: () => void; href?: string };
+  actionButton?: {
+    text: string;
+    onClick?: () => void;
+    href?: string;
+    external?: boolean; // Open href in a new tab (e.g. PDFs / third-party sites)
+  };
 }
 
 const themeColors = {
@@ -280,6 +285,9 @@ export function FeatureSection({
               (actionButton.href ? (
                 <a
                   href={actionButton.href}
+                  {...(actionButton.external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
                   className={`inline-flex items-center justify-center gap-2 rounded-lg bg-blue-500 px-5 h-12 text-sm font-medium text-white transition-all hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/25 duration-700 ${
                     isVisible
                       ? "translate-y-0 opacity-100"
