@@ -8,6 +8,7 @@ import { SOCIAL_URLS } from "@/lib/external-urls";
 // they're static. Update the static numbers manually as they grow.
 
 const REVALIDATE_SECONDS = 3600;
+const FETCH_TIMEOUT_MS = 2000;
 
 // Vaulto Instagram handle (from instagram.com/vaulto.fi). Override via env.
 const INSTAGRAM_HANDLE = process.env.INSTAGRAM_HANDLE ?? "vaulto.fi";
@@ -42,6 +43,9 @@ async function fetchInstagramFollowers(): Promise<number | null> {
           Origin: "https://www.instagram.com",
         },
         next: { revalidate: REVALIDATE_SECONDS },
+        // Every route awaits this in <SiteHeader />; bound it so a hung
+        // Instagram request can't stall the ISR render. Abort -> catch -> null.
+        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
       },
     );
     if (!res.ok) return null;
