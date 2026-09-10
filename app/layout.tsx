@@ -1,8 +1,26 @@
 import type { Metadata, Viewport } from "next";
+import { Inter, Space_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
+
+// Self-hosted via next/font: the font files are emitted under /_next/static/media
+// and preloaded from the same origin, so there is no cross-origin CSS -> font
+// chain blocking LCP text. Exposed as CSS variables consumed by tailwind.config.ts.
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  variable: "--font-space-grotesk",
+});
 
 export const metadata: Metadata = {
   title: "Vaulto — Trade Private Companies Before They Go Public",
@@ -49,7 +67,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.variable} ${spaceGrotesk.variable}`}
+    >
       <body className="min-h-screen">
         <SiteHeader />
         {children}
