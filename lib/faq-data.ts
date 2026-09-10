@@ -51,6 +51,14 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
         question: "What can I trade on Vaulto today?",
         answer:
           "You can take positions on roughly 18 private companies today, including SpaceX, OpenAI, Anthropic, Stripe, Databricks, Anduril, Perplexity, Kraken, Neuralink, Canva, Lambda, and Epic Games, plus markets such as Discord, Strava, Consensys, Ledger, Fannie Mae, and Freddie Mac. Each tracks the company's implied IPO valuation from Polymarket.",
+        // Only link companies that have a guide file in content/guides —
+        // lib/faq-data.test.ts asserts every /guides/ href resolves on disk.
+        links: [
+          { label: "SpaceX pre-IPO guide", href: "/guides/how-to-buy-spacex-stock-pre-ipo" },
+          { label: "OpenAI pre-IPO guide", href: "/guides/how-to-buy-openai-stock-pre-ipo" },
+          { label: "Anthropic pre-IPO guide", href: "/guides/how-to-buy-anthropic-stock-pre-ipo" },
+          { label: "All guides", href: "/guides" },
+        ],
       },
       {
         id: "long-vs-short",
