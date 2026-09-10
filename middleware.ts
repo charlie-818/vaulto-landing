@@ -27,24 +27,31 @@ function getCountryFromRequest(req: NextRequest): string | null {
 /**
  * Lightweight middleware - no auth checks here.
  * Auth is handled by route group layouts for better performance.
- * This middleware only sets cookies for geo detection and referral tracking.
+ * This middleware only sets cookies for geo detection and referral tracking,
+ * and only on the home page. Every other route (guides, compliance, faq,
+ * transparency) is a static prerender that never reads these cookies, so it
+ * must not carry Set-Cookie or it stops being shared-cacheable at the edge.
+ * The `config.matcher` below keeps those routes out of the middleware
+ * entirely; the early return here guards direct callers (tests) the same way.
  */
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const response = NextResponse.next();
 
+  if (pathname !== "/" && pathname !== "") {
+    return response;
+  }
+
   // Set referral cookie when visiting home with ?ref= (for waitlist signup)
-  if (pathname === "/" || pathname === "") {
-    const ref = req.nextUrl.searchParams.get("ref");
-    if (ref && /^[A-Za-z0-9]{1,20}$/.test(ref)) {
-      response.cookies.set("waitlist_ref", ref.toUpperCase(), {
-        httpOnly: false,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        maxAge: 60 * 60 * 24, // 24h
-        path: "/",
-      });
-    }
+  const ref = req.nextUrl.searchParams.get("ref");
+  if (ref && /^[A-Za-z0-9]{1,20}$/.test(ref)) {
+    response.cookies.set("waitlist_ref", ref.toUpperCase(), {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24, // 24h
+      path: "/",
+    });
   }
 
   // Set geo cookie for client-side geo-restriction banner
@@ -71,14 +78,10 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public files (images, etc.)
-     */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
-  ],
+  /*
+   * Only the home page needs middleware: it is the sole route that sets the
+   * referral and geo cookies. Static content routes are deliberately excluded
+   * so their responses stay free of Set-Cookie and remain edge-cacheable.
+   */
+  matcher: ["/"],
 };
