@@ -3,10 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
-    remotePatterns: [
-      { protocol: "https", hostname: "www.google.com" },
-      { protocol: "https", hostname: "**" },
-    ],
+    // Only the Google favicon fallback (components/CompanyLogo.tsx) is remote;
+    // everything else is served from /public. Keep this list explicit so
+    // /_next/image cannot be used as an open image-optimisation proxy.
+    remotePatterns: [{ protocol: "https", hostname: "www.google.com" }],
     deviceSizes: [640, 750, 828, 1080, 1200],
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
   },
