@@ -1,11 +1,20 @@
 "use client";
 
 import { useEffect } from "react";
+import dynamic from "next/dynamic";
 import { HeroSection } from "./landing/HeroSection";
 import { FeatureSection } from "./landing/FeatureSection";
-import { TokenTicker, BasketBuilder, CodeBlock, ChainDiagram, ExposureFlow } from "./landing/FeatureVisuals";
 import { LandingFooter } from "./landing/LandingFooter";
 import { PLATFORM_URL } from "@/lib/config";
+
+// The feature visuals (tickers, diagrams, animated flows) all render below the
+// fold, so they are split into their own async chunk instead of shipping in the
+// home page's initial JS. SSR stays on so the markup is still in the HTML.
+const TokenTicker = dynamic(() => import("./landing/FeatureVisuals").then((m) => m.TokenTicker));
+const BasketBuilder = dynamic(() => import("./landing/FeatureVisuals").then((m) => m.BasketBuilder));
+const CodeBlock = dynamic(() => import("./landing/FeatureVisuals").then((m) => m.CodeBlock));
+const ChainDiagram = dynamic(() => import("./landing/FeatureVisuals").then((m) => m.ChainDiagram));
+const ExposureFlow = dynamic(() => import("./landing/FeatureVisuals").then((m) => m.ExposureFlow));
 
 export function LandingPage() {
   // Force light mode on landing

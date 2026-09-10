@@ -60,6 +60,7 @@ export function HeroSection() {
               alt="UCLA"
               width={600}
               height={282}
+              sizes="96px"
               className="h-10 sm:h-10 lg:h-11 w-auto"
             />
           </div>
