@@ -1,5 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { parseGuide, slugFromFilename } from "./guides";
+import { getAllGuides, getGuide, getGuideSlugs, parseGuide, slugFromFilename } from "./guides";
+import sitemap from "../app/sitemap";
+import { generateStaticParams } from "../app/guides/[slug]/page";
 
 describe("slugFromFilename", () => {
   it("strips the .md extension", () => {
@@ -78,5 +80,36 @@ Text.
     const guide = parseGuide("y.md", `---\ndate: 2026-03-03\n---\n\nBody.\n`);
     expect(guide.updated).toBe("2026-03-03");
     expect(guide.order).toBe(9999);
+  });
+});
+
+describe("content/guides", () => {
+  const slug = "how-to-buy-neuralink-stock-pre-ipo";
+
+  it("getGuideSlugs includes the Neuralink guide", () => {
+    expect(getGuideSlugs()).toContain(slug);
+  });
+
+  it("getAllGuides picks up the Neuralink guide with its frontmatter", () => {
+    const guide = getAllGuides().find((g) => g.slug === slug);
+    expect(guide).toBeDefined();
+    expect(guide?.company).toBe("Neuralink");
+    expect(guide?.title).toBe("How to Buy Neuralink Stock Before the IPO");
+    expect(guide?.description).not.toBe("");
+  });
+
+  it("interlinks to the SpaceX and OpenAI guides", () => {
+    const guide = getGuide(slug);
+    expect(guide?.body).toContain("/guides/how-to-buy-spacex-stock-pre-ipo");
+    expect(guide?.body).toContain("/guides/how-to-buy-openai-stock-pre-ipo");
+  });
+
+  it("generateStaticParams emits the Neuralink slug", () => {
+    expect(generateStaticParams()).toContainEqual({ slug });
+  });
+
+  it("sitemap includes the Neuralink guide URL", () => {
+    const urls = sitemap().map((entry) => entry.url);
+    expect(urls).toContain(`https://vaulto.fi/guides/${slug}`);
   });
 });
