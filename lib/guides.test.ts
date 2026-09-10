@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseGuide, slugFromFilename } from "./guides";
+import { getAllGuides, parseGuide, slugFromFilename } from "./guides";
 
 describe("slugFromFilename", () => {
   it("strips the .md extension", () => {
@@ -78,5 +78,15 @@ Text.
     const guide = parseGuide("y.md", `---\ndate: 2026-03-03\n---\n\nBody.\n`);
     expect(guide.updated).toBe("2026-03-03");
     expect(guide.order).toBe(9999);
+  });
+});
+
+describe("getAllGuides", () => {
+  it("includes the Anduril pre-IPO guide with a non-empty description", () => {
+    const anduril = getAllGuides().find(
+      (g) => g.slug === "how-to-buy-anduril-stock-pre-ipo"
+    );
+    expect(anduril).toBeDefined();
+    expect(anduril?.description.length).toBeGreaterThan(0);
   });
 });
