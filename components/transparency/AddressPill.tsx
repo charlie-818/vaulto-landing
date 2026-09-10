@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const MONO = { fontFamily: "'Space Grotesk', ui-monospace, monospace" };
+const MONO = { fontFamily: "var(--font-space-grotesk), ui-monospace, monospace" };
 
 function truncate(addr: string) {
   return `${addr.slice(0, 6)}…${addr.slice(-4)}`;
