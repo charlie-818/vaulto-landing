@@ -27,7 +27,7 @@ AI has attracted unusually large private rounds at valuations that can move shar
 
 Tokenization represents pre-IPO economic exposure as an on-chain token that tracks a private-company outcome. For a fast-moving sector like AI, the appeal is transparent pricing, smaller minimums, and the ability to build a diversified basket without a broker in the middle.
 
-Tokens track outcomes rather than granting registered shares. See the [compliance reference](/compliance) for how these instruments are classified, and browse the individual company guides for [SpaceX](/guides/how-to-buy-spacex-stock-pre-ipo), [OpenAI](/guides/how-to-buy-openai-stock-pre-ipo), and [Anthropic](/guides/how-to-buy-anthropic-stock-pre-ipo).
+Tokens track outcomes rather than granting registered shares. See the [compliance reference](/compliance) for how these instruments are classified, and browse the individual company guides for [SpaceX](/guides/how-to-buy-spacex-stock-pre-ipo), [OpenAI](/guides/how-to-buy-openai-stock-pre-ipo), [Anthropic](/guides/how-to-buy-anthropic-stock-pre-ipo), and [Anduril](/guides/how-to-buy-anduril-stock-pre-ipo).
 
 ## What to check before you invest
 
