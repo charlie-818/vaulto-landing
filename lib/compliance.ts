@@ -4,6 +4,8 @@ import matter from "gray-matter";
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "sec-research");
 
+const SITE_URL = "https://vaulto.fi";
+
 export type ComplianceDoc = {
   slug: string;
   title: string;
@@ -140,6 +142,59 @@ export function getAllComplianceDocs(): ComplianceDoc[] {
     };
   });
   return docs.sort((a, b) => a.order - b.order);
+}
+
+// Build TechArticle + BreadcrumbList JSON-LD for a single compliance doc,
+// mirroring the FAQ page pattern for AI answering engines and crawlers.
+export function buildComplianceJsonLd(doc: ComplianceDoc) {
+  const url = `${SITE_URL}/compliance/${doc.slug}`;
+
+  const techArticle = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    headline: doc.title,
+    description: doc.description,
+    url,
+    isPartOf: {
+      "@type": "Collection",
+      name: "Vaulto SEC Token Knowledge Base",
+      url: `${SITE_URL}/compliance`,
+    },
+  };
+
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Compliance",
+        item: `${SITE_URL}/compliance`,
+      },
+      { "@type": "ListItem", position: 3, name: doc.title, item: url },
+    ],
+  };
+
+  return [techArticle, breadcrumb];
+}
+
+// Build a BreadcrumbList JSON-LD for the compliance knowledge base index.
+export function buildComplianceIndexJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Compliance",
+        item: `${SITE_URL}/compliance`,
+      },
+    ],
+  };
 }
 
 export function getComplianceDoc(urlSlug: string): ComplianceDoc | null {

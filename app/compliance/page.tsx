@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buildComplianceIndexJsonLd } from "@/lib/compliance";
 
 export const metadata = {
   title: "Compliance — Vaulto SEC Token Knowledge Base",
@@ -51,8 +52,14 @@ const BUCKETS: Array<{
 ];
 
 export default function ComplianceIndexPage() {
+  const jsonLd = buildComplianceIndexJsonLd();
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <header className="mb-10">
         <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-blue-500">
           SEC Token Regulation
