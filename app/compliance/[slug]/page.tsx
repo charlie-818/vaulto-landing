@@ -23,6 +23,9 @@ export async function generateMetadata({
   return {
     title: `${doc.title} — Vaulto Compliance`,
     description: doc.description,
+    alternates: {
+      canonical: `/compliance/${slug}`,
+    },
   };
 }
 

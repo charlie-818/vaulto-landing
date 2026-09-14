@@ -4,6 +4,9 @@ export const metadata = {
   title: "Compliance — Vaulto SEC Token Knowledge Base",
   description:
     "Builder-focused reference on SEC token regulation. Project Crypto five-bucket framework, foundational case law, compliance paths, and jurisdictional contrast.",
+  alternates: {
+    canonical: "/compliance",
+  },
 };
 
 const BUCKETS: Array<{
